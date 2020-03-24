@@ -1,16 +1,6 @@
 #include "DetectorConstruction.hh"
 
-#include "test_configs.hh"
-
-#include "config1_2_Summer2017.hh"
-#include "config3_September2017.hh"
-
-#include "config_DESY2018_42.hh"
-#include "configs17To21_June2018.hh"
 #include "config22_October2018_1.hh"
-#include "config23_October2018_2.hh"
-#include "config24_October2018_3.hh"
-#include "config25_October2018_3_parasitic.hh"
 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -95,26 +85,8 @@ void DetectorConstruction::ConstructSDandField() {
 }
 
 void DetectorConstruction::SelectConfiguration(G4int val) {
-
-  if (_configuration != -1) return;
-
   default_viewpoint = 0;
-  if (val == 1) defineConfigs1_2_Summer2017(dz_map, default_viewpoint);
-  else if (val == 2) defineConfigs1_2_Summer2017(dz_map, default_viewpoint);
-  else if (val == 3) defineConfig3_September2017(dz_map, default_viewpoint);
-  else if (val == 15) defineDESY2018_Config42(dz_map, default_viewpoint);
-  else if (val == 17) defineConfigs17To21_June2018(dz_map, default_viewpoint);
-  else if (val == 18) defineConfigs17To21_June2018(dz_map, default_viewpoint);
-  else if (val == 19) defineConfigs17To21_June2018(dz_map, default_viewpoint);
-  else if (val == 21) defineConfigs17To21_June2018(dz_map, default_viewpoint);
-  else if (val == 22) defineConfig22_October2018_1(dz_map, default_viewpoint);
-  else if (val == 23) defineConfig23_October2018_2(dz_map, default_viewpoint);
-  else if (val == 24) defineConfig24_October2018_3(dz_map, default_viewpoint);
-  else if (val == 25) defineConfig25_October2018_3_parasitic(dz_map, default_viewpoint);
-  else if (val == 100) defineTestConfig100(dz_map, default_viewpoint);
-  else if (val == 101) defineTestConfig101(dz_map, default_viewpoint);
-  else if (val == 102) defineTestConfig102(dz_map, default_viewpoint);
-  else if (val == 103) defineTestConfig103(dz_map, default_viewpoint);
+  if (val == 22) defineConfig22_October2018_1(dz_map, default_viewpoint);
   else {
     std::cout << "Configuration " << val << " not implemented --> return" << std::endl;;
     return;
