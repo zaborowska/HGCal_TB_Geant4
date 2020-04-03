@@ -43,7 +43,6 @@ void EventAction::BeginOfEventAction(const G4Event* EventAction)
 void EventAction::EndOfEventAction(const G4Event* event)
 {
 	auto analysisManager = G4AnalysisManager::Instance();
-	std::cout << "Simulated event " << event->GetEventID() << std::endl;
 	analysisManager->FillNtupleIColumn(0, event->GetEventID());
 	analysisManager->FillNtupleDColumn(1, event->GetPrimaryVertex()->GetX0() / CLHEP::cm);
 	analysisManager->FillNtupleDColumn(2, event->GetPrimaryVertex()->GetY0() / CLHEP::cm);
