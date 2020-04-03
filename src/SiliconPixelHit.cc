@@ -1,5 +1,12 @@
 #include "SiliconPixelHit.hh"
 
+#include "G4Box.hh"
+#include "G4VisAttributes.hh"
+#include "G4SystemOfUnits.hh"
+#include "G4Transform3D.hh"
+#include "G4RotationMatrix.hh"
+#include "G4VVisManager.hh"
+#include "materials.hh"
 //#define DEBUG
 
 SiliconPixelHit::SiliconPixelHit(G4String vol_name, G4int copy_no_sensor, G4int copy_no_cell) {
@@ -62,4 +69,19 @@ void SiliconPixelHit::Digitise(const G4double timeWindow, const G4double toaThre
 		if (timeWindow==-1 || edep_nonIonizing[i].second < firstHitTime+timeWindow) edep_nonIonizing_digi += edep_nonIonizing[i].first;
 	}
 
-};
+}
+
+void SiliconPixelHit::Draw() {
+  G4VVisManager* pVVisManager = G4VVisManager::GetConcreteInstance();
+  if(! (eDep_digi > 0) ) return;
+  if (! pVVisManager->FilterHit(*this)) return;
+  if (pVVisManager) {
+    G4Transform3D trans(G4RotationMatrix(),G4ThreeVector(pos_x*cm,pos_y*cm,pos_z*cm));
+    G4VisAttributes attribs;
+    auto solid = HexagonPhysical("dummy", 0.3*mm, 0.6496345*cm);
+    G4Colour colour(1, 0, 0);
+    attribs.SetColour(colour);
+    attribs.SetForceSolid(true);
+    pVVisManager->Draw(*solid,attribs,trans);
+  }
+}

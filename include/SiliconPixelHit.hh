@@ -9,6 +9,7 @@ class SiliconPixelHit : public G4VHit {
 		SiliconPixelHit(G4String, G4int, G4int);
 		~SiliconPixelHit() {};
 		void Print() {};
+    void Draw();
 		G4int ID() {return 1000*copy_no_sensor+copy_no_cell;}
 		void AddEdep(const G4double e, const G4double t) {if (e>0) eDep.push_back(std::make_pair(e, t)); }
 		void AddEdepNonIonizing(const G4double e, const G4double t) {if (e>0) edep_nonIonizing.push_back(std::make_pair(e, t)); }

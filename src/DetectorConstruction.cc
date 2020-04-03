@@ -1,7 +1,7 @@
 #include "DetectorConstruction.hh"
 
+#include "test_configs.hh"
 #include "config22_October2018_1.hh"
-
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -25,7 +25,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 {
   //definition of the materials
   materials = new HGCalTBMaterials();
-  materials->setSimulationColorScheme();
+  materials->setEventDisplayColorScheme();
 
   /***** Definition of the world = beam line *****/
 
@@ -84,11 +84,17 @@ void DetectorConstruction::ConstructSDandField() {
 
 }
 
+
 void DetectorConstruction::SelectConfiguration(G4int val) {
+
+  if (_configuration != -1) return;
+
   default_viewpoint = 0;
-  if (val == 22) defineConfig22_October2018_1(dz_map, default_viewpoint);
+  if (val==0) {return;}
+  else if (val == 22) defineConfig22_October2018_1(dz_map, default_viewpoint);
+  else if (val == 100) defineTestConfig100(dz_map, default_viewpoint);
   else {
-    std::cout << "Configuration " << val << " not implemented --> return" << std::endl;;
+    std::cout << "Configuration " << val << " not implemented --> return";
     return;
   }
   _configuration = val;

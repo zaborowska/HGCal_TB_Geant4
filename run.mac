@@ -11,22 +11,23 @@
 # Initialize kernel
 /run/initialize
 
-/Simulation/setup/configuration 102
-/Simulation/generator/sigmaBeamX 1.5 cm
-/Simulation/generator/sigmaBeamY 1.5 cm
-/Simulation/setup/stepSilicon 20
+# /Simulation/setup/configuration 102
+# /Simulation/generator/sigmaBeamX 1.5 cm
+# /Simulation/generator/sigmaBeamY 1.5 cm
+# /Simulation/setup/stepSilicon 20
+
+/Simulation/setup/configuration 22
 
 #muons
 /Simulation/generator/momentum 200 GeV
 /Simulation/generator/particle mu+
-/Simulation/output/file config102_mu+_200GeV_step20.root
-/run/beamOn 10000
+#/Simulation/output/file config102_mu+_200GeV_step20.root
+/run/beamOn 20
 
 
 
-
-#electrons
-/Simulation/generator/momentum 100 GeV
-/Simulation/generator/particle e+
-/Simulation/output/file config102_e+_100GeV_step20.root
-/run/beamOn 1000000
+# # #electrons
+# # /Simulation/generator/momentum 10 GeV
+# # /Simulation/generator/particle e+
+# # #/Simulation/output/file config102_e+_100GeV_step20.root
+# # /run/beamOn 10
