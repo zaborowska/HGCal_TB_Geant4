@@ -16,13 +16,20 @@
 
 PrimaryGeneratorAction::PrimaryGeneratorAction()
 : G4VUserPrimaryGeneratorAction(),
-  fParticleGun(0), 
-  fEnvelopeBox(0),
-  fMomentum(120*GeV),
-  fparticleDef("mu+")
+  fParticleGun(nullptr),
+  fEnvelopeBox(0)
 {
   G4int n_particle = 1;
   fParticleGun  = new G4ParticleGun(n_particle);
+
+  // default particle kinematic
+  G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
+  G4String particleName;
+  G4ParticleDefinition* particle = particleTable->FindParticle(particleName="mu+");
+  fParticleGun->SetParticleDefinition(particle);
+  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
+  fParticleGun->SetParticleEnergy(120.*GeV);
+  fParticleGun->SetParticlePosition(G4ThreeVector(0.,0.,0.));
 
   sigmaBeamX = .1 * mm;
   sigmaBeamY = .1 * mm;
@@ -45,15 +52,6 @@ void PrimaryGeneratorAction::DefineCommands() {
     = new G4GenericMessenger(this, 
                              "/Simulation/generator/", 
                              "Primary generator control");
-
-
-  // momentum command
-  auto& momentumCmd
-    = fMessenger->DeclarePropertyWithUnit("momentum", "GeV", fMomentum, 
-        "Mean momentum of primaries.");
-  momentumCmd.SetParameterName("p", true);
-  momentumCmd.SetRange("p>=0.");                                
-  momentumCmd.SetDefaultValue("10.");
 
   // beam spread in x command
   auto& beamSpreadXCmd
@@ -82,27 +80,16 @@ void PrimaryGeneratorAction::DefineCommands() {
         "Beam position along the beam line");
   beamZ0Cmd.SetParameterName("z0", true);
   beamZ0Cmd.SetDefaultValue("0");
-
-  auto& particleComd
-    = fMessenger->DeclareProperty("particle", fparticleDef);
-  G4String guidance
-    = "Select primary particle type.";   
-  particleComd.SetGuidance(guidance);
-  particleComd.SetParameterName("type", true);
-  particleComd.SetDefaultValue("e+");
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
-  //this function is called at the begining of ecah event
-  //
-
   // In order to avoid dependence of PrimaryGeneratorAction
   // on DetectorConstruction class we get Envelope volume
   // from G4LogicalVolumeStore.
-  
+
   G4double worldDZ = 0;
 
   if (!fEnvelopeBox)
@@ -114,7 +101,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
   if ( fEnvelopeBox ) {
     worldDZ = fEnvelopeBox->GetZHalfLength();
-  }  
+  }
   else  {
     G4ExceptionDescription msg;
     msg << "World volume of box shape not found.\n"; 
@@ -124,19 +111,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
      "MyCode0002",JustWarning,msg);
   }
 
-
-  // default particle kinematic
-  G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
-  G4String particleName;
-  G4ParticleDefinition* particle
-    = particleTable->FindParticle(particleName=fparticleDef);
-  fParticleGun->SetParticleDefinition(particle);
-  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0. ,1.));
-  fParticleGun->SetParticleEnergy(fMomentum);  
-  
   G4double z0 = (beamZ0==-999*m) ? -worldDZ : beamZ0;
-  if (beamTypeGaussian) fParticleGun->SetParticlePosition(G4ThreeVector(G4RandGauss::shoot(0., sigmaBeamX),G4RandGauss::shoot(0., sigmaBeamY), z0)); 
-  else fParticleGun->SetParticlePosition(G4ThreeVector(G4RandFlat::shoot(-sigmaBeamX, sigmaBeamX),G4RandFlat::shoot(-sigmaBeamY, sigmaBeamY), z0)); 
+  if (beamTypeGaussian) fParticleGun->SetParticlePosition(G4ThreeVector(G4RandGauss::shoot(0., sigmaBeamX),G4RandGauss::shoot(0., sigmaBeamY), z0));
+  else fParticleGun->SetParticlePosition(G4ThreeVector(G4RandFlat::shoot(-sigmaBeamX, sigmaBeamX),G4RandFlat::shoot(-sigmaBeamY, sigmaBeamY), z0));
 
   fParticleGun->GeneratePrimaryVertex(anEvent);
 }

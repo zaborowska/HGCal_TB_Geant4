@@ -101,8 +101,8 @@
 
 /Simulation/setup/configuration 22
 #/Simulation/output/file HGCalTB_October2018_config22_pi+_150GeV.root
-/Simulation/generator/momentum 20 GeV
-/Simulation/generator/particle e-
+/gun/energy 20 GeV
+/gun/particle e-
 
 /vis/viewer/centreOn Si_wafer 14
 #/run/beamOn 1

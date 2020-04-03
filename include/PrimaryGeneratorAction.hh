@@ -33,8 +33,6 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 
     void DefineCommands();
     G4GenericMessenger* fMessenger;
-    G4double fMomentum;
-    G4String fparticleDef;
 
     G4bool beamTypeGaussian;
     G4double sigmaBeamX;
