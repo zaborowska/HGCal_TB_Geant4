@@ -104,7 +104,7 @@ void HGCalTBMaterials::setEventDisplayColorScheme() {
   visAttributes->SetVisibility(false);
   Si_wafer_logical->SetVisAttributes(visAttributes);
 
-  visAttributes = new G4VisAttributes(G4Colour(.3, 0.3, 0.3, 0.02));
+  visAttributes = new G4VisAttributes(G4Colour(.3, 0.3, 0.3, 0.2));
   visAttributes->SetVisibility(true);
   Si_pixel_logical->SetVisAttributes(visAttributes);
 
