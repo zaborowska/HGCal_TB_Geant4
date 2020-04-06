@@ -334,7 +334,7 @@ G4LogicalVolume*HGCalTBMaterials::computeColorbarElement() {
   G4Box* color_bar_solid = new G4Box("color_bar", 0.5 * color_bar_xy, 0.5 * color_bar_xy, 0.5 * color_bar_thickness);
   G4LogicalVolume* color_bar_logical = new G4LogicalVolume(color_bar_solid, mat_AIR, "color_bar");
   return color_bar_logical;
-};
+}
 //sudo cmake -DGEANT4_INSTALL_DATA=ON -DGEANT4_BUILD_MULTITHREADED=ON -DGEANT4_USE_QT=ON -DCMAKE_INSTALL_PREFIX=/compiled_software/GEANT4_patch3 ..
 
 void HGCalTBMaterials::defineSiWaferAndCells() {
@@ -649,7 +649,7 @@ G4LogicalVolume* HGCalTBMaterials::newSiPixelHitFrameLogical(std::string name, G
 
 G4LogicalVolume* HGCalTBMaterials::newSiPixelHitLogical(std::string name) {
   return HexagonLogical(name, Si_wafer_thickness, Si_pixel_sideLength, mat_Vacuum);
-};
+}
 
 G4LogicalVolume* HGCalTBMaterials::newSiPMHitLogical(std::string name) {
   return new G4LogicalVolume(AHCAL_SiPM_solid, mat_Vacuum, name);

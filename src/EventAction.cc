@@ -25,7 +25,7 @@ EventAction::~EventAction()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void EventAction::BeginOfEventAction(const G4Event* EventAction)
+void EventAction::BeginOfEventAction(const G4Event*)
 {
 	hits_ID.clear();
 	hits_x.clear();

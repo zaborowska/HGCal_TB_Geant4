@@ -2,10 +2,10 @@
 
 //#define DEBUG
 
-SiPMHit::SiPMHit(G4String vol_name, G4int copy_no_sensor, G4int copy_no_cell) {
-	this->vol_name = vol_name;;
-	this->copy_no_cell = copy_no_cell;
-	this->copy_no_sensor = copy_no_sensor;
+SiPMHit::SiPMHit(G4String aVol_name, G4int aCopy_no_sensor, G4int aCopy_no_cell) {
+	this->vol_name = aVol_name;
+	this->copy_no_cell = aCopy_no_cell;
+	this->copy_no_sensor = aCopy_no_sensor;
 
 	this->pos_x = this->pos_y = this->pos_z = -1;
 
@@ -13,7 +13,7 @@ SiPMHit::SiPMHit(G4String vol_name, G4int copy_no_sensor, G4int copy_no_cell) {
 	this->eDep_digi = -1;
 	this->edep_nonIonizing_digi = -1;
 	this->timeOfArrival_digi = -1;
-	this->_isValidHit = false;;
+	this->_isValidHit = false;
 
 }
 
@@ -58,4 +58,4 @@ void SiPMHit::Digitise(const G4double timeWindow, const G4double toaThreshold) {
 		if (timeWindow==-1 || edep_nonIonizing[i].second < firstHitTime+timeWindow) edep_nonIonizing_digi += edep_nonIonizing[i].first;
 	}
 
-};
+}

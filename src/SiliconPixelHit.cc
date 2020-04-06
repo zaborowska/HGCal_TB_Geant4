@@ -9,10 +9,10 @@
 #include "materials.hh"
 //#define DEBUG
 
-SiliconPixelHit::SiliconPixelHit(G4String vol_name, G4int copy_no_sensor, G4int copy_no_cell) {
-	this->vol_name = vol_name;;
-	this->copy_no_cell = copy_no_cell;
-	this->copy_no_sensor = copy_no_sensor;
+SiliconPixelHit::SiliconPixelHit(G4String aVol_name, G4int aCopy_no_sensor, G4int aCopy_no_cell) {
+	this->vol_name = aVol_name;
+	this->copy_no_cell = aCopy_no_cell;
+	this->copy_no_sensor = aCopy_no_sensor;
 
 	this->pos_x = this->pos_y = this->pos_z = -1;
 
