@@ -3,7 +3,6 @@
 #include "PrimaryGeneratorAction.hh"
 #include "DetectorConstruction.hh"
 // #include "Run.hh"
-
 #include "G4RunManager.hh"
 #include "G4Run.hh"
 #include "G4AccumulableManager.hh"
@@ -66,10 +65,13 @@ void RunAction::BeginOfRunAction(const G4Run*) {
 
   if ( fEventAction ) {
     analysisManager->CreateNtuple("CaloHits", "CaloHits");
-    analysisManager->CreateNtupleIColumn("eventID");    // column Id = 0
-    analysisManager->CreateNtupleDColumn("beamX_cm");    // column Id = 1
-    analysisManager->CreateNtupleDColumn("beamY_cm");    // column Id = 2
-    analysisManager->CreateNtupleDColumn("beamZ_cm");    // column Id = 3
+    analysisManager->CreateNtupleIColumn("event");    // column Id = 0
+    analysisManager->CreateNtupleIColumn("pdgID");    // column Id = 1
+    analysisManager->CreateNtupleIColumn("beamEnergy");    // column Id = 2
+    analysisManager->CreateNtupleDColumn("beamX_cm");    // column Id = 3
+    analysisManager->CreateNtupleDColumn("beamY_cm");    // column Id = 4
+    analysisManager->CreateNtupleDColumn("beamZ_cm");    // column Id = 5
+    // brakuje: pdgID, beamEnergy
     analysisManager->CreateNtupleIColumn("ID", fEventAction->hits_ID);    // column Id = 4
     analysisManager->CreateNtupleDColumn("x_cm", fEventAction->hits_x);    // column Id = 5
     analysisManager->CreateNtupleDColumn("y_cm", fEventAction->hits_y);    // column Id = 6
@@ -79,14 +81,14 @@ void RunAction::BeginOfRunAction(const G4Run*) {
     analysisManager->CreateNtupleDColumn("TOA_ns", fEventAction->hits_TOA);    // column Id = 10
     analysisManager->CreateNtupleDColumn("TOA_last_ns", fEventAction->hits_TOA_last);    // column Id = 11
     analysisManager->CreateNtupleIColumn("type", fEventAction->hits_type);    // column Id = 12
-    
-    analysisManager->CreateNtupleDColumn("signalSum_HGCAL_MeV");    // column Id = 13
-    analysisManager->CreateNtupleDColumn("COGZ_HGCAL_cm");    // column Id = 14
-    analysisManager->CreateNtupleIColumn("NHits_HGCAL");    // column Id = 15
-    
-    analysisManager->CreateNtupleDColumn("signalSum_AHCAL_MeV");    // column Id = 16
-    analysisManager->CreateNtupleDColumn("COGZ_AHCAL_cm");    // column Id = 17
-    analysisManager->CreateNtupleIColumn("NHits_AHCAL");    // column Id = 18  
+
+    analysisManager->CreateNtupleDColumn("signalSum_HGCAL_MeV");    // column Id = 13 +2
+    analysisManager->CreateNtupleDColumn("COGZ_HGCAL_cm");    // column Id = 14 +2
+    analysisManager->CreateNtupleIColumn("NHits_HGCAL");    // column Id = 15 +2
+
+    analysisManager->CreateNtupleDColumn("signalSum_AHCAL_MeV");    // column Id = 16 +2
+    analysisManager->CreateNtupleDColumn("COGZ_AHCAL_cm");    // column Id = 17 +2
+    analysisManager->CreateNtupleIColumn("NHits_AHCAL");    // column Id = 18   +2
     analysisManager->FinishNtuple();
   }
 

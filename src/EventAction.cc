@@ -44,9 +44,11 @@ void EventAction::EndOfEventAction(const G4Event* event)
 {
 	auto analysisManager = G4AnalysisManager::Instance();
 	analysisManager->FillNtupleIColumn(0, event->GetEventID());
-	analysisManager->FillNtupleDColumn(1, event->GetPrimaryVertex()->GetX0() / CLHEP::cm);
-	analysisManager->FillNtupleDColumn(2, event->GetPrimaryVertex()->GetY0() / CLHEP::cm);
-	analysisManager->FillNtupleDColumn(3, event->GetPrimaryVertex()->GetZ0() / CLHEP::cm);
+	analysisManager->FillNtupleIColumn(1, event->GetPrimaryVertex()->GetPrimary()->GetPDGcode());
+	analysisManager->FillNtupleIColumn(2, event->GetPrimaryVertex()->GetPrimary()->GetTotalEnergy() / CLHEP::GeV);
+	analysisManager->FillNtupleDColumn(3, event->GetPrimaryVertex()->GetX0() / CLHEP::cm);
+	analysisManager->FillNtupleDColumn(4, event->GetPrimaryVertex()->GetY0() / CLHEP::cm);
+	analysisManager->FillNtupleDColumn(5, event->GetPrimaryVertex()->GetZ0() / CLHEP::cm);
 
 
 	auto hce = event->GetHCofThisEvent();
@@ -81,9 +83,9 @@ void EventAction::EndOfEventAction(const G4Event* event)
 	}
 	if (esum_HGCAL > 0) cogz_HGCAL /= esum_HGCAL;
 
-	analysisManager->FillNtupleDColumn(13, esum_HGCAL);
-	analysisManager->FillNtupleDColumn(14, cogz_HGCAL);
-	analysisManager->FillNtupleIColumn(15, Nhits_HGCAL);
+	analysisManager->FillNtupleDColumn(15, esum_HGCAL / CLHEP::GeV);
+	analysisManager->FillNtupleDColumn(16, cogz_HGCAL);
+	analysisManager->FillNtupleIColumn(17, Nhits_HGCAL);
 
 
 	//AHCAL 
@@ -112,9 +114,9 @@ void EventAction::EndOfEventAction(const G4Event* event)
 	}
 	if (esum_AHCAL > 0) cogz_AHCAL /= esum_AHCAL;
 
-	analysisManager->FillNtupleDColumn(16, esum_AHCAL);
-	analysisManager->FillNtupleDColumn(17, cogz_AHCAL);
-	analysisManager->FillNtupleIColumn(18, Nhits_AHCAL);
+	analysisManager->FillNtupleDColumn(18, esum_AHCAL / CLHEP::GeV);
+	analysisManager->FillNtupleDColumn(19, cogz_AHCAL);
+	analysisManager->FillNtupleIColumn(20, Nhits_AHCAL);
 
 
 
