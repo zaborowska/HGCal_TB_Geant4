@@ -64,7 +64,7 @@ void RunAction::BeginOfRunAction(const G4Run*) {
   //
 
   if ( fEventAction ) {
-    analysisManager->CreateNtuple("CaloHits", "CaloHits");
+    analysisManager->CreateNtuple("hits", "hits");
     analysisManager->CreateNtupleIColumn("event");    // column Id = 0
     analysisManager->CreateNtupleIColumn("pdgID");    // column Id = 1
     analysisManager->CreateNtupleIColumn("beamEnergy");    // column Id = 2
