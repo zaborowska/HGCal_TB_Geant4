@@ -12,6 +12,8 @@
 
 #include "G4UImanager.hh"
 #include "FTFP_BERT.hh"
+#include "FTFPCMS_BERT_EMM.hh"
+#include "G4PhysListFactory.hh"
 
 #include "G4VisExecutive.hh"
 #include "G4UIExecutive.hh"
@@ -45,8 +47,31 @@ int main(int argc,char** argv)
   // Detector construction
   runManager->SetUserInitialization(new DetectorConstruction());
 
-  // Physics list
-  G4VModularPhysicsList* physicsList = new FTFP_BERT;
+  // Physics List name defined via environment variable
+  // or the default FTFP_BERT is used
+  G4VModularPhysicsList* physicsList = nullptr;
+  G4String physName = "";
+  char* PLenv = getenv("PHYSLIST");
+  if (PLenv)
+    physName = G4String(PLenv);
+  if ("FTFP_BERT_EMM" == physName)
+    physicsList = new FTFPCMS_BERT_EMM;
+  else if ("" == physName)
+  {
+    physName = "FTFP_BERT";
+    physicsList = new FTFP_BERT;
+  }
+  if (!physicsList)
+  {
+    G4PhysListFactory factory;
+    physicsList = factory.GetReferencePhysList(physName);
+  }
+  if (!physicsList)
+  {
+    std::cerr << "Unknown physics list defined in environment variable PHYSLIST: " << PLenv
+    << ". Consider extension of main to take it into account." << std::endl;
+    return -1;
+  }
   physicsList->SetVerboseLevel(1);
   runManager->SetUserInitialization(physicsList);
     
