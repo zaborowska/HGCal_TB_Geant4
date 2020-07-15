@@ -73,6 +73,12 @@ private:
 	G4Material* mat_Polystyrene;
 	G4Material* mat_CuW;
 	G4Material* mat_LYSO;
+	G4Material* mat_C;
+	G4Material* mat_H;
+	G4Material* mat_O;
+	G4Material* mat_Mn;
+	G4Material* mat_Cr;
+	G4Material* mat_Ni;
 
 	G4LogicalVolume* Si_pixel_logical;
 	G4LogicalVolume* Si_wafer_logical;

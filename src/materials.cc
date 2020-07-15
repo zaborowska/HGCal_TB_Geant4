@@ -52,15 +52,21 @@ void HGCalTBMaterials::DefineMaterials() {
   mat_Al = nist->FindOrBuildMaterial("G4_Al");
   mat_Fe = nist->FindOrBuildMaterial("G4_Fe");
   mat_Glass = nist->FindOrBuildMaterial("G4_GLASS_PLATE");
-  mat_Steel = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
+  //mat_Steel = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
   mat_Pb = nist->FindOrBuildMaterial("G4_Pb");
   mat_Cu = nist->FindOrBuildMaterial("G4_Cu");
   mat_W = nist->FindOrBuildMaterial("G4_W");
   mat_Si = nist->FindOrBuildMaterial("G4_Si");
-  mat_KAPTON = nist->FindOrBuildMaterial("G4_KAPTON");
+  //mat_KAPTON = nist->FindOrBuildMaterial("G4_KAPTON");
   mat_Au = nist->FindOrBuildMaterial("G4_Au");
-  mat_PCB = nist->FindOrBuildMaterial("G4_C");
+  //mat_PCB = nist->FindOrBuildMaterial("G4_C");
   mat_Quartz = nist->FindOrBuildMaterial("G4_SILICON_DIOXIDE");
+  mat_C = nist->FindOrBuildMaterial("G4_C");
+  mat_H = nist->FindOrBuildMaterial("G4_H");
+  mat_O = nist->FindOrBuildMaterial("G4_O");
+  mat_Mn = nist->FindOrBuildMaterial("G4_Mn");
+  mat_Cr = nist->FindOrBuildMaterial("G4_Cr");
+  mat_Ni = nist->FindOrBuildMaterial("G4_Ni");
 
   //AHCAL SiPMs
   G4double a = 1.01 * g / mole;
@@ -73,11 +79,31 @@ void HGCalTBMaterials::DefineMaterials() {
   mat_Polystyrene->AddElement(elH, 21);
 
   //CuW alloy: 60% Cu, 40% W in mass
-  G4double Cu_frac_in_CuW = 0.6;
-  mat_CuW = new G4Material("CuW", mat_Cu->GetDensity()*Cu_frac_in_CuW + mat_W->GetDensity() * (1 - Cu_frac_in_CuW), 2);
+  G4double Cu_frac_in_CuW = 0.75;
+  mat_CuW = new G4Material("CuW", 14.979 * g / cm3, 2);
   mat_CuW->AddMaterial(mat_Cu, Cu_frac_in_CuW);
   mat_CuW->AddMaterial(mat_W, 1 - Cu_frac_in_CuW);
 
+  // PCB material
+  mat_PCB = new G4Material("PCB", 1.7 * g / cm3, 4);
+  mat_PCB->AddMaterial(mat_C, 0.13232243);
+  mat_PCB->AddMaterial(mat_H, 0.032572448);
+  mat_PCB->AddMaterial(mat_O, 0.48316123);
+  mat_PCB->AddMaterial(mat_Si, 0.35194389);
+
+  // Kapton material
+  mat_KAPTON = new G4Material("kapton", 1.11 * g / cm3, 3);
+  mat_KAPTON->AddMaterial(mat_C, 0.59985105);
+  mat_KAPTON->AddMaterial(mat_H, 0.080541353);
+  mat_KAPTON->AddMaterial(mat_O, 0.31960759);
+
+  // steel
+  mat_Steel = new G4Material("StainlessSteel", 8.02 * g / cm3, 5);
+  mat_Steel->AddMaterial(mat_Fe, 0.6996);
+  mat_Steel->AddMaterial(mat_C, 0.0004);
+  mat_Steel->AddMaterial(mat_Mn, 0.01);
+  mat_Steel->AddMaterial(mat_Cr, 0.19);
+  mat_Steel->AddMaterial(mat_Ni, 0.1);
 
   //LYSO implementation from here: https://github.com/cacunas/ParG4_cluster/blob/master/LYSO/src/LYSOGeometry.cc
   G4Element* Oxigen   = nist->FindOrBuildElement("O");
