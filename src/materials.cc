@@ -137,14 +137,20 @@ void HGCalTBMaterials::setEventDisplayColorScheme() {
   visAttributes = new G4VisAttributes(G4Colour(0.4, 0.4, 0.4, 0.01));
   visAttributes->SetVisibility(false);
   CuW_baseplate_logical->SetVisAttributes(visAttributes);
+  CuW_baseplate_550um_logical->SetVisAttributes(visAttributes);
+  CuW_baseplate_610um_logical->SetVisAttributes(visAttributes);
+  CuW_baseplate_710um_logical->SetVisAttributes(visAttributes);
 
   visAttributes = new G4VisAttributes(G4Colour(0.4, 0.4, 0.4, 0.01));
   visAttributes->SetVisibility(false);
   Cu_baseplate_logical->SetVisAttributes(visAttributes);
+  Cu_baseplate_25um_logical->SetVisAttributes(visAttributes);
+  Cu_baseplate_175um_logical->SetVisAttributes(visAttributes);
 
   visAttributes = new G4VisAttributes(G4Colour(0.4, 0.4, 0.4, 0.01));
   visAttributes->SetVisibility(false);
   PCB_baseplate_logical->SetVisAttributes(visAttributes);
+  PCB_baseplate_thin_logical->SetVisAttributes(visAttributes);
 
   visAttributes = new G4VisAttributes(G4Colour(0.4, 0.4, 0.4, 0.01));
   visAttributes->SetVisibility(false);
@@ -153,14 +159,17 @@ void HGCalTBMaterials::setEventDisplayColorScheme() {
   visAttributes = new G4VisAttributes(G4Colour(0.4, 0.4, 0.4, 0.01));
   visAttributes->SetVisibility(false);
   Al_case_logical->SetVisAttributes(visAttributes);
+  Al_case_thick_logical->SetVisAttributes(visAttributes);
 
   visAttributes = new G4VisAttributes(G4Colour(0.4, 0.4, 0.4, 0.01));
   visAttributes->SetVisibility(true);
   Steel_case_logical->SetVisAttributes(visAttributes);
+  Steel_case_thick_logical->SetVisAttributes(visAttributes);
 
   visAttributes = new G4VisAttributes(G4Colour(0.4, 0.4, 0.4, 0.01));
   visAttributes->SetVisibility(false);
   Pb_absorber_EE_logical->SetVisAttributes(visAttributes);
+  Fe_absorber_EE_logical->SetVisAttributes(visAttributes);
 
   visAttributes = new G4VisAttributes(G4Colour(0.4, 0.4, 0.4, 0.01));
   visAttributes->SetVisibility(false);
@@ -244,14 +253,20 @@ void HGCalTBMaterials::setSimulationColorScheme() {
   visAttributes = new G4VisAttributes(G4Colour(.5, 0.0, 0.5, 0.1));
   visAttributes->SetVisibility(true);
   CuW_baseplate_logical->SetVisAttributes(visAttributes);
+  CuW_baseplate_550um_logical->SetVisAttributes(visAttributes);
+  CuW_baseplate_610um_logical->SetVisAttributes(visAttributes);
+  CuW_baseplate_710um_logical->SetVisAttributes(visAttributes);
 
   visAttributes = new G4VisAttributes(G4Colour(.1, 0.2, 0.5, 0.1));
   visAttributes->SetVisibility(true);
   Cu_baseplate_logical->SetVisAttributes(visAttributes);
+  Cu_baseplate_25um_logical->SetVisAttributes(visAttributes);
+  Cu_baseplate_175um_logical->SetVisAttributes(visAttributes);
 
   visAttributes = new G4VisAttributes(G4Colour(.0, 1., 0.0, 0.2));
   visAttributes->SetVisibility(true);
   PCB_baseplate_logical->SetVisAttributes(visAttributes);
+  PCB_baseplate_thin_logical->SetVisAttributes(visAttributes);
 
   visAttributes = new G4VisAttributes(G4Colour(.4, 0.4, 0.0, 0.1));
   visAttributes->SetVisibility(true);
@@ -260,14 +275,17 @@ void HGCalTBMaterials::setSimulationColorScheme() {
   visAttributes = new G4VisAttributes(G4Colour(0.4, 0.4, 0.4, 0.1));
   visAttributes->SetVisibility(false);
   Al_case_logical->SetVisAttributes(visAttributes);
+  Al_case_thick_logical->SetVisAttributes(visAttributes);
 
   visAttributes = new G4VisAttributes(G4Colour(0.4, 0.4, 0.4, 0.1));
   visAttributes->SetVisibility(true);
   Steel_case_logical->SetVisAttributes(visAttributes);
+  Steel_case_thick_logical->SetVisAttributes(visAttributes);
 
   visAttributes = new G4VisAttributes(G4Colour(0.1, 0.4, 0.8, 0.1));
   visAttributes->SetVisibility(true);
   Pb_absorber_EE_logical->SetVisAttributes(visAttributes);
+  Fe_absorber_EE_logical->SetVisAttributes(visAttributes);
 
   visAttributes = new G4VisAttributes(G4Colour(.1, 0.2, 0.5, 0.1));
   visAttributes->SetVisibility(true);
@@ -400,6 +418,18 @@ void HGCalTBMaterials::defineHGCalBaseplates() {
   CuW_baseplate_logical = HexagonLogical("CuW_baseplate", CuW_baseplate_thickness, CuW_baseplate_sideLength, mat_CuW);
   thickness_map["CuW_baseplate"] = CuW_baseplate_thickness;
   logical_volume_map["CuW_baseplate"] = CuW_baseplate_logical;
+  G4double CuW_baseplate_550um_thickness = 0.55 * mm;
+  CuW_baseplate_550um_logical = HexagonLogical("CuW_baseplate_550um", CuW_baseplate_550um_thickness, CuW_baseplate_sideLength, mat_CuW);
+  thickness_map["CuW_baseplate_550um"] = CuW_baseplate_550um_thickness;
+  logical_volume_map["CuW_baseplate_550um"] = CuW_baseplate_550um_logical;
+  G4double CuW_baseplate_610um_thickness = 0.61 * mm;
+  CuW_baseplate_610um_logical = HexagonLogical("CuW_baseplate_610um", CuW_baseplate_610um_thickness, CuW_baseplate_sideLength, mat_CuW);
+  thickness_map["CuW_baseplate_610um"] = CuW_baseplate_610um_thickness;
+  logical_volume_map["CuW_baseplate_610um"] = CuW_baseplate_610um_logical;
+  G4double CuW_baseplate_710um_thickness = 0.71 * mm;
+  CuW_baseplate_710um_logical = HexagonLogical("CuW_baseplate_710um", CuW_baseplate_710um_thickness, CuW_baseplate_sideLength, mat_CuW);
+  thickness_map["CuW_baseplate_710um"] = CuW_baseplate_710um_thickness;
+  logical_volume_map["CuW_baseplate_710um"] = CuW_baseplate_710um_logical;
 
   //Cu
   G4double Cu_baseplate_thickness = 1.2 * mm;
@@ -407,16 +437,29 @@ void HGCalTBMaterials::defineHGCalBaseplates() {
   Cu_baseplate_logical = HexagonLogical("Cu_baseplate", Cu_baseplate_thickness, Cu_baseplate_sideLength, mat_Cu);
   thickness_map["Cu_baseplate"] = Cu_baseplate_thickness;
   logical_volume_map["Cu_baseplate"] = Cu_baseplate_logical;
+  G4double Cu_baseplate_25um_thickness = 0.025 * mm;
+  Cu_baseplate_25um_logical = HexagonLogical("Cu_baseplate_25um", Cu_baseplate_25um_thickness, Cu_baseplate_sideLength, mat_Cu);
+  thickness_map["Cu_baseplate_25um"] = Cu_baseplate_25um_thickness;
+  logical_volume_map["Cu_baseplate_25um"] = Cu_baseplate_25um_logical;
+  G4double Cu_baseplate_175um_thickness = 0.175 * mm;
+  Cu_baseplate_175um_logical = HexagonLogical("Cu_baseplate_175um", Cu_baseplate_175um_thickness, Cu_baseplate_sideLength, mat_Cu);
+  thickness_map["Cu_baseplate_175um"] = Cu_baseplate_175um_thickness;
+  logical_volume_map["Cu_baseplate_175um"] = Cu_baseplate_175um_logical;
 
   //PCB
-  G4double PCB_baseplate_thickness = 1.9 * mm;      //1.9mm C ~ 1% X0
+  G4double PCB_baseplate_thickness = 1.3 * mm;
   G4double PCB_baseplate_sideLength = 11 * Si_pixel_sideLength;
   PCB_baseplate_logical = HexagonLogical("PCB", PCB_baseplate_thickness, PCB_baseplate_sideLength, mat_PCB);
   thickness_map["PCB"] = PCB_baseplate_thickness;
   logical_volume_map["PCB"] = PCB_baseplate_logical;
 
+  G4double PCB_baseplate_thin_thickness = 1.2 * mm;
+  PCB_baseplate_thin_logical = HexagonLogical("PCB_thin", PCB_baseplate_thin_thickness, PCB_baseplate_sideLength, mat_PCB);
+  thickness_map["PCB_thin"] = PCB_baseplate_thin_thickness;
+  logical_volume_map["PCB_thin"] = PCB_baseplate_thin_logical;
+
   //Kapton layer
-  G4double Kapton_layer_thickness = 0.05 * mm;
+  G4double Kapton_layer_thickness = 0.075 * mm;
   G4double Kapton_layer_sideLength = 11 * Si_pixel_sideLength;
   Kapton_layer_logical = HexagonLogical("Kapton_layer", Kapton_layer_thickness, Kapton_layer_sideLength, mat_KAPTON);
   thickness_map["Kapton_layer"] = Kapton_layer_thickness;
@@ -425,19 +468,31 @@ void HGCalTBMaterials::defineHGCalBaseplates() {
 
 
 void HGCalTBMaterials::defineHGCalCases() {
-  G4double Al_case_thickness = 2.6 * mm;
+  G4double Al_case_thickness = 2.1 * mm;
   G4double Al_case_xy = 40 * cm;
   G4Box* Al_case_solid = new G4Box("Al_case", 0.5 * Al_case_xy, 0.5 * Al_case_xy, 0.5 * Al_case_thickness);
   Al_case_logical = new G4LogicalVolume(Al_case_solid, mat_Al, "Al_case");
   thickness_map["Al_case"] = Al_case_thickness;
   logical_volume_map["Al_case"] = Al_case_logical;
 
-  G4double Steel_case_thickness = 0.9 * cm;
+  G4double Al_case_thick_thickness = 5 * mm;
+  G4Box* Al_case_thick_solid = new G4Box("Al_case_thick", 0.5 * Al_case_xy, 0.5 * Al_case_xy, 0.5 * Al_case_thick_thickness);
+  Al_case_thick_logical = new G4LogicalVolume(Al_case_thick_solid, mat_Al, "Al_case_thick");
+  thickness_map["Al_case_thick"] = Al_case_thick_thickness;
+  logical_volume_map["Al_case_thick"] = Al_case_thick_logical;
+
+  G4double Steel_case_thickness = 9 * mm;
   G4double Steel_case_xy = 60 * cm;
   G4Box* Steel_case_solid = new G4Box("Steel_case", 0.5 * Steel_case_xy, 0.5 * Steel_case_xy, 0.5 * Steel_case_thickness);
-  Steel_case_logical = new G4LogicalVolume(Steel_case_solid, mat_Steel, "Steel_case");
+  Steel_case_logical = new G4LogicalVolume(Steel_case_solid, mat_Fe, "Steel_case");
   thickness_map["Steel_case"] = Steel_case_thickness;
   logical_volume_map["Steel_case"] = Steel_case_logical;
+
+  G4double Steel_case_thick_thickness = 40 * mm;
+  G4Box* Steel_case_thick_solid = new G4Box("Steel_case_thick", 0.5 * Steel_case_xy, 0.5 * Steel_case_xy, 0.5 * Steel_case_thick_thickness);
+  Steel_case_thick_logical = new G4LogicalVolume(Steel_case_thick_solid, mat_Fe, "Steel_case_thick");
+  thickness_map["Steel_case_thick"] = Steel_case_thick_thickness;
+  logical_volume_map["Steel_case_thick"] = Steel_case_thick_logical;
 }
 
 void HGCalTBMaterials::defineHGCalEEAbsorbers() {
@@ -448,6 +503,13 @@ void HGCalTBMaterials::defineHGCalEEAbsorbers() {
   Pb_absorber_EE_logical = new G4LogicalVolume(Pb_absorber_EE_solid, mat_Pb, "Pb_absorber_EE");
   thickness_map["Pb_absorber_EE"] = Pb_absorber_EE_thickness;
   logical_volume_map["Pb_absorber_EE"] = Pb_absorber_EE_logical;
+
+  G4double Fe_absorber_EE_thickness = 0.3 * mm;
+  G4double Fe_absorber_EE_xy = 30 * cm;
+  G4Box* Fe_absorber_EE_solid = new G4Box("Fe_absorber_EE", 0.5 * Fe_absorber_EE_xy, 0.5 * Fe_absorber_EE_xy, 0.5 * Fe_absorber_EE_thickness);
+  Fe_absorber_EE_logical = new G4LogicalVolume(Fe_absorber_EE_solid, mat_Fe, "Fe_absorber_EE");
+  thickness_map["Fe_absorber_EE"] = Fe_absorber_EE_thickness;
+  logical_volume_map["Fe_absorber_EE"] = Fe_absorber_EE_logical;
 
   G4double Cu_absorber_EE_thickness = 6 * mm;
   G4double Cu_absorber_EE_xy = 30 * cm;
@@ -489,7 +551,7 @@ void HGCalTBMaterials::defineHGCalFHAbsorbers() {
   thickness_map["Cu_absorber_FH"] = Cu_absorber_FH_thickness;
   logical_volume_map["Cu_absorber_FH"] = Cu_absorber_FH_logical;
 
-  G4double Fe_absorber_FH_thickness = 41 * mm;
+  G4double Fe_absorber_FH_thickness = 40 * mm;
   G4double Fe_absorber_FH_xy = 50 * cm;
   G4Box* Fe_absorber_FH_solid = new G4Box("Fe_absorber_FH", 0.5 * Fe_absorber_FH_xy, 0.5 * Fe_absorber_FH_xy, 0.5 * Fe_absorber_FH_thickness);
   Fe_absorber_FH_logical = new G4LogicalVolume(Fe_absorber_FH_solid, mat_Fe, "Fe_absorber_FH");

@@ -5,4 +5,7 @@
 #include <string>
 #include <cmath>
 
+
+void add_EE(uint EEid, std::vector<std::pair<std::string, G4double> > &dz_map, double airBefore, double airMid);
+void add_FH(uint FHid, std::vector<std::pair<std::string, G4double> > &dz_map, double airBefore, double airMid);
 void defineConfig22_October2018_1(std::vector<std::pair<std::string, G4double> > &dz_map, G4double &viewpoint);
