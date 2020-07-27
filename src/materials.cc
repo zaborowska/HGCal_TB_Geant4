@@ -92,7 +92,7 @@ void HGCalTBMaterials::DefineMaterials() {
   mat_PCB->AddMaterial(mat_Si, 0.35194389);
 
   // Kapton material
-  mat_KAPTON = new G4Material("kapton", 1.11 * g / cm3, 3);
+  mat_KAPTON = new G4Material("Kapton", 1.11 * g / cm3, 3);
   mat_KAPTON->AddMaterial(mat_C, 0.59985105);
   mat_KAPTON->AddMaterial(mat_H, 0.080541353);
   mat_KAPTON->AddMaterial(mat_O, 0.31960759);

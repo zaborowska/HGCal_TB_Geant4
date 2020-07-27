@@ -2,6 +2,7 @@
 
 #include "test_configs.hh"
 #include "config22_October2018_1.hh"
+#include <fstream>
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -61,6 +62,31 @@ void DetectorConstruction::ConstructHGCal() {
     materials->placeItemInLogicalVolume(item_type, z0, logicWorld);
   }
 
+  std::ofstream myfile;
+  myfile.open("replicate_mat_EEplusFH.txt");
+  for (const auto &item : dz_map)
+  {
+    auto itemName = item.first;
+    if (itemName.find("_DAISY") != std::string::npos)
+      itemName.resize(itemName.find("_DAISY"));
+    auto matName = materials->GetLogicalVolume(itemName)->GetMaterial()->GetName();
+    std::size_t found = matName.find("G4_");
+    if (found != std::string::npos)
+      matName.erase(found, found + 3);
+    // special treatment for Si (3 x 0.1 mm)
+    if (materials->GetLogicalVolume(itemName)->GetName().find("Si_wafer") != std::string::npos)
+    {
+      matName = "Si";
+    }
+    if (item.second != 0)
+      myfile << std::fixed << std::setprecision(3) << item.second << ",Air" << "\n";
+    if(matName == "Si" && materials->GetThickness(itemName) == 0.3)
+      for(int i=0; i<3;i++)
+        myfile << std::fixed << std::setprecision(3) << materials->GetThickness(itemName) / 3 << "," << matName << "\n";
+    else
+      myfile << std::fixed << std::setprecision(3) << materials->GetThickness(itemName) << "," << matName << "\n";
+  }
+  myfile.close();
 
   G4RunManager::GetRunManager()->GeometryHasBeenModified();
   G4UImanager* UImanager = G4UImanager::GetUIpointer();

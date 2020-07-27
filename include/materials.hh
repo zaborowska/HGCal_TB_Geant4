@@ -139,4 +139,8 @@ public:
 	G4LogicalVolume* getSi_pixel_logical(){return this->Si_pixel_logical;}
 	G4LogicalVolume* getAHCAL_SiPM_logical(){return this->AHCAL_SiPM_logical;}
 
+	// debug
+	inline G4double GetThickness(std::string aName) {return thickness_map[aName];};
+	inline const G4LogicalVolume* GetLogicalVolume(std::string aName) {return logical_volume_map[aName];};
+
 };
