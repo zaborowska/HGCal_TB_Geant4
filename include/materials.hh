@@ -19,7 +19,7 @@
 #include "G4Colour.hh"
 
 
-#define BEAMLINELENGTH 40		//length of the beam line in m
+#define BEAMLINELENGTH 90		//length of the beam line in m
 #define BEAMLINEXY 4 			//transversal dimension of the beam line
   
 G4SubtractionSolid* HexagonPhysical(G4String name, G4double cellThickness, G4double cellSideLength);
@@ -79,6 +79,8 @@ private:
 	G4Material* mat_Mn;
 	G4Material* mat_Cr;
 	G4Material* mat_Ni;
+	G4Material* mat_Polyethylene;
+	G4Material* mat_Freon;
 
 	G4LogicalVolume* Si_pixel_logical;
 	G4LogicalVolume* Si_wafer_logical;
@@ -117,6 +119,7 @@ private:
 	G4LogicalVolume* DATURA_logical;
 	G4LogicalVolume* HERD_calorimeter_logical;
 	G4LogicalVolume* HERD_calorimeter_slab_logical;
+	G4LogicalVolume* CK3_logical;
 	
 
 	std::map<std::string, int> copy_counter_map;

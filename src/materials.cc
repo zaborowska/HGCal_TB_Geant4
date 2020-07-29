@@ -67,6 +67,8 @@ void HGCalTBMaterials::DefineMaterials() {
   mat_Mn = nist->FindOrBuildMaterial("G4_Mn");
   mat_Cr = nist->FindOrBuildMaterial("G4_Cr");
   mat_Ni = nist->FindOrBuildMaterial("G4_Ni");
+  mat_Polyethylene = nist->FindOrBuildMaterial("G4_POLYETHYLENE");
+  mat_Freon = nist->FindOrBuildMaterial("G4_FREON-12");
 
   //AHCAL SiPMs
   G4double a = 1.01 * g / mole;
@@ -217,12 +219,12 @@ void HGCalTBMaterials::setEventDisplayColorScheme() {
   visAttributes->SetVisibility(false);
   MCP_logical->SetVisAttributes(visAttributes);
 
-  visAttributes = new G4VisAttributes(G4Colour(1.0, 1.0, 1.0, 0.7));
-  visAttributes->SetVisibility(false);
+  visAttributes = new G4VisAttributes(G4Colour(0, 1.0, 0, 0.7));
+  visAttributes->SetVisibility(true);
   DWC_logical->SetVisAttributes(visAttributes);
 
-  visAttributes = new G4VisAttributes(G4Colour(0.05, 0.05, 0.05, 0.0));
-  visAttributes->SetVisibility(false);
+  visAttributes = new G4VisAttributes(G4Colour(0.5, 0.05, 0.05, 0.1));
+  visAttributes->SetVisibility(true);
   DWC_gas_logical->SetVisAttributes(visAttributes);
 
   visAttributes = new G4VisAttributes(G4Colour(1.0, 1.0, 1.0, 0.2));
@@ -334,11 +336,11 @@ void HGCalTBMaterials::setSimulationColorScheme() {
   MCP_logical->SetVisAttributes(visAttributes);
 
   visAttributes = new G4VisAttributes(G4Colour(1.0, 1.0, 1.0, 0.7));
-  visAttributes->SetVisibility(false);
+  visAttributes->SetVisibility(true);
   DWC_logical->SetVisAttributes(visAttributes);
 
   visAttributes = new G4VisAttributes(G4Colour(0.05, 0.05, 0.05, 0.0));
-  visAttributes->SetVisibility(false);
+  visAttributes->SetVisibility(true);
   DWC_gas_logical->SetVisAttributes(visAttributes);
 
   visAttributes = new G4VisAttributes(G4Colour(1.0, 1.0, 1.0, 0.7));
@@ -606,8 +608,8 @@ void HGCalTBMaterials::defineAHCALAbsorbers() {
 void HGCalTBMaterials::defineBeamLineElements() {
   /***** Definition of beam line elements *****/
   //scintillators
-  G4double scintillator_thickness = 10 * mm;
-  G4double scintillator_xy = 10 * cm;
+  G4double scintillator_thickness = 2 * 2 * cm;
+  G4double scintillator_xy = 2 * 9.5 * cm;
   G4Box* scintillator_solid = new G4Box("Scintillator", 0.5 * scintillator_xy, 0.5 * scintillator_xy, 0.5 * scintillator_thickness);
   scintillator_logical = new G4LogicalVolume(scintillator_solid, mat_PCB, "Scintillator");
   thickness_map["Scintillator"] = scintillator_thickness;
@@ -621,6 +623,14 @@ void HGCalTBMaterials::defineBeamLineElements() {
   thickness_map["MCP"] = MCP_thickness;
   logical_volume_map["MCP"] = MCP_logical;
 
+  // CK3
+  G4double CK3_thickness = 2 * m;
+  G4double CK3_radius = 8.35 * cm;
+  G4Tubs* CK3_solid = new G4Tubs("CK3", 0. , CK3_radius, CK3_thickness, 0, 360 * degree);
+  CK3_logical = new G4LogicalVolume(CK3_solid, mat_Freon, "CK3");
+  thickness_map["CK3"] = CK3_thickness;
+  logical_volume_map["CK3"] = CK3_logical;
+
   //Aluminium circle for testing of chip impact
   G4double Al_chip_xy = 1 * cm;
   G4double Al_chip_thickness = 0.89*mm;   //corresponds to 1% X0
@@ -631,19 +641,87 @@ void HGCalTBMaterials::defineBeamLineElements() {
 
 
   //DWC related material
-  G4double DWC_thickness = 10 * mm;
-  G4double DWC_xy = 10 * cm;
+  G4double DWC_thickness = 2 * 27.5 * mm;
+  G4double DWC_xy = 2 * 11 * cm;
   G4Box* DWC_solid = new G4Box("DWC", 0.5 * DWC_xy, 0.5 * DWC_xy, 0.5 * DWC_thickness);
-  DWC_logical = new G4LogicalVolume(DWC_solid, mat_Glass, "DWC");
+  DWC_logical = new G4LogicalVolume(DWC_solid, mat_AIR, "DWC");
   thickness_map["DWC"] = DWC_thickness;
   logical_volume_map["DWC"] = DWC_logical;
 
-  G4double DWC_gas_thickness = DWC_thickness - 2 * mm;
-  G4double DWC_gas_xy = DWC_xy - 2 * mm;
+  // WChambGas
+  G4double DWC_gas_thickness = 2 * 22.5 * mm;
+  G4double DWC_gas_xy = 2 * 8.5 * cm;
   G4Box * DWC_gas_solid = new G4Box("DWC_gas", 0.5 * DWC_gas_xy, 0.5 * DWC_gas_xy, 0.5 * DWC_gas_thickness);
-  DWC_gas_logical = new G4LogicalVolume(DWC_gas_solid, mat_Ar, "DWC_gas");
-
+  DWC_gas_logical = new G4LogicalVolume(DWC_gas_solid, mat_Ar, "DWC_gas"); // FIXME material should be 50% Ar 50% CO2
   new G4PVPlacement(0, G4ThreeVector(0, 0., 0.), DWC_gas_logical, "DWC_gas", DWC_logical, false, 0, true);
+
+  // WChambWindow
+  G4double DWC_window_thickness = 0.025 * mm;
+  G4double DWC_window_xy = 2 * 5.5 * cm;
+  G4Box * DWC_window_solid = new G4Box("DWC_window", 0.5 * DWC_window_xy, 0.5 * DWC_window_xy, 0.5 * DWC_window_thickness);
+  auto DWC_window_logical = new G4LogicalVolume(DWC_window_solid, mat_KAPTON, "DWC_window");
+  new G4PVPlacement(0, G4ThreeVector(0, 0., 27.5 * mm - DWC_window_thickness / 2.), DWC_window_logical, "DWC_window_0", DWC_logical, true, 0, true);
+  new G4PVPlacement(0, G4ThreeVector(0, 0., - (27.5 * mm - DWC_window_thickness / 2.) ), DWC_window_logical, "DWC_window_1", DWC_logical, true, 1, true);
+  visAttributes = new G4VisAttributes(G4Colour(0, 0., 0.95, 0.2));
+  visAttributes->SetVisibility(true);
+  DWC_window_logical->SetVisAttributes(visAttributes);
+
+  G4RotationMatrix* rotation = new G4RotationMatrix();
+  rotation->rotateZ(90*deg);
+
+  // WChambAl1
+  G4double DWC_al1_thickness = 2 * 2.5 * mm;
+  G4double DWC_al1_x = 2 * 8.25 * cm;
+  G4double DWC_al1_y = 2 * 2.75 * cm;
+  G4Box * DWC_al1_solid = new G4Box("DWC_al1", 0.5 * DWC_al1_x, 0.5 * DWC_al1_y, 0.5 * DWC_al1_thickness);
+  auto DWC_al1_logical = new G4LogicalVolume(DWC_al1_solid, mat_Al, "DWC_al1");
+  new G4PVPlacement(0, G4ThreeVector(0.5 * DWC_al1_y, 0.5 * DWC_al1_x, (0.5 * DWC_thickness - 0.5 * DWC_al1_thickness)), DWC_al1_logical, "DWC_al1_0", DWC_logical, true, 0, true);
+  new G4PVPlacement(rotation, G4ThreeVector(-0.5 * DWC_al1_x, 0.5 * DWC_al1_y, (0.5 * DWC_thickness - 0.5 * DWC_al1_thickness)), DWC_al1_logical, "DWC_al1_1", DWC_logical, true, 1, true);
+  new G4PVPlacement(0, G4ThreeVector(-0.5 * DWC_al1_y, -0.5 * DWC_al1_x, (0.5 * DWC_thickness - 0.5 * DWC_al1_thickness)), DWC_al1_logical, "DWC_al1_2", DWC_logical, true, 2, true);
+  new G4PVPlacement(rotation, G4ThreeVector(0.5 * DWC_al1_x, -0.5 * DWC_al1_y, (0.5 * DWC_thickness - 0.5 * DWC_al1_thickness)), DWC_al1_logical, "DWC_al1_3", DWC_logical, true, 3, true);
+  new G4PVPlacement(0, G4ThreeVector(0.5 * DWC_al1_y, 0.5 * DWC_al1_x, -(0.5 * DWC_thickness - 0.5 * DWC_al1_thickness)), DWC_al1_logical, "DWC_al1_4", DWC_logical, true, 4, true);
+  new G4PVPlacement(rotation, G4ThreeVector(-0.5 * DWC_al1_x, 0.5 * DWC_al1_y, -(0.5 * DWC_thickness - 0.5 * DWC_al1_thickness)), DWC_al1_logical, "DWC_al1_5", DWC_logical, true, 5, true);
+  new G4PVPlacement(0, G4ThreeVector(-0.5 * DWC_al1_y, -0.5 * DWC_al1_x, -(0.5 * DWC_thickness - 0.5 * DWC_al1_thickness)), DWC_al1_logical, "DWC_al1_6", DWC_logical, true, 6, true);
+  new G4PVPlacement(rotation, G4ThreeVector(0.5 * DWC_al1_x, -0.5 * DWC_al1_y, -(0.5 * DWC_thickness - 0.5 * DWC_al1_thickness)), DWC_al1_logical, "DWC_al1_7", DWC_logical, true, 7, true);
+  visAttributes = new G4VisAttributes(G4Colour(0.95, 0., 0.95, 0.2));
+  visAttributes->SetVisibility(true);
+  DWC_al1_logical->SetVisAttributes(visAttributes);
+
+  // WChambAl2
+  G4double DWC_al2_thickness = 2 * 2.25* cm;
+  G4double DWC_al2_x = 2 * 10.75 * cm;
+  G4double DWC_al2_y = 2 * 2.5 * mm;
+  G4Box * DWC_al2_solid = new G4Box("DWC_al2", 0.5 * DWC_al2_x, 0.5 * DWC_al2_y, 0.5 * DWC_al2_thickness);
+  auto DWC_al2_logical = new G4LogicalVolume(DWC_al2_solid, mat_Al, "DWC_al2");
+  new G4PVPlacement(0, G4ThreeVector(0.5 * DWC_al2_y, 0.5 * DWC_al2_x, 0), DWC_al2_logical, "DWC_al2_0", DWC_logical, true, 0, true);
+  new G4PVPlacement(rotation, G4ThreeVector(-0.5 * DWC_al2_x, 0.5 * DWC_al2_y, 0), DWC_al2_logical, "DWC_al2_1", DWC_logical, true, 1, true);
+  new G4PVPlacement(0, G4ThreeVector(-0.5 * DWC_al2_y, -0.5 * DWC_al2_x, 0), DWC_al2_logical, "DWC_al2_2", DWC_logical, true, 2, true);
+  new G4PVPlacement(rotation, G4ThreeVector(0.5 * DWC_al2_x, -0.5 * DWC_al2_y, 0), DWC_al2_logical, "DWC_al2_3", DWC_logical, true, 3, true);
+  visAttributes = new G4VisAttributes(G4Colour(0., 0.95, 0.95, 0.2));
+  visAttributes->SetVisibility(true);
+  DWC_al2_logical->SetVisAttributes(visAttributes);
+
+  // WChambGasVet
+  G4double DWC_gasVet_thickness = 2 * 2.5* mm;
+  G4double DWC_gasVet_x = 2 * 7.25 * cm;
+  G4double DWC_gasVet_y = 2 * 1.25 * cm;
+  G4Box * DWC_gasVet_solid = new G4Box("DWC_gasVet", 0.5 * DWC_gasVet_x, 0.5 * DWC_gasVet_y, 0.5 * DWC_gasVet_thickness);
+  auto DWC_gasVet_logical = new G4LogicalVolume(DWC_gasVet_solid, mat_Polyethylene, "DWC_gasVet");
+  new G4PVPlacement(0, G4ThreeVector(0.5 * DWC_gasVet_y, 0.5 * DWC_gasVet_x, 0.5 * (DWC_gas_thickness - DWC_gasVet_thickness)), DWC_gasVet_logical, "DWC_gasVet_0", DWC_gas_logical, true, 0, true);
+  new G4PVPlacement(rotation, G4ThreeVector(-0.5 * DWC_gasVet_x, 0.5 * DWC_gasVet_y, 0.5 * (DWC_gas_thickness - DWC_gasVet_thickness)), DWC_gasVet_logical, "DWC_gasVet_1", DWC_gas_logical, true, 1, true);
+  new G4PVPlacement(0, G4ThreeVector(-0.5 * DWC_gasVet_y, -0.5 * DWC_gasVet_x, 0.5 * (DWC_gas_thickness - DWC_gasVet_thickness)), DWC_gasVet_logical, "DWC_gasVet_2", DWC_gas_logical, true, 2, true);
+  new G4PVPlacement(rotation, G4ThreeVector(0.5 * DWC_gasVet_x, -0.5 * DWC_gasVet_y, 0.5 * (DWC_gas_thickness - DWC_gasVet_thickness)), DWC_gasVet_logical, "DWC_gasVet_3", DWC_gas_logical, true, 3, true);
+  new G4PVPlacement(0, G4ThreeVector(0.5 * DWC_gasVet_y, 0.5 * DWC_gasVet_x, 0), DWC_gasVet_logical, "DWC_gasVet_4", DWC_gas_logical, true, 4, true);
+  new G4PVPlacement(rotation, G4ThreeVector(-0.5 * DWC_gasVet_x, 0.5 * DWC_gasVet_y, 0), DWC_gasVet_logical, "DWC_gasVet_5", DWC_gas_logical, true, 5, true);
+  new G4PVPlacement(0, G4ThreeVector(-0.5 * DWC_gasVet_y, -0.5 * DWC_gasVet_x, 0), DWC_gasVet_logical, "DWC_gasVet_6", DWC_gas_logical, true, 6, true);
+  new G4PVPlacement(rotation, G4ThreeVector(0.5 * DWC_gasVet_x, -0.5 * DWC_gasVet_y, 0), DWC_gasVet_logical, "DWC_gasVet_7", DWC_gas_logical, true, 7, true);
+  new G4PVPlacement(0, G4ThreeVector(0.5 * DWC_gasVet_y, 0.5 * DWC_gasVet_x, -0.5 * (DWC_gas_thickness - DWC_gasVet_thickness)), DWC_gasVet_logical, "DWC_gasVet_8", DWC_gas_logical, true, 8, true);
+  new G4PVPlacement(rotation, G4ThreeVector(-0.5 * DWC_gasVet_x, 0.5 * DWC_gasVet_y, -0.5 * (DWC_gas_thickness - DWC_gasVet_thickness)), DWC_gasVet_logical, "DWC_gasVet_9", DWC_gas_logical, true, 9, true);
+  new G4PVPlacement(0, G4ThreeVector(-0.5 * DWC_gasVet_y, -0.5 * DWC_gasVet_x, -0.5 * (DWC_gas_thickness - DWC_gasVet_thickness)), DWC_gasVet_logical, "DWC_gasVet_10", DWC_gas_logical, true, 10, true);
+  new G4PVPlacement(rotation, G4ThreeVector(0.5 * DWC_gasVet_x, -0.5 * DWC_gasVet_y, -0.5 * (DWC_gas_thickness - DWC_gasVet_thickness)), DWC_gasVet_logical, "DWC_gasVet_11", DWC_gas_logical, true, 11, true);
+  visAttributes = new G4VisAttributes(G4Colour(0.4, 0.4, 0.4, 0.2));
+  visAttributes->SetVisibility(true);
+  DWC_gasVet_logical->SetVisAttributes(visAttributes);
 
 
   //DESY DATURA beam telescope

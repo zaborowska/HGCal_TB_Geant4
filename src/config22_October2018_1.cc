@@ -51,28 +51,37 @@ void add_FH(uint FHid, std::vector<std::pair<std::string, G4double> > &dz_map, d
   }
 
 void defineConfig22_October2018_1(std::vector<std::pair<std::string, G4double> > &dz_map, G4double &viewpoint) {
-  viewpoint = 9.3 * m;
+  viewpoint = 33 * m + 1.31 * m;
 
-  dz_map.push_back(std::make_pair("DWC", 0.0 * m));
-  dz_map.push_back(std::make_pair("DWC", 2.0 * m));
-  dz_map.push_back(std::make_pair("DWC", 0.3 * m));
-  dz_map.push_back(std::make_pair("Scintillator", 1.5 * m));
-  dz_map.push_back(std::make_pair("DWC", 0.3 * m));
-  dz_map.push_back(std::make_pair("DWC", 15. * m));
-  dz_map.push_back(std::make_pair("DWC", 7. * m));
+  // WChambUpstream
+  dz_map.push_back(std::make_pair("CK3", 0.0 * m));
+  dz_map.push_back(std::make_pair("DWC", 108.65 * cm));
+  dz_map.push_back(std::make_pair("DWC", 107.3 * cm));
+  dz_map.push_back(std::make_pair("Scintillator", 24.3 * cm));
+  dz_map.push_back(std::make_pair("Scintillator", 13.5 * cm));
+  dz_map.push_back(std::make_pair("Scintillator", 13.9 * cm));
+  dz_map.push_back(std::make_pair("Scintillator", 103.8 * cm));
+  dz_map.push_back(std::make_pair("DWC", 37.55 * cm));
+  // HaloCounters not implemented (as offset in X or Y)
 
-  dz_map.push_back(std::make_pair("Scintillator", 0.3 * m));
-  dz_map.push_back(std::make_pair("Scintillator", 2.0 * m));
+  // WChambDown
+  dz_map.push_back(std::make_pair("DWC", 19.8 * m + 4 * m));
+  dz_map.push_back(std::make_pair("DWC", 2*3.545 * m));
 
-  dz_map.push_back(std::make_pair("MCP", 0.0 * m));
-  dz_map.push_back(std::make_pair("MCP", 0.0 * m));
+  // S5
+  dz_map.push_back(std::make_pair("Scintillator", 1.274 * m));
+  // S6
+  dz_map.push_back(std::make_pair("Scintillator", 18 * cm));
+
+  // dz_map.push_back(std::make_pair("MCP", 0.0 * m));
+  // dz_map.push_back(std::make_pair("MCP", 0.0 * m));
 
 
   // map means: position this material starting at z, where:
   // z += <second>
   // z = z0+ 0.5 * thickness[<first>]
  
-  dz_map.push_back(std::make_pair("Al_case_thick", 0)); // 5 mm Al
+  dz_map.push_back(std::make_pair("Al_case_thick", 4.6 * cm)); // 5 mm Al
   dz_map.push_back(std::make_pair("Al_case", 0)); // 2.1 mm Al
 
   //EE1
