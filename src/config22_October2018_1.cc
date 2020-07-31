@@ -51,10 +51,10 @@ void add_FH(uint FHid, std::vector<std::pair<std::string, G4double> > &dz_map, d
   }
 
 void defineConfig22_October2018_1(std::vector<std::pair<std::string, G4double> > &dz_map, G4double &viewpoint) {
-  viewpoint = 33 * m + 1.31 * m;
+  viewpoint = 33 * m + 1.31 * m + 2 * m;
 
-  // WChambUpstream
-  dz_map.push_back(std::make_pair("CK3", 0.0 * m));
+//   // WChambUpstream
+  // dz_map.push_back(std::make_pair("CK3", 0.0 * m));
   dz_map.push_back(std::make_pair("DWC", 108.65 * cm));
   dz_map.push_back(std::make_pair("DWC", 107.3 * cm));
   dz_map.push_back(std::make_pair("Scintillator", 24.3 * cm));
