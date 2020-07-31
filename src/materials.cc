@@ -130,6 +130,11 @@ void HGCalTBMaterials::DefineMaterials() {
   mat_Scintillator->AddMaterial(mat_C, 0.91512109);
   mat_Scintillator->AddMaterial(mat_H, 0.084878906);
 
+  // DWC gas
+  mat_ArCO2 = new G4Material("ArCO2", 1.729 * mg / cm3, 3);
+  mat_ArCO2->AddMaterial(mat_Ar, 0.475815);
+  mat_ArCO2->AddMaterial(mat_C, 0.14306133);
+  mat_ArCO2->AddMaterial(mat_O, 0.38112367);
 }
 
 void HGCalTBMaterials::setEventDisplayColorScheme() {
@@ -657,7 +662,7 @@ void HGCalTBMaterials::defineBeamLineElements() {
   G4double DWC_gas_thickness = 2 * 22.5 * mm;
   G4double DWC_gas_xy = 2 * 8.5 * cm;
   G4Box * DWC_gas_solid = new G4Box("DWC_gas", 0.5 * DWC_gas_xy, 0.5 * DWC_gas_xy, 0.5 * DWC_gas_thickness);
-  DWC_gas_logical = new G4LogicalVolume(DWC_gas_solid, mat_Ar, "DWC_gas"); // FIXME material should be 50% Ar 50% CO2
+  DWC_gas_logical = new G4LogicalVolume(DWC_gas_solid, mat_ArCO2, "DWC_gas");
   new G4PVPlacement(0, G4ThreeVector(0, 0., 0.), DWC_gas_logical, "DWC_gas", DWC_logical, false, 0, true);
 
   // WChambWindow
