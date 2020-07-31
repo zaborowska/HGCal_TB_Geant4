@@ -125,6 +125,11 @@ void HGCalTBMaterials::DefineMaterials() {
   mat_LYSO->AddMaterial(mat_Quartz, 14 * perCent);
   mat_LYSO->AddMaterial(YttriumOxide,    5 * perCent);
 
+  // Scintillator material
+  mat_Scintillator = new G4Material("Scintillator", 1.032 * g / cm3, 2);
+  mat_Scintillator->AddMaterial(mat_C, 0.91512109);
+  mat_Scintillator->AddMaterial(mat_H, 0.084878906);
+
 }
 
 void HGCalTBMaterials::setEventDisplayColorScheme() {
@@ -611,7 +616,7 @@ void HGCalTBMaterials::defineBeamLineElements() {
   G4double scintillator_thickness = 2 * 2 * cm;
   G4double scintillator_xy = 2 * 9.5 * cm;
   G4Box* scintillator_solid = new G4Box("Scintillator", 0.5 * scintillator_xy, 0.5 * scintillator_xy, 0.5 * scintillator_thickness);
-  scintillator_logical = new G4LogicalVolume(scintillator_solid, mat_PCB, "Scintillator");
+  scintillator_logical = new G4LogicalVolume(scintillator_solid, mat_Scintillator, "Scintillator");
   thickness_map["Scintillator"] = scintillator_thickness;
   logical_volume_map["Scintillator"] = scintillator_logical;
 
