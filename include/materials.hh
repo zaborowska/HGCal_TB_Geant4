@@ -115,14 +115,12 @@ private:
 	G4LogicalVolume* PCB_AHCAL_logical;
 	G4LogicalVolume* Fe_absorber_AHCAL_logical;
 	G4LogicalVolume* scintillator_logical;
-	G4LogicalVolume* scintillator_thin_logical;
 	G4LogicalVolume* MCP_logical;
 	G4LogicalVolume* DWC_logical;
 	G4LogicalVolume* DWC_gas_logical;
 	G4LogicalVolume* DATURA_logical;
 	G4LogicalVolume* HERD_calorimeter_logical;
 	G4LogicalVolume* HERD_calorimeter_slab_logical;
-	G4LogicalVolume* CK3_logical;
 	
 
 	std::map<std::string, int> copy_counter_map;

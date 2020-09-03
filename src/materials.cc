@@ -68,7 +68,6 @@ void HGCalTBMaterials::DefineMaterials() {
   mat_Cr = nist->FindOrBuildMaterial("G4_Cr");
   mat_Ni = nist->FindOrBuildMaterial("G4_Ni");
   mat_Polyethylene = nist->FindOrBuildMaterial("G4_POLYETHYLENE");
-  mat_Freon = nist->FindOrBuildMaterial("G4_FREON-12");
 
   //AHCAL SiPMs
   G4double a = 1.01 * g / mole;
@@ -224,7 +223,6 @@ void HGCalTBMaterials::setEventDisplayColorScheme() {
   visAttributes = new G4VisAttributes(G4Colour(1.0, 1.0, 1.0, 0.01));
   visAttributes->SetVisibility(false);
   scintillator_logical->SetVisAttributes(visAttributes);
-  scintillator_thin_logical->SetVisAttributes(visAttributes);
 
   visAttributes = new G4VisAttributes(G4Colour(1.0, 1.0, 1.0, 0.01));
   visAttributes->SetVisibility(false);
@@ -341,7 +339,6 @@ void HGCalTBMaterials::setSimulationColorScheme() {
   visAttributes = new G4VisAttributes(G4Colour(1.0, 1.0, 1.0, 0.5));
   visAttributes->SetVisibility(false);
   scintillator_logical->SetVisAttributes(visAttributes);
-  scintillator_thin_logical->SetVisAttributes(visAttributes);
 
   visAttributes = new G4VisAttributes(G4Colour(1.0, 1.0, 1.0, 0.5));
   visAttributes->SetVisibility(false);
@@ -627,12 +624,6 @@ void HGCalTBMaterials::defineBeamLineElements() {
   thickness_map["Scintillator"] = scintillator_thickness;
   logical_volume_map["Scintillator"] = scintillator_logical;
 
-  G4double scintillator_thin_thickness = 1 * cm;
-  G4Box* scintillator_thin_solid = new G4Box("Scintillator_thin", 0.5 * scintillator_xy, 0.5 * scintillator_xy, 0.5 * scintillator_thin_thickness);
-  scintillator_thin_logical = new G4LogicalVolume(scintillator_thin_solid, mat_Scintillator, "Scintillator_thin");
-  thickness_map["Scintillator_thin"] = scintillator_thin_thickness;
-  logical_volume_map["Scintillator_thin"] = scintillator_thin_logical;
-
   //MCPs = quartz disks
   G4double MCP_thickness = 10 * mm;
   G4double MCP_radius = 2 * cm;
@@ -640,14 +631,6 @@ void HGCalTBMaterials::defineBeamLineElements() {
   MCP_logical = new G4LogicalVolume(MCP_solid, mat_Quartz, "MCP");
   thickness_map["MCP"] = MCP_thickness;
   logical_volume_map["MCP"] = MCP_logical;
-
-  // CK3
-  G4double CK3_thickness = 2 * m;
-  G4double CK3_radius = 8.35 * cm;
-  G4Tubs* CK3_solid = new G4Tubs("CK3", 0. , CK3_radius, CK3_thickness, 0, 360 * degree);
-  CK3_logical = new G4LogicalVolume(CK3_solid, mat_Freon, "CK3");
-  thickness_map["CK3"] = CK3_thickness;
-  logical_volume_map["CK3"] = CK3_logical;
 
   //Aluminium circle for testing of chip impact
   G4double Al_chip_xy = 1 * cm;
