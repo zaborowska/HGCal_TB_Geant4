@@ -15,6 +15,12 @@ else()
   find_package(Geant4 REQUIRED)
 endif()
 
+option(MATSCAN "Enter material scan mode" OFF)
+if (MATSCAN)
+  add_definitions(-DMATSCAN)
+  message("Compile with additional features for material scan with geantinos")
+endif()
+
 #----------------------------------------------------------------------------
 # Setup Geant4 include directories and compile definitions
 # Setup include directory for this project

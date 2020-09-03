@@ -8,6 +8,10 @@
 #include "SiliconPixelHit.hh"
 #include "SiPMHit.hh"
 
+#ifdef MATSCAN
+#include "G4Material.hh"
+#endif
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 EventAction::EventAction()
@@ -121,6 +125,9 @@ void EventAction::EndOfEventAction(const G4Event* event)
 
 
 	analysisManager->AddNtupleRow();
+	#ifdef MATSCAN
+	analysisManager->AddNtupleRow(1);
+	#endif
 }
 
 
@@ -151,3 +158,20 @@ void EventAction::DefineCommands() {
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+#ifdef MATSCAN
+void EventAction::AddStep(G4double aStepLength, G4Material* aMaterial) {
+	material_depth.push_back(aStepLength);
+	material_nX0.push_back(aStepLength / aMaterial->GetRadlen());
+	material_nLambda.push_back(aStepLength / aMaterial->GetNuclearInterLength());
+	G4int matId;
+	auto matFind = material_names_map.find(aMaterial->GetName());
+	if(matFind != material_names_map.end()) {
+		matId = matFind->second;
+	} else {
+		matId = material_names_map.size();
+		material_names_map.insert({aMaterial->GetName(), matId});
+	}
+	material_name.push_back(matId);
+}
+#endif

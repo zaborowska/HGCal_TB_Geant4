@@ -3,6 +3,9 @@
 #include "PrimaryGeneratorAction.hh"
 #include "RunAction.hh"
 #include "EventAction.hh"
+#ifdef MATSCAN
+#include "SteppingAction.hh"
+#endif
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -35,6 +38,10 @@ void ActionInitialization::Build() const
 
   RunAction* runAction = new RunAction(eventAction);
   SetUserAction(runAction);
+
+  #ifdef MATSCAN
+  SetUserAction(new SteppingAction(eventAction));
+  #endif
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

@@ -5,7 +5,9 @@
 #include "globals.hh"
 #include <vector>
 #include "G4GenericMessenger.hh"
-
+#ifdef MATSCAN
+class G4Material;
+#endif
 
 /// Event action class
 ///
@@ -28,6 +30,14 @@ public:
     std::vector<G4double>     hits_TOA;
     std::vector<G4double>     hits_TOA_last;
     std::vector<G4int>        hits_type;
+    #ifdef MATSCAN
+    void AddStep(G4double aStepLength, G4Material* aMaterial);
+    std::vector<G4double>     material_nX0;
+    std::vector<G4double>     material_nLambda;
+    std::vector<G4double>     material_depth;
+    std::vector<G4int>        material_name;
+    std::map<G4String, G4int> material_names_map;
+    #endif
 private:
     void DefineCommands();
     G4GenericMessenger* fMessenger;

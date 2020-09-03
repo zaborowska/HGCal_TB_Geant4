@@ -11,6 +11,8 @@
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
 
+#include <fstream>
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 RunAction::RunAction(EventAction* eventAction)
@@ -90,6 +92,15 @@ void RunAction::BeginOfRunAction(const G4Run*) {
     analysisManager->CreateNtupleDColumn("COGZ_AHCAL_cm");    // column Id = 17 +2
     analysisManager->CreateNtupleIColumn("NHits_AHCAL");    // column Id = 18   +2
     analysisManager->FinishNtuple();
+
+    #ifdef MATSCAN
+    analysisManager->CreateNtuple("materials", "material");
+    analysisManager->CreateNtupleDColumn(1, "nX0", fEventAction->material_nX0);    // column Id = 0
+    analysisManager->CreateNtupleDColumn(1, "nLambda", fEventAction->material_nLambda);    // column Id = 1
+    analysisManager->CreateNtupleDColumn(1, "depth", fEventAction->material_depth);    // column Id = 2
+    analysisManager->CreateNtupleIColumn(1, "name", fEventAction->material_name);    // column Id = 3
+    analysisManager->FinishNtuple(1);
+    #endif
   }
 
   // Open the output file
@@ -104,6 +115,49 @@ void RunAction::EndOfRunAction(const G4Run*)
   auto analysisManager = G4AnalysisManager::Instance();
   analysisManager->Write();
   analysisManager->CloseFile();
+
+  #ifdef MATSCAN
+  std::ofstream myfile;
+  myfile.open("materal2enumMap.txt");
+  for (const auto &item : fEventAction->material_names_map)
+  {
+    myfile << item.first << "," << item.second << "\n";
+  }
+  myfile.close();
+  // analyse material scan and print total values
+  std::ofstream myfile2;
+  myfile2.open("materalScan.txt");
+  std::map<std::string, std::array<double, 3>> matScan; // matName -> (depth, nX0, nLambda)
+  double depth = 0, nX0 = 0, nLambda = 0;
+  for (const auto &item : fEventAction->material_names_map)
+  {
+    matScan[item.first] = {0., 0., 0.};
+  }
+  for (size_t iter = 0; iter < fEventAction->material_name.size(); iter++) {
+    std::string matName = "";
+    for (const auto &item : fEventAction->material_names_map)
+      if (item.second == fEventAction->material_name[iter])
+        matName = item.first;
+    if (matName.find("G4_AIR") != std::string::npos) continue;
+    fEventAction->material_names_map[fEventAction->material_name[iter]];
+    matScan[matName][0] += fEventAction->material_depth[iter];
+    matScan[matName][1] += fEventAction->material_nX0[iter];
+    matScan[matName][2] += fEventAction->material_nLambda[iter];
+  }
+  for (const auto &item : matScan)
+  {
+    myfile2 << item.first << "\t" << item.second[0] << " mm\t" << item.second[1] << "X0\t"
+    << item.second[2] << " lambda\n";
+    G4cout << item.first << "\t" << item.second[0] << " mm\t" << item.second[1] << "X0\t"
+    << item.second[2] << " lambda" << G4endl;
+    depth += item.second[0];
+    nX0 +=  item.second[1];
+    nLambda +=item.second[2];
+  }
+    myfile2 << "TOTAL:" << depth << " mm\t" << nX0 << " X0\t" << nLambda << " lambda\n";
+  myfile2.close();
+  G4cout << "TOTAL: " << depth << " mm\t" << nX0 << " X0\t" << nLambda << " lambda" << G4endl;
+  #endif
 }
 
 
