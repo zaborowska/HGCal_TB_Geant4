@@ -35,6 +35,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
   sigmaBeamY = .1 * mm;
   beamZ0 = -999 * m;
   beamTypeGaussian = false;
+  momentumGaussianSpread = 0;
 
   DefineCommands();
 }
@@ -52,6 +53,14 @@ void PrimaryGeneratorAction::DefineCommands() {
     = new G4GenericMessenger(this, 
                              "/Simulation/generator/", 
                              "Primary generator control");
+
+  // momentum Gaussian spread command
+  auto& momentumSpreadCmd
+    = fMessenger->DeclareProperty("momentumSpread", momentumGaussianSpread,
+        "Gaussian momentum spread relative to gun energy (e.g. 0.05 means 5% * gun energy))");
+  momentumSpreadCmd.SetParameterName("momentumSpread", true);
+  momentumSpreadCmd.SetRange("momentumSpread>=0.");
+  momentumSpreadCmd.SetDefaultValue("0");
 
   // beam spread in x command
   auto& beamSpreadXCmd
@@ -114,6 +123,12 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   G4double z0 = (beamZ0==-999*m) ? -worldDZ : beamZ0;
   if (beamTypeGaussian) fParticleGun->SetParticlePosition(G4ThreeVector(G4RandGauss::shoot(0., sigmaBeamX),G4RandGauss::shoot(0., sigmaBeamY), z0));
   else fParticleGun->SetParticlePosition(G4ThreeVector(G4RandFlat::shoot(-sigmaBeamX, sigmaBeamX),G4RandFlat::shoot(-sigmaBeamY, sigmaBeamY), z0));
+  if(momentumGaussianSpread > 0) {
+    double energy = fParticleGun->GetParticleEnergy();
+    G4cout << "Changing energy from " <<energy;
+    energy += G4RandGauss::shoot(0., momentumGaussianSpread) * energy;
+    G4cout << " to " <<energy << G4endl;
+  }
 
   fParticleGun->GeneratePrimaryVertex(anEvent);
 }
