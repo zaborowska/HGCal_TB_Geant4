@@ -61,7 +61,11 @@ void defineConfig22_October2018_1(std::vector<std::pair<std::string, G4double> >
   dz_map.push_back(std::make_pair("DWC", 1 * m)); // at -3200 cm
   dz_map.push_back(std::make_pair("DWC", 254.5 * cm)); // at -2940 cm
   dz_map.push_back(std::make_pair("DWC", 34.5 * cm)); // at -2900 cm
-  dz_map.push_back(std::make_pair("DWC", 194.5 * cm)); // at -2700 cm
+  dz_map.push_back(std::make_pair("Scintillator_thin", 23.9 * cm));
+  dz_map.push_back(std::make_pair("Scintillator_thin", 13.9 * cm));
+  dz_map.push_back(std::make_pair("Scintillator_thin", 13.9 * cm));
+  dz_map.push_back(std::make_pair("Scintillator_thin", 103.8 * cm));
+  dz_map.push_back(std::make_pair("DWC", 35 * cm)); // at -2700 cm
   // HaloCounters not implemented (as offset in X or Y)
 
   // WChambDown
