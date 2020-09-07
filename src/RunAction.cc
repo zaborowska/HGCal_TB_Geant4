@@ -73,24 +73,33 @@ void RunAction::BeginOfRunAction(const G4Run*) {
     analysisManager->CreateNtupleDColumn("beamX_cm");    // column Id = 3
     analysisManager->CreateNtupleDColumn("beamY_cm");    // column Id = 4
     analysisManager->CreateNtupleDColumn("beamZ_cm");    // column Id = 5
-    // brakuje: pdgID, beamEnergy
-    analysisManager->CreateNtupleIColumn("ID", fEventAction->hits_ID);    // column Id = 4
-    analysisManager->CreateNtupleDColumn("x_cm", fEventAction->hits_x);    // column Id = 5
-    analysisManager->CreateNtupleDColumn("y_cm", fEventAction->hits_y);    // column Id = 6
-    analysisManager->CreateNtupleDColumn("z_cm", fEventAction->hits_z);    // column Id = 7
-    analysisManager->CreateNtupleDColumn("Edep_keV", fEventAction->hits_Edep);    // column Id = 8
-    analysisManager->CreateNtupleDColumn("EdepNonIonizing_keV", fEventAction->hits_EdepNonIonising);    // column Id = 9
-    analysisManager->CreateNtupleDColumn("TOA_ns", fEventAction->hits_TOA);    // column Id = 10
-    analysisManager->CreateNtupleDColumn("TOA_last_ns", fEventAction->hits_TOA_last);    // column Id = 11
-    analysisManager->CreateNtupleIColumn("type", fEventAction->hits_type);    // column Id = 12
+    analysisManager->CreateNtupleIColumn("siliconHits_ID", fEventAction->Si_hits_ID);
+    analysisManager->CreateNtupleDColumn("siliconHits_x_cm", fEventAction->Si_hits_x);
+    analysisManager->CreateNtupleDColumn("siliconHits_y_cm", fEventAction->Si_hits_y);
+    analysisManager->CreateNtupleDColumn("siliconHits_z_cm", fEventAction->Si_hits_z);
+    analysisManager->CreateNtupleDColumn("siliconHits_Edep_keV", fEventAction->Si_hits_Edep);
+    analysisManager->CreateNtupleDColumn("siliconHits_EdepNonIonizing_keV", fEventAction->Si_hits_EdepNonIonising);
+    analysisManager->CreateNtupleDColumn("siliconHits_TOA_ns", fEventAction->Si_hits_TOA);
+    analysisManager->CreateNtupleDColumn("siliconHits_TOA_last_ns", fEventAction->Si_hits_TOA_last);
+    analysisManager->CreateNtupleIColumn("siliconHits_type", fEventAction->Si_hits_type);
 
-    analysisManager->CreateNtupleDColumn("signalSum_HGCAL_MeV");    // column Id = 13 +2
-    analysisManager->CreateNtupleDColumn("COGZ_HGCAL_cm");    // column Id = 14 +2
-    analysisManager->CreateNtupleIColumn("NHits_HGCAL");    // column Id = 15 +2
+    analysisManager->CreateNtupleIColumn("SiPMHits_ID", fEventAction->SiPM_hits_ID);
+    analysisManager->CreateNtupleDColumn("SiPMHits_x_cm", fEventAction->SiPM_hits_x);
+    analysisManager->CreateNtupleDColumn("SiPMHits_y_cm", fEventAction->SiPM_hits_y);
+    analysisManager->CreateNtupleDColumn("SiPMHits_z_cm", fEventAction->SiPM_hits_z);
+    analysisManager->CreateNtupleDColumn("SiPMHits_Edep_keV", fEventAction->SiPM_hits_Edep);
+    analysisManager->CreateNtupleDColumn("SiPMHits_EdepNonIonizing_keV", fEventAction->SiPM_hits_EdepNonIonising);
+    analysisManager->CreateNtupleDColumn("SiPMHits_TOA_ns", fEventAction->SiPM_hits_TOA);
+    analysisManager->CreateNtupleDColumn("SiPMHits_TOA_last_ns", fEventAction->SiPM_hits_TOA_last);
+    analysisManager->CreateNtupleIColumn("SiPMHits_type", fEventAction->SiPM_hits_type);
 
-    analysisManager->CreateNtupleDColumn("signalSum_AHCAL_MeV");    // column Id = 16 +2
-    analysisManager->CreateNtupleDColumn("COGZ_AHCAL_cm");    // column Id = 17 +2
-    analysisManager->CreateNtupleIColumn("NHits_AHCAL");    // column Id = 18   +2
+    analysisManager->CreateNtupleDColumn("signalSum_HGCAL_MeV");    // column Id = 24
+    analysisManager->CreateNtupleDColumn("COGZ_HGCAL_cm");    // column Id = 25
+    analysisManager->CreateNtupleIColumn("NHits_HGCAL");    // column Id = 26
+
+    analysisManager->CreateNtupleDColumn("signalSum_AHCAL_MeV");    // column Id = 27
+    analysisManager->CreateNtupleDColumn("COGZ_AHCAL_cm");    // column Id = 28
+    analysisManager->CreateNtupleIColumn("NHits_AHCAL");    // column Id = 29
     analysisManager->FinishNtuple();
 
     #ifdef MATSCAN

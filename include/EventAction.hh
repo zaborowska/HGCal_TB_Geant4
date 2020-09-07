@@ -21,15 +21,25 @@ public:
     virtual void BeginOfEventAction(const G4Event* event);
     virtual void EndOfEventAction(const G4Event* event);
 
-    std::vector<G4int>        hits_ID;
-    std::vector<G4double>     hits_x;
-    std::vector<G4double>     hits_y;
-    std::vector<G4double>     hits_z;
-    std::vector<G4double>     hits_Edep;
-    std::vector<G4double>     hits_EdepNonIonising;
-    std::vector<G4double>     hits_TOA;
-    std::vector<G4double>     hits_TOA_last;
-    std::vector<G4int>        hits_type;
+    std::vector<G4int>        Si_hits_ID;
+    std::vector<G4double>     Si_hits_x;
+    std::vector<G4double>     Si_hits_y;
+    std::vector<G4double>     Si_hits_z;
+    std::vector<G4double>     Si_hits_Edep;
+    std::vector<G4double>     Si_hits_EdepNonIonising;
+    std::vector<G4double>     Si_hits_TOA;
+    std::vector<G4double>     Si_hits_TOA_last;
+    std::vector<G4int>        Si_hits_type;
+
+    std::vector<G4int>        SiPM_hits_ID;
+    std::vector<G4double>     SiPM_hits_x;
+    std::vector<G4double>     SiPM_hits_y;
+    std::vector<G4double>     SiPM_hits_z;
+    std::vector<G4double>     SiPM_hits_Edep;
+    std::vector<G4double>     SiPM_hits_EdepNonIonising;
+    std::vector<G4double>     SiPM_hits_TOA;
+    std::vector<G4double>     SiPM_hits_TOA_last;
+    std::vector<G4int>        SiPM_hits_type;
     #ifdef MATSCAN
     void AddStep(G4double aStepLength, G4Material* aMaterial);
     std::vector<G4double>     material_nX0;

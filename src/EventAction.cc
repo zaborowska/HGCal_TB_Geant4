@@ -31,15 +31,25 @@ EventAction::~EventAction()
 
 void EventAction::BeginOfEventAction(const G4Event*)
 {
-	hits_ID.clear();
-	hits_x.clear();
-	hits_y.clear();
-	hits_z.clear();
-	hits_Edep.clear();
-	hits_EdepNonIonising.clear();
-	hits_TOA.clear();
-	hits_TOA_last.clear();
-	hits_type.clear();
+	Si_hits_ID.clear();
+	Si_hits_x.clear();
+	Si_hits_y.clear();
+	Si_hits_z.clear();
+	Si_hits_Edep.clear();
+	Si_hits_EdepNonIonising.clear();
+	Si_hits_TOA.clear();
+	Si_hits_TOA_last.clear();
+	Si_hits_type.clear();
+
+	SiPM_hits_ID.clear();
+	SiPM_hits_x.clear();
+	SiPM_hits_y.clear();
+	SiPM_hits_z.clear();
+	SiPM_hits_Edep.clear();
+	SiPM_hits_EdepNonIonising.clear();
+	SiPM_hits_TOA.clear();
+	SiPM_hits_TOA_last.clear();
+	SiPM_hits_type.clear();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -70,15 +80,15 @@ void EventAction::EndOfEventAction(const G4Event* event)
 		hit->Digitise(hitTimeCut / CLHEP::ns, toaThreshold / CLHEP::keV );
 
 		if (hit->isValidHit()) {
-			hits_ID.push_back(hit->ID());
-			hits_x.push_back(hit->GetX());
-			hits_y.push_back(hit->GetY());
-			hits_z.push_back(hit->GetZ());
-			hits_Edep.push_back(hit->GetEdep());
-			hits_EdepNonIonising.push_back(hit->GetEdepNonIonizing());
-			hits_TOA.push_back(hit->GetTOA());
-			hits_TOA_last.push_back(hit->GetLastTOA());
-			hits_type.push_back(0);
+			Si_hits_ID.push_back(hit->ID());
+			Si_hits_x.push_back(hit->GetX());
+			Si_hits_y.push_back(hit->GetY());
+			Si_hits_z.push_back(hit->GetZ());
+			Si_hits_Edep.push_back(hit->GetEdep());
+			Si_hits_EdepNonIonising.push_back(hit->GetEdepNonIonizing());
+			Si_hits_TOA.push_back(hit->GetTOA());
+			Si_hits_TOA_last.push_back(hit->GetLastTOA());
+			Si_hits_type.push_back(0);
 
 			Nhits_HGCAL++;
 			esum_HGCAL += hit->GetEdep() * CLHEP::keV / CLHEP::MeV;
@@ -87,9 +97,9 @@ void EventAction::EndOfEventAction(const G4Event* event)
 	}
 	if (esum_HGCAL > 0) cogz_HGCAL /= esum_HGCAL;
 
-	analysisManager->FillNtupleDColumn(15, esum_HGCAL / CLHEP::GeV);
-	analysisManager->FillNtupleDColumn(16, cogz_HGCAL);
-	analysisManager->FillNtupleIColumn(17, Nhits_HGCAL);
+	analysisManager->FillNtupleDColumn(24, esum_HGCAL / CLHEP::GeV);
+	analysisManager->FillNtupleDColumn(25, cogz_HGCAL);
+	analysisManager->FillNtupleIColumn(26, Nhits_HGCAL);
 
 
 	//AHCAL 
@@ -102,14 +112,14 @@ void EventAction::EndOfEventAction(const G4Event* event)
 		hit->Digitise(-1, 0 );
 
 		if (hit->isValidHit()) {
-			hits_ID.push_back(hit->ID());
-			hits_x.push_back(hit->GetX());
-			hits_y.push_back(hit->GetY());
-			hits_z.push_back(hit->GetZ());
-			hits_Edep.push_back(hit->GetEdep());
-			hits_EdepNonIonising.push_back(hit->GetEdepNonIonizing());
-			hits_TOA.push_back(hit->GetTOA());
-			hits_type.push_back(1);
+			SiPM_hits_ID.push_back(hit->ID());
+			SiPM_hits_x.push_back(hit->GetX());
+			SiPM_hits_y.push_back(hit->GetY());
+			SiPM_hits_z.push_back(hit->GetZ());
+			SiPM_hits_Edep.push_back(hit->GetEdep());
+			SiPM_hits_EdepNonIonising.push_back(hit->GetEdepNonIonizing());
+			SiPM_hits_TOA.push_back(hit->GetTOA());
+			SiPM_hits_type.push_back(1);
 
 			Nhits_AHCAL++;
 			esum_AHCAL += hit->GetEdep() * CLHEP::keV / CLHEP::MeV;
@@ -118,11 +128,9 @@ void EventAction::EndOfEventAction(const G4Event* event)
 	}
 	if (esum_AHCAL > 0) cogz_AHCAL /= esum_AHCAL;
 
-	analysisManager->FillNtupleDColumn(18, esum_AHCAL / CLHEP::GeV);
-	analysisManager->FillNtupleDColumn(19, cogz_AHCAL);
-	analysisManager->FillNtupleIColumn(20, Nhits_AHCAL);
-
-
+	analysisManager->FillNtupleDColumn(27, esum_AHCAL / CLHEP::GeV);
+	analysisManager->FillNtupleDColumn(28, cogz_AHCAL);
+	analysisManager->FillNtupleIColumn(29, Nhits_AHCAL);
 
 	analysisManager->AddNtupleRow();
 	#ifdef MATSCAN
