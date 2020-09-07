@@ -2,8 +2,9 @@
 
 #include "test_configs.hh"
 #include "config22_October2018_1.hh"
+#ifdef MATSCAN
 #include <fstream>
-
+#endif
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 DetectorConstruction::DetectorConstruction()
@@ -62,6 +63,7 @@ void DetectorConstruction::ConstructHGCal() {
     materials->placeItemInLogicalVolume(item_type, z0, logicWorld);
   }
 
+  #ifdef MATSCAN
   std::ofstream myfile;
   myfile.open("replicate_mat_EEplusFH.txt");
   for (const auto &item : dz_map)
@@ -87,6 +89,7 @@ void DetectorConstruction::ConstructHGCal() {
       myfile << std::fixed << std::setprecision(3) << materials->GetThickness(itemName) << "," << matName << "\n";
   }
   myfile.close();
+  #endif
 
   G4RunManager::GetRunManager()->GeometryHasBeenModified();
   G4UImanager* UImanager = G4UImanager::GetUIpointer();
