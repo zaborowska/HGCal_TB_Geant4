@@ -125,9 +125,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   else fParticleGun->SetParticlePosition(G4ThreeVector(G4RandFlat::shoot(-sigmaBeamX, sigmaBeamX),G4RandFlat::shoot(-sigmaBeamY, sigmaBeamY), z0));
   if(momentumGaussianSpread > 0) {
     double energy = fParticleGun->GetParticleEnergy();
-    G4cout << "Changing energy from " <<energy;
     energy += G4RandGauss::shoot(0., momentumGaussianSpread) * energy;
-    G4cout << " to " <<energy << G4endl;
   }
 
   fParticleGun->GeneratePrimaryVertex(anEvent);
