@@ -58,19 +58,20 @@ void defineConfig22_October2018_1(std::vector<std::pair<std::string, G4double> >
   // z = z0+ 0.5 * thickness[<first>]
 
   // WChambUpstream
-  dz_map.push_back(std::make_pair("CK3", 0.0 * m));
-  dz_map.push_back(std::make_pair("DWC", 1 * m)); // at -3200 cm
-  dz_map.push_back(std::make_pair("DWC", 254.5 * cm)); // at -2940 cm
-  dz_map.push_back(std::make_pair("DWC", 34.5 * cm)); // at -2900 cm
+  // world (and beam) starts at -45 m
+  dz_map.push_back(std::make_pair("DWC", 12.2825 * m)); // at -32.7175 m
+  dz_map.push_back(std::make_pair("CK3", 0.0 * m)); // at -30.69 m
+  dz_map.push_back(std::make_pair("DWC", 56.2 * cm)); // at -30.073 cm
+  dz_map.push_back(std::make_pair("DWC", 101.5 * cm)); // at -2900.3 cm
   dz_map.push_back(std::make_pair("Scintillator_thin", 23.9 * cm));
   dz_map.push_back(std::make_pair("Scintillator_thin", 13.9 * cm));
   dz_map.push_back(std::make_pair("Scintillator_thin", 13.9 * cm));
   dz_map.push_back(std::make_pair("Scintillator_thin", 103.8 * cm));
-  dz_map.push_back(std::make_pair("DWC", 35 * cm)); // at -2700 cm
+  dz_map.push_back(std::make_pair("DWC", 34.8 * cm)); // at -2700.5 cm
   // HaloCounters not implemented (as offset in X or Y)
 
   // WChambDown
-  dz_map.push_back(std::make_pair("DWC", 18.255 * m)); // at -880 cm
+  dz_map.push_back(std::make_pair("DWC", 18.15 * m)); // at -880 cm
   dz_map.push_back(std::make_pair("DWC", 7.145 * m)); // at -160 cm
 
   // S5
