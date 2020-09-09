@@ -167,7 +167,7 @@ void DetectorConstruction::DefineCommands()
                                 &DetectorConstruction::SetStepSizeSilicon,
                                 "Maximum step size in silicon pixels, unit: microns");
   SiStepSizeCmd.SetParameterName("size", true);
-  SiStepSizeCmd.SetDefaultValue("50.");
+  SiStepSizeCmd.SetDefaultValue("30.");
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
