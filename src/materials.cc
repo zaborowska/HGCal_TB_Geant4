@@ -231,6 +231,7 @@ void HGCalTBMaterials::setEventDisplayColorScheme() {
   visAttributes = new G4VisAttributes(G4Colour(1.0, 1.0, 1.0, 0.01));
   visAttributes->SetVisibility(false);
   scintillator_logical->SetVisAttributes(visAttributes);
+  scintillator_thin_logical->SetVisAttributes(visAttributes);
 
   visAttributes = new G4VisAttributes(G4Colour(1.0, 1.0, 1.0, 0.01));
   visAttributes->SetVisibility(false);
@@ -347,6 +348,7 @@ void HGCalTBMaterials::setSimulationColorScheme() {
   visAttributes = new G4VisAttributes(G4Colour(1.0, 1.0, 1.0, 0.5));
   visAttributes->SetVisibility(false);
   scintillator_logical->SetVisAttributes(visAttributes);
+  scintillator_thin_logical->SetVisAttributes(visAttributes);
 
   visAttributes = new G4VisAttributes(G4Colour(1.0, 1.0, 1.0, 0.5));
   visAttributes->SetVisibility(false);
@@ -631,6 +633,12 @@ void HGCalTBMaterials::defineBeamLineElements() {
   scintillator_logical = new G4LogicalVolume(scintillator_solid, mat_Scintillator, "Scintillator");
   thickness_map["Scintillator"] = scintillator_thickness;
   logical_volume_map["Scintillator"] = scintillator_logical;
+
+  G4double scintillator_thin_thickness = 1 * cm;
+  G4Box* scintillator_thin_solid = new G4Box("Scintillator_thin", 0.5 * scintillator_xy, 0.5 * scintillator_xy, 0.5 * scintillator_thin_thickness);
+  scintillator_thin_logical = new G4LogicalVolume(scintillator_thin_solid, mat_Scintillator, "Scintillator_thin");
+  thickness_map["Scintillator_thin"] = scintillator_thin_thickness;
+  logical_volume_map["Scintillator_thin"] = scintillator_thin_logical;
 
   //MCPs = quartz disks
   G4double MCP_thickness = 10 * mm;
