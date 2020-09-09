@@ -635,9 +635,9 @@ void HGCalTBMaterials::defineBeamLineElements() {
   logical_volume_map["MCP"] = MCP_logical;
 
   // CK3
-  G4double CK3_thickness = 1 * m;
+  G4double CK3_thickness = 2 * m;
   G4double CK3_radius = 8.35 * cm;
-  G4Tubs* CK3_solid = new G4Tubs("CK3", 0. , CK3_radius, CK3_thickness, 0, 360 * degree);
+  G4Tubs* CK3_solid = new G4Tubs("CK3", 0. , CK3_radius, 0.5 * CK3_thickness, 0, 360 * degree);
   CK3_logical = new G4LogicalVolume(CK3_solid, mat_Freon, "CK3");
   thickness_map["CK3"] = CK3_thickness;
   logical_volume_map["CK3"] = CK3_logical;
