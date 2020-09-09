@@ -68,6 +68,8 @@ void HGCalTBMaterials::DefineMaterials() {
   mat_Cr = nist->FindOrBuildMaterial("G4_Cr");
   mat_Ni = nist->FindOrBuildMaterial("G4_Ni");
   mat_Polyethylene = nist->FindOrBuildMaterial("G4_POLYETHYLENE");
+  mat_Cl = nist->FindOrBuildMaterial("G4_Cl");
+  mat_F = nist->FindOrBuildMaterial("G4_F");
 
   //AHCAL SiPMs
   G4double a = 1.01 * g / mole;
@@ -135,7 +137,11 @@ void HGCalTBMaterials::DefineMaterials() {
   mat_ArCO2->AddMaterial(mat_C, 0.14306133);
   mat_ArCO2->AddMaterial(mat_O, 0.38112367);
 
-  mat_Freon = nist->FindOrBuildMaterial("G4_FREON-12");
+  mat_Freon = new G4Material("Freon-12", 4.93 * mg / cm3, 3);
+  mat_Freon->AddMaterial(mat_C, 0.099340816);
+  mat_Freon->AddMaterial(mat_Cl, 0.58640112);
+  mat_Freon->AddMaterial(mat_F, 0.31425807);
+
 }
 
 void HGCalTBMaterials::setEventDisplayColorScheme() {

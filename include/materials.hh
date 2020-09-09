@@ -83,6 +83,8 @@ private:
 	G4Material* mat_Freon;
 	G4Material* mat_Scintillator;
 	G4Material* mat_ArCO2;
+	G4Material* mat_Cl;
+	G4Material* mat_F;
 
 	G4LogicalVolume* Si_pixel_logical;
 	G4LogicalVolume* Si_wafer_logical;
