@@ -51,13 +51,14 @@ void add_FH(uint FHid, std::vector<std::pair<std::string, G4double> > &dz_map, d
   }
 
 void defineConfig22_October2018_1(std::vector<std::pair<std::string, G4double> > &dz_map, G4double &viewpoint) {
-  viewpoint = 33 * m;
+  viewpoint = 31 * m;
 
   // map means: position this material starting at z, where:
   // z += <second>
   // z = z0+ 0.5 * thickness[<first>]
 
   // WChambUpstream
+  dz_map.push_back(std::make_pair("CK3", 0.0 * m));
   dz_map.push_back(std::make_pair("DWC", 1 * m)); // at -3200 cm
   dz_map.push_back(std::make_pair("DWC", 254.5 * cm)); // at -2940 cm
   dz_map.push_back(std::make_pair("DWC", 34.5 * cm)); // at -2900 cm

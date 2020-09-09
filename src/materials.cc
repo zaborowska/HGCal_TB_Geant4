@@ -134,6 +134,8 @@ void HGCalTBMaterials::DefineMaterials() {
   mat_ArCO2->AddMaterial(mat_Ar, 0.475815);
   mat_ArCO2->AddMaterial(mat_C, 0.14306133);
   mat_ArCO2->AddMaterial(mat_O, 0.38112367);
+
+  mat_Freon = nist->FindOrBuildMaterial("G4_FREON-12");
 }
 
 void HGCalTBMaterials::setEventDisplayColorScheme() {
@@ -631,6 +633,14 @@ void HGCalTBMaterials::defineBeamLineElements() {
   MCP_logical = new G4LogicalVolume(MCP_solid, mat_Quartz, "MCP");
   thickness_map["MCP"] = MCP_thickness;
   logical_volume_map["MCP"] = MCP_logical;
+
+  // CK3
+  G4double CK3_thickness = 1 * m;
+  G4double CK3_radius = 8.35 * cm;
+  G4Tubs* CK3_solid = new G4Tubs("CK3", 0. , CK3_radius, CK3_thickness, 0, 360 * degree);
+  CK3_logical = new G4LogicalVolume(CK3_solid, mat_Freon, "CK3");
+  thickness_map["CK3"] = CK3_thickness;
+  logical_volume_map["CK3"] = CK3_logical;
 
   //Aluminium circle for testing of chip impact
   G4double Al_chip_xy = 1 * cm;

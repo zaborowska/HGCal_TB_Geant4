@@ -121,7 +121,7 @@ private:
 	G4LogicalVolume* DATURA_logical;
 	G4LogicalVolume* HERD_calorimeter_logical;
 	G4LogicalVolume* HERD_calorimeter_slab_logical;
-	
+	G4LogicalVolume* CK3_logical;
 
 	std::map<std::string, int> copy_counter_map;
 
