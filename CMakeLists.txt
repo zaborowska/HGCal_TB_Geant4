@@ -1,6 +1,6 @@
 #----------------------------------------------------------------------------
 # Setup the project
-cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 project(HGCal_TB2018)
 
 #----------------------------------------------------------------------------
@@ -22,11 +22,24 @@ if (MATSCAN)
 endif()
 
 #----------------------------------------------------------------------------
+# Find ROOT (required package only for reading input particles from file)
+#
+find_package(ROOT)
+if (ROOT_FOUND)
+  message(STATUS "Found ROOT: ${ROOT_DIR}. Particles read from file can be used as generator.")
+  add_definitions(-DWITHROOT)
+  include_directories(${ROOT_INCLUDE_DIRS})
+else()
+   message(STATUS "ROOT was not found, only particle gun can be used")
+endif()
+
+
+#----------------------------------------------------------------------------
 # Setup Geant4 include directories and compile definitions
 # Setup include directory for this project
 #
 include(${Geant4_USE_FILE})
-include_directories(${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/../common/include ${ROOT_INCLUDE_DIRS})
+include_directories(${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/../common/include )
 
 
 #----------------------------------------------------------------------------
@@ -41,6 +54,10 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 #
 add_executable(HGCal_TB2018 HGCal_TB2018.cc ${sources} ${headers})
 target_link_libraries(HGCal_TB2018 ${Geant4_LIBRARIES})
+if (ROOT_FOUND)
+  target_link_libraries(HGCal_TB2018 ${ROOT_LIBRARIES})
+endif()
+set_property(TARGET HGCal_TB2018 PROPERTY CXX_STANDARD 17)
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we

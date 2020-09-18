@@ -23,8 +23,11 @@ ActionInitialization::~ActionInitialization()
 
 void ActionInitialization::BuildForMaster() const
 {
+  #ifndef WITHROOT
+  // No ntuple merging if input is read from file
   EventAction* eventAction = new EventAction();
   SetUserAction(new RunAction(eventAction));
+  #endif
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

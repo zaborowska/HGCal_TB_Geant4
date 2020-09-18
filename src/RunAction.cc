@@ -48,13 +48,15 @@ RunAction::~RunAction()
 
 void RunAction::BeginOfRunAction(const G4Run*) {
   // Create analysis manager
-  // The choice of analysis technology is done via selectin of a namespacels
+  // The choice of analysis technology is done via selectin of a namespaces
   auto analysisManager = G4AnalysisManager::Instance();
   G4cout << "Using " << analysisManager->GetType() << G4endl;
 
   // Default settings
+  #ifndef WITHROOT
+  // Do not merge if input particles are read from several files
   analysisManager->SetNtupleMerging(true);
-  // Note: merging ntuples is available only with Root output
+  #endif
   analysisManager->SetVerboseLevel(1);
   std::cout << "Output file is: " << fOutputFileDir << std::endl;
   analysisManager->SetFileName(fOutputFileDir);

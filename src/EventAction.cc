@@ -56,6 +56,10 @@ void EventAction::BeginOfEventAction(const G4Event*)
 
 void EventAction::EndOfEventAction(const G4Event* event)
 {
+	// sanity check - if particles were read from input files and N from /run/beamOn N is larger
+	// than  the number of events in the file -> events are empty.
+	if (event->GetNumberOfPrimaryVertex() == 0) return;
+
 	auto analysisManager = G4AnalysisManager::Instance();
 	analysisManager->FillNtupleIColumn(0, event->GetEventID());
 	analysisManager->FillNtupleIColumn(1, event->GetPrimaryVertex()->GetPrimary()->GetPDGcode());

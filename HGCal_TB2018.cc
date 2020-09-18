@@ -54,7 +54,7 @@ int main(int argc,char** argv)
   char* PLenv = getenv("PHYSLIST");
   if (PLenv)
     physName = G4String(PLenv);
-  if ("FTFP_BERT_EMM" == physName)
+  if ("FTFP_BERT_EMM" == physName || "FTFPCMS_BERT_EMM" == physName)
     physicsList = new FTFPCMS_BERT_EMM;
   else if ("" == physName)
   {
@@ -68,9 +68,10 @@ int main(int argc,char** argv)
   }
   if (!physicsList)
   {
-    std::cerr << "Unknown physics list defined in environment variable PHYSLIST: " << PLenv
-    << ". Consider extension of main to take it into account." << std::endl;
-    return -1;
+    G4ExceptionDescription msg;
+    msg  << "Unknown physics list defined in environment variable PHYSLIST: " << PLenv << "\n";
+    msg<< "Consider extension of main to take it into account.\n";
+    G4Exception("HGCal_TB2018::main()", "UnknownPhysicsList", FatalException, msg);
   }
   physicsList->SetVerboseLevel(1);
   runManager->SetUserInitialization(physicsList);
