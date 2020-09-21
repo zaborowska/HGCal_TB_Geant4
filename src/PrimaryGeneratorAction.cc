@@ -100,33 +100,55 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
+void PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent)
 {
-  #ifdef WITHROOT
+#ifdef WITHROOT
   if (readInputFile)
   {
     // get primary particles from input file
-    if( fInputFile == nullptr ) {
+    if (fInputFile == nullptr)
+    {
       OpenInput();
     }
     Float_t currentEventId = -1;
-    while(fHgcalReader->Next()) {
+    while (fHgcalReader->Next())
+    {
       // First particle - set event ID
-      if (currentEventId == -1) currentEventId = **fHgcalEventId;
-      else // check if current particle belongs still to the same event
-      if (currentEventId != **fHgcalEventId) {break;}
-      
-      auto vertex = new G4PrimaryVertex(G4ThreeVector(**fHgcalPosX , **fHgcalPosY, 32.5), 0*s);
+      if (currentEventId == -1)
+      {
+        currentEventId = **fHgcalEventId;
+        fEventCounter++;
+        // check if event should be ignored (is before the start position)
+        if (fEventCounter < fStartFromEvent)
+          continue;
+      }
+      else
+      {
+        // check if event is to be skipped
+        if (fEventCounter < fStartFromEvent)
+        {
+          if (currentEventId != **fHgcalEventId)
+            currentEventId = -1;
+          continue;
+        }
+        else
+        {
+          // check if current particle belongs to the next event
+          if (currentEventId != **fHgcalEventId)
+            break;
+        }
+      }
+      auto vertex = new G4PrimaryVertex(G4ThreeVector(**fHgcalPosX, **fHgcalPosY, 32.5), 0 * s);
       auto particleDefinition = G4ParticleTable::GetParticleTable()->FindParticle(**fHgcalPdgId);
       auto particle = new G4PrimaryParticle(particleDefinition);
-      G4ThreeVector momentum(**fHgcalMomX , **fHgcalMomY, **fHgcalMomZ);
-      particle->SetMomentumDirection(momentum.unit());    
+      G4ThreeVector momentum(**fHgcalMomX, **fHgcalMomY, **fHgcalMomZ);
+      particle->SetMomentumDirection(momentum.unit());
       particle->SetKineticEnergy(momentum.mag());
       vertex->SetPrimary(particle);
       anEvent->AddPrimaryVertex(vertex);
     }
     // if no particles are left - terminate run
-    if (anEvent->GetNumberOfPrimaryVertex() == 0)
+    if (fEventCounter >= fStartFromEvent && anEvent->GetNumberOfPrimaryVertex() == 0)
     {
       G4ExceptionDescription msg;
       msg << "Input file does not contain any more events (current event ID = " << anEvent->GetEventID() << ").\n";
@@ -143,7 +165,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     }
   }
   else
-  #endif
+#endif
   {
     G4cout << "Particle generator: particle gun" << G4endl;
     // Beam position: z

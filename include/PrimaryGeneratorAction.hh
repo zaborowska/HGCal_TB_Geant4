@@ -40,6 +40,8 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     inline G4bool GetIfUseInputFiles() {return readInputFile;};
     void SetInputFiles(G4String aInputFiles) {pathInputFile = aInputFiles;};
     inline G4String GetInputFiles() const {return pathInputFile;};
+    void SetStartFromEvent(G4int aStartFromEvent) {fStartFromEvent = aStartFromEvent;};
+    inline G4int GetStartFromEvent() const {return fStartFromEvent;};
     #endif
     void SetMomentumSpread(G4double aMomentumSpread) {momentumGaussianSpread = aMomentumSpread;};
     inline G4double GetMomentumSpread() const {return momentumGaussianSpread;};
@@ -80,6 +82,8 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     #ifdef WITHROOT
     G4bool readInputFile = false;
     G4String pathInputFile = "Electron_v44_Nikosbeam_30.GeV_4729.root";
+    G4int fStartFromEvent = 0;
+    G4int fEventCounter = -1;
     TFile* fInputFile = nullptr;
     TTreeReader* fHgcalReader = nullptr;
     TTreeReaderValue<Float_t>* fHgcalEventId;

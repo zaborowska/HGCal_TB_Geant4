@@ -3,6 +3,7 @@
 
 class G4UIdirectory;
 class G4UIcmdWithABool;
+class G4UIcmdWithAnInteger;
 class G4UIcmdWithAString;
 class G4UIcmdWithADouble;
 class G4UIcmdWithADoubleAndUnit;
@@ -29,6 +30,7 @@ class PrimaryGeneratorMessenger: public G4UImessenger
     #ifdef WITHROOT
     G4UIcmdWithABool * fReadInputCmd;
     G4UIcmdWithAString * fPathInputCmd;
+    G4UIcmdWithAnInteger * fStartFromEventCmd;
     #endif
     G4UIcmdWithADouble * fMomentumSpreadCmd;
     G4UIcmdWithAString * fBeamSpreadTypeCmd;

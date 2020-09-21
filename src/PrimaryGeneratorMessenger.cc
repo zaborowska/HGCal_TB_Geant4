@@ -3,6 +3,7 @@
 
 #include "G4UIdirectory.hh"
 #include "G4UIcmdWithABool.hh"
+#include "G4UIcmdWithAnInteger.hh"
 #include "G4UIcmdWithAString.hh"
 #include "G4UIcmdWithADouble.hh"
 #include "G4UIcmdWithADoubleAndUnit.hh"
@@ -22,6 +23,11 @@ PrimaryGeneratorMessenger::PrimaryGeneratorMessenger(PrimaryGeneratorAction * aP
   fPathInputCmd = new G4UIcmdWithAString("/Simulation/generator/pathInputFile",this);
   fPathInputCmd->SetGuidance("Path to input file containing particle data.");
   fPathInputCmd->SetParameterName("path",true);
+
+  fStartFromEventCmd = new G4UIcmdWithAnInteger("/Simulation/generator/startFromEvent",this);
+  fStartFromEventCmd->SetGuidance("From which event in the file simulation should be started.");
+  fStartFromEventCmd->SetParameterName("startFrom",true);
+  fStartFromEventCmd->SetDefaultValue(0);
 #endif
   fMomentumSpreadCmd = new G4UIcmdWithADouble("/Simulation/generator/momentumSpread",this);
   fMomentumSpreadCmd->SetGuidance("For particle gun generator:");
@@ -64,6 +70,7 @@ PrimaryGeneratorMessenger::~PrimaryGeneratorMessenger()
     #ifdef WITHROOT
     delete fReadInputCmd;
     delete fPathInputCmd;
+    delete fStartFromEventCmd;
     #endif
     delete fMomentumSpreadCmd;
     delete fBeamSpreadTypeCmd;
@@ -102,6 +109,10 @@ void PrimaryGeneratorMessenger::SetNewValue(G4UIcommand *command, G4String newVa
     else if (command == fPathInputCmd)
     {
         fPrimaryGenerator->SetInputFiles(newValues);
+    }
+    else if (command == fStartFromEventCmd)
+    {
+        fPrimaryGenerator->SetStartFromEvent(fStartFromEventCmd->GetNewIntValue(newValues));
     }
     #endif 
 }
