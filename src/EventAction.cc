@@ -31,6 +31,12 @@ EventAction::~EventAction()
 
 void EventAction::BeginOfEventAction(const G4Event*)
 {
+	primaries_PDG.clear();
+	primaries_energy.clear();
+	primaries_x.clear();
+	primaries_y.clear();
+	primaries_z.clear();
+
 	Si_hits_ID.clear();
 	Si_hits_x.clear();
 	Si_hits_y.clear();
@@ -56,18 +62,25 @@ void EventAction::BeginOfEventAction(const G4Event*)
 
 void EventAction::EndOfEventAction(const G4Event* event)
 {
-	// sanity check - if particles were read from input files and N from /run/beamOn N is larger
-	// than  the number of events in the file -> events are empty.
+	// sanity check
 	if (event->GetNumberOfPrimaryVertex() == 0) return;
 
 	auto analysisManager = G4AnalysisManager::Instance();
 	analysisManager->FillNtupleIColumn(0, event->GetEventID());
-	analysisManager->FillNtupleIColumn(1, event->GetPrimaryVertex()->GetPrimary()->GetPDGcode());
-	analysisManager->FillNtupleIColumn(2, event->GetPrimaryVertex()->GetPrimary()->GetTotalEnergy() / CLHEP::GeV);
-	analysisManager->FillNtupleDColumn(3, event->GetPrimaryVertex()->GetX0() / CLHEP::cm);
-	analysisManager->FillNtupleDColumn(4, event->GetPrimaryVertex()->GetY0() / CLHEP::cm);
-	analysisManager->FillNtupleDColumn(5, event->GetPrimaryVertex()->GetZ0() / CLHEP::cm);
-
+	// fill for all primary input particles
+	for (G4int iVertex = 0; iVertex < event->GetNumberOfPrimaryVertex(); iVertex++)
+	{
+		auto vertex = event->GetPrimaryVertex(iVertex);
+		primaries_x.push_back(vertex->GetX0() / CLHEP::cm);
+		primaries_y.push_back(vertex->GetY0() / CLHEP::cm);
+		primaries_z.push_back(vertex->GetZ0() / CLHEP::cm);
+		for (G4int iParticle = 0; iParticle < vertex->GetNumberOfParticle(); iParticle++)
+		{
+			auto particle = vertex->GetPrimary(iParticle);
+			primaries_PDG.push_back(particle->GetPDGcode());
+			primaries_energy.push_back(particle->GetTotalEnergy() / CLHEP::GeV);
+		}
+	}
 
 	auto hce = event->GetHCofThisEvent();
 	auto sdManager = G4SDManager::GetSDMpointer();
