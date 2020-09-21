@@ -70,11 +70,11 @@ void RunAction::BeginOfRunAction(const G4Run*) {
   if ( fEventAction ) {
     analysisManager->CreateNtuple("hits", "hits");
     analysisManager->CreateNtupleIColumn("event");    // column Id = 0
-    analysisManager->CreateNtupleIColumn("pdgID");    // column Id = 1
-    analysisManager->CreateNtupleIColumn("beamEnergy");    // column Id = 2
-    analysisManager->CreateNtupleDColumn("beamX_cm");    // column Id = 3
-    analysisManager->CreateNtupleDColumn("beamY_cm");    // column Id = 4
-    analysisManager->CreateNtupleDColumn("beamZ_cm");    // column Id = 5
+    analysisManager->CreateNtupleIColumn("pdgID", fEventAction->primaries_PDG);    // column Id = 1
+    analysisManager->CreateNtupleDColumn("beamEnergy", fEventAction->primaries_energy);    // column Id = 2
+    analysisManager->CreateNtupleDColumn("beamX_cm", fEventAction->primaries_x);    // column Id = 3
+    analysisManager->CreateNtupleDColumn("beamY_cm", fEventAction->primaries_y);    // column Id = 4
+    analysisManager->CreateNtupleDColumn("beamZ_cm", fEventAction->primaries_z);    // column Id = 5
     analysisManager->CreateNtupleIColumn("siliconHits_ID", fEventAction->Si_hits_ID);
     analysisManager->CreateNtupleDColumn("siliconHits_x_cm", fEventAction->Si_hits_x);
     analysisManager->CreateNtupleDColumn("siliconHits_y_cm", fEventAction->Si_hits_y);

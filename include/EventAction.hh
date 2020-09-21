@@ -21,6 +21,12 @@ public:
     virtual void BeginOfEventAction(const G4Event* event);
     virtual void EndOfEventAction(const G4Event* event);
 
+    std::vector<G4int>        primaries_PDG;
+    std::vector<G4double>     primaries_energy;
+    std::vector<G4double>     primaries_x;
+    std::vector<G4double>     primaries_y;
+    std::vector<G4double>     primaries_z;
+
     std::vector<G4int>        Si_hits_ID;
     std::vector<G4double>     Si_hits_x;
     std::vector<G4double>     Si_hits_y;
