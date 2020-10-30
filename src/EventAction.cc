@@ -17,8 +17,6 @@
 EventAction::EventAction()
 	: G4UserEventAction()
 {
-	hitTimeCut = -1;
-	toaThreshold = 0;
 	DefineCommands();
 }
 
@@ -54,7 +52,6 @@ void EventAction::BeginOfEventAction(const G4Event*)
 	SiPM_hits_Edep.clear();
 	SiPM_hits_EdepNonIonising.clear();
 	SiPM_hits_TOA.clear();
-	SiPM_hits_TOA_last.clear();
 	SiPM_hits_type.clear();
 }
 
@@ -114,9 +111,9 @@ void EventAction::EndOfEventAction(const G4Event* event)
 	}
 	if (esum_HGCAL > 0) cogz_HGCAL /= esum_HGCAL;
 
-	analysisManager->FillNtupleDColumn(24, esum_HGCAL / CLHEP::GeV);
-	analysisManager->FillNtupleDColumn(25, cogz_HGCAL);
-	analysisManager->FillNtupleIColumn(26, Nhits_HGCAL);
+	analysisManager->FillNtupleDColumn(23, esum_HGCAL / CLHEP::GeV);
+	analysisManager->FillNtupleDColumn(24, cogz_HGCAL);
+	analysisManager->FillNtupleIColumn(25, Nhits_HGCAL);
 
 
 	//AHCAL 
@@ -145,9 +142,9 @@ void EventAction::EndOfEventAction(const G4Event* event)
 	}
 	if (esum_AHCAL > 0) cogz_AHCAL /= esum_AHCAL;
 
-	analysisManager->FillNtupleDColumn(27, esum_AHCAL / CLHEP::GeV);
-	analysisManager->FillNtupleDColumn(28, cogz_AHCAL);
-	analysisManager->FillNtupleIColumn(29, Nhits_AHCAL);
+	analysisManager->FillNtupleDColumn(26, esum_AHCAL / CLHEP::GeV);
+	analysisManager->FillNtupleDColumn(27, cogz_AHCAL);
+	analysisManager->FillNtupleIColumn(28, Nhits_AHCAL);
 
 	analysisManager->AddNtupleRow();
 	#ifdef MATSCAN
@@ -160,7 +157,7 @@ void EventAction::DefineCommands() {
 
 	fMessenger
 	    = new G4GenericMessenger(this,
-	                             "/Simulation/hits/",
+	                             "/HGCalTestbeam/hits/",
 	                             "Primary generator control");
 
 

@@ -26,7 +26,7 @@
 PrimaryGeneratorAction::PrimaryGeneratorAction()
 : G4VUserPrimaryGeneratorAction(),
   fParticleGun(nullptr),
-  fEnvelopeBox(0)
+  fEnvelopeBox(nullptr)
 {
   G4int n_particle = 1;
   fParticleGun  = new G4ParticleGun(n_particle);
@@ -39,11 +39,6 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
   fParticleGun->SetParticleEnergy(30.*GeV);
   fParticleGun->SetParticlePosition(G4ThreeVector(0.,0.,0.));
-
-  sigmaBeamX = 0;
-  sigmaBeamY = 0;
-  beamZ0 = -999 * m;
-  momentumGaussianSpread = 0;
 
   fMessenger = new PrimaryGeneratorMessenger(this);
   if (readInputFile) OpenInput();
@@ -217,8 +212,5 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent)
     }
     fParticleGun->GeneratePrimaryVertex(anEvent);
   }
-  // for(int i=0; i<anEvent->GetNumberOfPrimaryVertex();i++) 
-  //   anEvent->GetPrimaryVertex(i)->Print();
 }
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-

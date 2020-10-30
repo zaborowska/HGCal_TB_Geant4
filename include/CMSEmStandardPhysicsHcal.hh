@@ -23,11 +23,17 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-#ifndef SimG4Core_PhysicsLists_CMSEmStandardPhysicsHcal_h
-#define SimG4Core_PhysicsLists_CMSEmStandardPhysicsHcal_h
+#ifndef CMSEMSTANDARDPHYSICSHCAL_HH
+#define CMSEMSTANDARDPHYSICSHCAL_HH
 
 #include "G4VPhysicsConstructor.hh"
-#include "globals.hh"
+
+/**
+ * @brief EM physics
+ *
+ * Used in FTFPCMS_BERT_EMM physics list. Copy from test46.
+ *
+ */
 
 class CMSEmStandardPhysicsHcal : public G4VPhysicsConstructor {
 
@@ -39,13 +45,7 @@ public:
   virtual void ConstructProcess();
 
 private:
-  G4int               verbose;
+  G4int verbose;
 };
 
-#endif
-
-
-
-
-
-
+#endif /* CMSEMSTANDARDPHYSICSHCAL_HH */

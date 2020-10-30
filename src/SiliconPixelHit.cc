@@ -6,23 +6,12 @@
 #include "G4Transform3D.hh"
 #include "G4RotationMatrix.hh"
 #include "G4VVisManager.hh"
-#include "materials.hh"
-//#define DEBUG
+#include "HGCalTBMaterials.hh"
 
 SiliconPixelHit::SiliconPixelHit(G4String aVol_name, G4int aCopy_no_sensor, G4int aCopy_no_cell) {
-	this->vol_name = aVol_name;
-	this->copy_no_cell = aCopy_no_cell;
-	this->copy_no_sensor = aCopy_no_sensor;
-
-	this->pos_x = this->pos_y = this->pos_z = -1;
-
-
-	this->eDep_digi = -1;
-	this->edep_nonIonizing_digi = -1;
-	this->timeOfArrival_digi = -1;
-	this->timeOfArrival_last_digi = -1;
-	this->_isValidHit = false;;
-
+	vol_name = aVol_name;
+	copy_no_cell = aCopy_no_cell;
+	copy_no_sensor = aCopy_no_sensor;
 }
 
 
@@ -74,11 +63,11 @@ void SiliconPixelHit::Digitise(const G4double timeWindow, const G4double toaThre
 void SiliconPixelHit::Draw() {
   G4VVisManager* pVVisManager = G4VVisManager::GetConcreteInstance();
   if(! (eDep_digi > 0) ) return;
-  if (! pVVisManager->FilterHit(*this)) return;
   if (pVVisManager) {
+  if (! pVVisManager->FilterHit(*this)) return;
     G4Transform3D trans(G4RotationMatrix(),G4ThreeVector(pos_x*cm,pos_y*cm,pos_z*cm));
     G4VisAttributes attribs;
-    auto solid = HexagonPhysical("dummy", 0.3*mm, 0.6496345*cm);
+    auto solid = HexagonSolid("dummy", 0.3*mm, 0.6496345*cm);
     G4Colour colour(1, 0, 0);
     attribs.SetColour(colour);
     attribs.SetForceSolid(true);

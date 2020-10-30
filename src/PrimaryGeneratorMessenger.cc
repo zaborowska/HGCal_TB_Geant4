@@ -11,25 +11,25 @@
 PrimaryGeneratorMessenger::PrimaryGeneratorMessenger(PrimaryGeneratorAction * aPrimaryGeneratorAction)
 :fPrimaryGenerator(aPrimaryGeneratorAction)
 {
-  fDirectory = new G4UIdirectory("/Simulation/generator/");
+  fDirectory = new G4UIdirectory("/HGCalTestbeam/generator/");
   fDirectory->SetGuidance("Primary generator control commands.");
 
 #ifdef WITHROOT
-  fReadInputCmd = new G4UIcmdWithABool("/Simulation/generator/readInputFile",this);
+  fReadInputCmd = new G4UIcmdWithABool("/HGCalTestbeam/generator/readInputFile",this);
   fReadInputCmd->SetGuidance("If instead of particle gun, particle data should be read from file.");
   fReadInputCmd->SetParameterName("ifInput", true);
   fReadInputCmd->SetDefaultValue(false);
 
-  fPathInputCmd = new G4UIcmdWithAString("/Simulation/generator/pathInputFile",this);
+  fPathInputCmd = new G4UIcmdWithAString("/HGCalTestbeam/generator/pathInputFile",this);
   fPathInputCmd->SetGuidance("Path to input file containing particle data.");
   fPathInputCmd->SetParameterName("path",true);
 
-  fStartFromEventCmd = new G4UIcmdWithAnInteger("/Simulation/generator/startFromEvent",this);
-  fStartFromEventCmd->SetGuidance("From which event in the file simulation should be started.");
+  fStartFromEventCmd = new G4UIcmdWithAnInteger("/HGCalTestbeam/generator/startFromEvent",this);
+  fStartFromEventCmd->SetGuidance("From which event in the file HGCalTestbeam should be started.");
   fStartFromEventCmd->SetParameterName("startFrom",true);
   fStartFromEventCmd->SetDefaultValue(0);
 #endif
-  fMomentumSpreadCmd = new G4UIcmdWithADouble("/Simulation/generator/momentumSpread",this);
+  fMomentumSpreadCmd = new G4UIcmdWithADouble("/HGCalTestbeam/generator/momentumSpread",this);
   fMomentumSpreadCmd->SetGuidance("For particle gun generator:");
   fMomentumSpreadCmd->SetGuidance("Gaussian momentum spread relative to gun energy");
   fMomentumSpreadCmd->SetGuidance("(e.g. 0.05 means 5% * gun energy))");
@@ -37,27 +37,27 @@ PrimaryGeneratorMessenger::PrimaryGeneratorMessenger(PrimaryGeneratorAction * aP
   fMomentumSpreadCmd->SetRange("momentumSpread>=0");
   fMomentumSpreadCmd->SetDefaultValue(0);
 
-  fBeamSpreadTypeCmd = new G4UIcmdWithAString("/Simulation/generator/beamSpread",this);
+  fBeamSpreadTypeCmd = new G4UIcmdWithAString("/HGCalTestbeam/generator/beamSpread",this);
   fBeamSpreadTypeCmd->SetGuidance("Type of beam profile spread.");
   fBeamSpreadTypeCmd->SetParameterName("beamSpreadType",true);
   fBeamSpreadTypeCmd->SetCandidates("none Gaussian flat");
   fBeamSpreadTypeCmd->SetDefaultValue("none");
 
-  fBeamSpreadXCmd = new G4UIcmdWithADoubleAndUnit("/Simulation/generator/beamSpreadX",this);
+  fBeamSpreadXCmd = new G4UIcmdWithADoubleAndUnit("/HGCalTestbeam/generator/beamSpreadX",this);
   fBeamSpreadXCmd->SetGuidance("Defines sigma_X for Gaussian spread, or half-side range for flat spread.");
   fBeamSpreadXCmd->SetParameterName("sigmaBeamX",true,true);
   fBeamSpreadXCmd->SetRange("sigmaBeamX>=0");
   fBeamSpreadXCmd->SetDefaultUnit("cm");
   fBeamSpreadXCmd->SetUnitCandidates("micron mm cm m km");
 
-  fBeamSpreadYCmd = new G4UIcmdWithADoubleAndUnit("/Simulation/generator/beamSpreadY",this);
+  fBeamSpreadYCmd = new G4UIcmdWithADoubleAndUnit("/HGCalTestbeam/generator/beamSpreadY",this);
   fBeamSpreadYCmd->SetGuidance("Defines sigma_Y for Gaussian spread, or half-side range for flat spread.");
   fBeamSpreadYCmd->SetParameterName("sigmaBeamY",true,true);
   fBeamSpreadYCmd->SetRange("sigmaBeamY>=0");
   fBeamSpreadYCmd->SetDefaultUnit("cm");
   fBeamSpreadYCmd->SetUnitCandidates("micron mm cm m km");
 
-  fBeamZ0Cmd = new G4UIcmdWithADoubleAndUnit("/Simulation/generator/beamZ0",this);
+  fBeamZ0Cmd = new G4UIcmdWithADoubleAndUnit("/HGCalTestbeam/generator/beamZ0",this);
   fBeamZ0Cmd->SetGuidance("Beam position along the beam line (default: edge of the world volume).");
   fBeamZ0Cmd->SetParameterName("z0",true,true);
   fBeamZ0Cmd->SetDefaultUnit("cm");

@@ -23,12 +23,18 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-#ifndef SimG4Core_PhysicsLists_FTFPCMS_BERT_EMM_H
-#define SimG4Core_PhysicsLists_FTFPCMS_BERT_EMM_H
+#ifndef FTFPCMS_BERT_EMM_HH
+#define FTFPCMS_BERT_EMM_HH
  
 #include "G4VModularPhysicsList.hh"
-#include "globals.hh"
  
+/**
+ * @brief FTFPCMS_BERT_EMM physics list
+ *
+ * FTFPCMS_BERT_EMM physics list. Copy from test46.
+ *
+ */
+
 class FTFPCMS_BERT_EMM: public G4VModularPhysicsList {
 
 public:
@@ -40,6 +46,6 @@ public:
 
 };
 
-#endif
+#endif /* FTFPCMS_BERT_EMM_HH */
 
 

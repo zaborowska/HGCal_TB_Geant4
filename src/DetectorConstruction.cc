@@ -2,6 +2,18 @@
 
 #include "test_configs.hh"
 #include "config22_October2018_1.hh"
+#include "HGCalTBMaterials.hh"
+#include "SiliconPixelSD.hh"
+#include "SiPMSD.hh"
+
+#include "G4LogicalVolume.hh"
+#include "G4RunManager.hh"
+#include "G4SDManager.hh"
+#include "G4SystemOfUnits.hh"
+#include "G4UserLimits.hh"
+#include "G4ProductionCuts.hh"
+#include "G4Box.hh"
+#include "G4GenericMessenger.hh"
 #ifdef MATSCAN
 #include <fstream>
 #endif
@@ -9,8 +21,7 @@
 
 DetectorConstruction::DetectorConstruction()
   : G4VUserDetectorConstruction(),
-    fScoringVolume(0),
-    _configuration(-1)
+    fConfiguration(-1)
 {
 
   DefineCommands();
@@ -27,21 +38,19 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 {
   //definition of the materials
   materials = new HGCalTBMaterials();
-  materials->setEventDisplayColorScheme();
+  materials->SetEventDisplayColorScheme();
 
   /***** Definition of the world = beam line *****/
 
   // World = Beam line
-  G4Box* solidWorld = new G4Box("World", 0.5 * BEAMLINEXY * m, 0.5 * BEAMLINEXY * m, 0.5 * BEAMLINELENGTH * m);
+  G4Box* solidWorld = new G4Box("World", 0.5 * materials->GetBeamLineXY(), 0.5 * materials->GetBeamLineXY(), 0.5 * materials->GetBeamLineLength());
 
-  G4Material* world_mat = materials->air();
-  logicWorld = new G4LogicalVolume(solidWorld, world_mat, "World");
+  G4Material* world_mat = materials->GetAir();
+  fLogicWorld = new G4LogicalVolume(solidWorld, world_mat, "World");
 
   G4VPhysicalVolume* physWorld =
-    new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicWorld, "World", 0, false, 0, true);
+    new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), fLogicWorld, "World", 0, false, 0, true);
 
-
-  fScoringVolume = logicWorld;
   return physWorld;
 }
 
@@ -49,24 +58,24 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 void DetectorConstruction::ConstructHGCal() {
 
 
-  G4double z0 = -BEAMLINELENGTH * m / 2.;
+  G4double z0 = -materials->GetBeamLineLength() / 2.;
 
-  std::cout << "Constructing configuration " << _configuration << std::endl;
+  std::cout << "Constructing configuration " << fConfiguration << std::endl;
 
   /*****    START GENERIC PLACEMENT ALGORITHM  FOR THE SETUP  *****/
-  for (size_t item_index = 0; item_index < dz_map.size(); item_index++) {
-    std::string item_type = dz_map[item_index].first;
-    G4double dz = dz_map[item_index].second;
+  for (size_t item_index = 0; item_index < fElementsMap.size(); item_index++) {
+    std::string item_type = fElementsMap[item_index].first;
+    G4double dz = fElementsMap[item_index].second;
     z0 += dz;
 
     //places the item at inside the world at z0, z0 is incremented by the item's thickness
-    materials->placeItemInLogicalVolume(item_type, z0, logicWorld);
+    materials->PlaceItemInLogicalVolume(item_type, z0, fLogicWorld);
   }
 
   #ifdef MATSCAN
   std::ofstream myfile;
   myfile.open("replicate_mat_EEplusFH.txt");
-  for (const auto &item : dz_map)
+  for (const auto &item : fElementsMap)
   {
     auto itemName = item.first;
     if (itemName.find("_DAISY") != std::string::npos)
@@ -94,7 +103,7 @@ void DetectorConstruction::ConstructHGCal() {
   G4RunManager::GetRunManager()->GeometryHasBeenModified();
   G4UImanager* UImanager = G4UImanager::GetUIpointer();
   UImanager->ApplyCommand("/vis/drawVolume");
-  UImanager->ApplyCommand("/vis/viewer/set/targetPoint 0 0 " + std::to_string(default_viewpoint / m) + " m");
+  UImanager->ApplyCommand("/vis/viewer/set/targetPoint 0 0 " + std::to_string(fVisViewpoint / m) + " m");
   UImanager->ApplyCommand("/vis/scene/add/trajectories smooth");
   UImanager->ApplyCommand("/vis/scene/add/hits");
 
@@ -103,30 +112,30 @@ void DetectorConstruction::ConstructHGCal() {
 void DetectorConstruction::ConstructSDandField() {
   G4SDManager* sdman = G4SDManager::GetSDMpointer();
 
-  SiliconPixelSD* sensitiveSilicon = new SiliconPixelSD((materials->getSi_pixel_logical()->GetName() + "_sensitive").c_str());
+  SiliconPixelSD* sensitiveSilicon = new SiliconPixelSD((materials->GetSiPixelLogical()->GetName() + "_sensitive").c_str());
   sdman->AddNewDetector(sensitiveSilicon);
-  materials->getSi_pixel_logical()->SetSensitiveDetector(sensitiveSilicon);
+  materials->GetSiPixelLogical()->SetSensitiveDetector(sensitiveSilicon);
 
-  SiPMSD* sensitiveSiPM = new SiPMSD((materials->getAHCAL_SiPM_logical()->GetName() + "_sensitive").c_str());
+  SiPMSD* sensitiveSiPM = new SiPMSD((materials->GetAHCALSiPMlogical()->GetName() + "_sensitive").c_str());
   sdman->AddNewDetector(sensitiveSiPM);
-  materials->getAHCAL_SiPM_logical()->SetSensitiveDetector(sensitiveSiPM);
+  materials->GetAHCALSiPMlogical()->SetSensitiveDetector(sensitiveSiPM);
 
 }
 
 
 void DetectorConstruction::SelectConfiguration(G4int val) {
 
-  if (_configuration != -1) return;
+  if (fConfiguration != -1) return;
 
-  default_viewpoint = 0;
+  fVisViewpoint = 0;
   if (val==0) {return;}
-  else if (val == 22) defineConfig22_October2018_1(dz_map, default_viewpoint);
-  else if (val == 100) defineTestConfig100(dz_map, default_viewpoint);
+  else if (val == 22) defineConfig22_October2018_1(fElementsMap, fVisViewpoint);
+  else if (val == 100) defineTestConfig100(fElementsMap, fVisViewpoint);
   else {
     std::cout << "Configuration " << val << " not implemented --> return";
     return;
   }
-  _configuration = val;
+  fConfiguration = val;
 
   ConstructHGCal();
 }
@@ -134,10 +143,10 @@ void DetectorConstruction::SelectConfiguration(G4int val) {
 void DetectorConstruction::SetStepSizeSilicon(G4double val) {
   //setting the step size in silicon:
   G4double maxTrackLength = val * 0.001 * mm;
-  materials->getSi_pixel_logical()->SetUserLimits(new G4UserLimits(0, maxTrackLength));
+  materials->GetSiPixelLogical()->SetUserLimits(new G4UserLimits(0, maxTrackLength));
  
 
-  G4Region* reg = materials->getSi_pixel_logical()->GetRegion();
+  G4Region* reg = materials->GetSiPixelLogical()->GetRegion();
   G4ProductionCuts* cuts = new G4ProductionCuts;
   cuts->SetProductionCut(maxTrackLength);
   reg->SetProductionCuts(cuts);
@@ -150,14 +159,14 @@ void DetectorConstruction::DefineCommands()
 {
   // Define /B5/detector command directory using generic messenger class
   fMessenger = new G4GenericMessenger(this,
-                                      "/Simulation/setup/",
+                                      "/HGCalTestbeam/setup/",
                                       "Configuration specifications");
 
   // configuration command
   auto& configCmd
     = fMessenger->DeclareMethod("configuration",
                                 &DetectorConstruction::SelectConfiguration,
-                                "Select the configuration (22 or 100)");
+                                "Select the configuration (22 for October 2018 or 100 for test setup)");
   configCmd.SetParameterName("index", true);
   configCmd.SetDefaultValue("22");
 
