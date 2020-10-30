@@ -34,6 +34,8 @@
 class G4GenericMessenger;
 
 #ifdef MATSCAN
+#include "G4String.hh"
+#include <map>
 class G4Material;
 #endif
 
