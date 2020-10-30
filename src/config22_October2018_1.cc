@@ -1,9 +1,10 @@
 #include "config22_October2018_1.hh"
+#include "G4SystemOfUnits.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void add_EE(uint aEEid, std::vector<std::pair<std::string, G4double>> &aDzMap,
-            double aAirBefore, double aAirMid) {
+void add_EE(G4int aEEid, std::vector<std::pair<G4String, G4double>> &aDzMap,
+            G4double aAirBefore, G4double aAirMid) {
   aDzMap.push_back(std::make_pair("Fe_absorber_EE",
                                   aAirBefore)); // aAirBefore AIR + 0.3 mm Fe
   aDzMap.push_back(std::make_pair("Pb_absorber_EE", 0)); // 0 + 4.9mm Pb
@@ -37,8 +38,8 @@ void add_EE(uint aEEid, std::vector<std::pair<std::string, G4double>> &aDzMap,
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void add_FH(uint aFHid, std::vector<std::pair<std::string, G4double>> &aDzMap,
-            double aAirBefore, double aAirMid) {
+void add_FH(G4int aFHid, std::vector<std::pair<G4String, G4double>> &aDzMap,
+            G4double aAirBefore, G4double aAirMid) {
   std::string layout = "";
   if (aFHid < 10)
     layout = "_DAISY";
@@ -75,7 +76,7 @@ void add_FH(uint aFHid, std::vector<std::pair<std::string, G4double>> &aDzMap,
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void defineConfig22_October2018_1(
-    std::vector<std::pair<std::string, G4double>> &aDzMap,
+    std::vector<std::pair<G4String, G4double>> &aDzMap,
     G4double &aViewpoint) {
   aViewpoint = 35 * m;
 

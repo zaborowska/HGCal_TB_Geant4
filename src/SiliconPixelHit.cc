@@ -1,12 +1,14 @@
 #include "SiliconPixelHit.hh"
 
-#include "G4Box.hh"
 #include "G4RotationMatrix.hh"
 #include "G4SystemOfUnits.hh"
 #include "G4Transform3D.hh"
 #include "G4VVisManager.hh"
 #include "G4VisAttributes.hh"
+#include "G4SubtractionSolid.hh"
 #include "HGCalTBMaterials.hh"
+
+#include <cstdlib>
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

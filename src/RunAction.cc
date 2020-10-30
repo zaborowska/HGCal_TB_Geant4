@@ -1,17 +1,12 @@
-
 #include "RunAction.hh"
-#include "DetectorConstruction.hh"
-#include "PrimaryGeneratorAction.hh"
-// #include "Run.hh"
-#include "G4AccumulableManager.hh"
-#include "G4LogicalVolume.hh"
-#include "G4LogicalVolumeStore.hh"
-#include "G4Run.hh"
-#include "G4RunManager.hh"
-#include "G4SystemOfUnits.hh"
-#include "G4UnitsTable.hh"
+#include "EventAction.hh"
 
-#include <fstream>
+#include "G4UserRunAction.hh"
+#include "G4GenericMessenger.hh"
+#include "G4String.hh"
+#include "g4root.hh"
+#include <iostream>
+
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

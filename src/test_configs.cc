@@ -1,6 +1,7 @@
 #include "test_configs.hh"
+#include "G4SystemOfUnits.hh"
 
-void defineTestConfig100(std::vector<std::pair<std::string, G4double>> &aDzMap,
+void defineTestConfig100(std::vector<std::pair<G4String, G4double>> &aDzMap,
                          G4double &aViewpoint) {
   aViewpoint = 1 * m;
 

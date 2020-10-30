@@ -26,10 +26,12 @@
 #ifndef EVENTACTION_HH
 #define EVENTACTION_HH
 
-#include "G4GenericMessenger.hh"
 #include "G4UserEventAction.hh"
-#include "globals.hh"
+#include <G4Types.hh>
+
 #include <vector>
+
+class G4GenericMessenger;
 
 #ifdef MATSCAN
 class G4Material;

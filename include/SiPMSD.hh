@@ -26,9 +26,12 @@
 #ifndef SIPMSD_HH
 #define SIPMSD_HH
 
-#include "G4SDManager.hh"
-#include "G4VSensitiveDetector.hh"
 #include "SiPMHit.hh"
+
+#include "G4VSensitiveDetector.hh"
+#include "G4Types.hh"
+
+#include <map>
 
 /**
  * @brief Sensitive detector for SiPMs
@@ -60,6 +63,6 @@ private:
   /// ID of hit collection
   G4int fHCID = -1;
   /// Temporary map of hits (ID: hit) collected within one event
-  std::map<int, SiPMHit *> fTmpHits;
+  std::map<G4int, SiPMHit *> fTmpHits;
 };
 #endif /* SIPMSD_HH */

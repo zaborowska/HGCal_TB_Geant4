@@ -27,10 +27,10 @@
 #ifndef SILICONPIXELHIT_HH
 #define SILICONPIXELHIT_HH
 
-#include "G4Allocator.hh"
 #include "G4THitsCollection.hh"
 #include "G4VHit.hh"
-#include <cstdlib>
+#include "G4Types.hh"
+
 #include <vector>
 
 /**
@@ -98,7 +98,7 @@ public:
   /// Get hit Z position
   inline G4double GetZ() const { return fPosZ; }
   /// Check if hit is valid
-  inline bool isValidHit() const { return fIsValidHit; }
+  inline G4bool isValidHit() const { return fIsValidHit; }
   /// Get hit energy
   inline G4double GetEdep() const { return fEdepDigi; }
   /// Get hit non-ionizing energy
@@ -126,7 +126,7 @@ private:
   /// Vector of non-ionizing energy deposits (and their global time)
   std::vector<std::pair<G4double, G4double>> fEdepNonIonizing;
   /// Flag indicating if hit is valid (digitised and with non-zero energy)
-  bool fIsValidHit = false;
+  G4bool fIsValidHit = false;
   /// Energy of the digitised hit
   G4double fEdepDigi = -1;
   /// Non-ionizing energy of the digitised hit

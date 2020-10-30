@@ -1,4 +1,17 @@
 #include "HGCalTBMaterials.hh"
+#include "G4VisAttributes.hh"
+#include "G4SubtractionSolid.hh"
+#include "G4SystemOfUnits.hh"
+#include "G4PVPlacement.hh"
+#include "G4Colour.hh"
+#include "G4Tubs.hh"
+#include "G4ThreeVector.hh"
+#include "G4RotationMatrix.hh"
+#include "G4Material.hh"
+#include "G4NistManager.hh"
+#include "G4Element.hh"
+#include "G4LogicalVolume.hh"
+#include "G4Box.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

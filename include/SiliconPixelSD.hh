@@ -26,9 +26,11 @@
 #ifndef SILICONPIXELSD_HH
 #define SILICONPIXELSD_HH
 
-#include "G4SDManager.hh"
 #include "G4VSensitiveDetector.hh"
 #include "SiliconPixelHit.hh"
+#include "G4Types.hh"
+
+#include <map>
 
 /**
  * @brief Sensitive detector for silicon pixels
@@ -60,6 +62,6 @@ private:
   /// ID of hit collection
   G4int fHCID = -1;
   /// Temporary map of hits (ID: hit) collected within one event
-  std::map<int, SiliconPixelHit *> fTmpHits;
+  std::map<G4int, SiliconPixelHit *> fTmpHits;
 };
 #endif /* SILICONPIXELSD_HH */

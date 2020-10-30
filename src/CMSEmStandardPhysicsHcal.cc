@@ -92,7 +92,6 @@
 
 #include "G4BuilderType.hh"
 #include "G4PhysicsListHelper.hh"
-#include "G4Region.hh"
 #include "G4RegionStore.hh"
 
 #include "G4SystemOfUnits.hh"

@@ -23,12 +23,12 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-#include "G4Cons.hh"
-#include "G4SystemOfUnits.hh"
-#include <cmath>
-#include <cstdlib>
-#include <string>
+
+#include "G4String.hh"
+#include "G4Types.hh"
+
 #include <vector>
+#include <utility>
 
 /// Add module of silicon sensor with absorbers, readout, and support, for the
 /// electromagnetic calorimeter (EE).
@@ -39,8 +39,8 @@
 /// (before the first iron)
 /// @param[in] aAirMid How much air should be added in the middle (before the
 /// first PCB)
-void add_EE(uint aEEid, std::vector<std::pair<std::string, G4double>> &aDzMap,
-            double aAirBefore, double aAirMid);
+void add_EE(G4int aEEid, std::vector<std::pair<G4String, G4double>> &aDzMap,
+            G4double aAirBefore, G4double aAirMid);
 
 /// Add module of scintillator sensor with absorbers, readout, and support, for
 /// the hadronic calorimeter (FH).
@@ -51,13 +51,13 @@ void add_EE(uint aEEid, std::vector<std::pair<std::string, G4double>> &aDzMap,
 /// (before the first iron)
 /// @param[in] aAirMid How much air should be added in the middle (before the
 /// first PCB)
-void add_FH(uint aFHid, std::vector<std::pair<std::string, G4double>> &aDzMap,
-            double aAirBefore, double aAirMid);
+void add_FH(G4int aFHid, std::vector<std::pair<G4String, G4double>> &aDzMap,
+            G4double aAirBefore, G4double aAirMid);
 
 /// Define detector setup for test beam run in October 2018
 /// @param[out] aDzMap List of element names and air gap to be placed in front
 /// of the element
 /// @param[out] aViewpoint Targer point to be set in the visualisation
 void defineConfig22_October2018_1(
-    std::vector<std::pair<std::string, G4double>> &aDzMap,
+    std::vector<std::pair<G4String, G4double>> &aDzMap,
     G4double &aViewpoint);

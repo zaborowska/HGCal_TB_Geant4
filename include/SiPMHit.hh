@@ -27,10 +27,11 @@
 #ifndef SIPMHIT_HHinline
 #define SIPMHIT_HHinline
 
-#include "G4Allocator.hh"
 #include "G4THitsCollection.hh"
 #include "G4VHit.hh"
-#include <cstdlib>
+#include "G4Types.hh"
+#include "G4String.hh"
+
 #include <vector>
 
 /**
@@ -84,7 +85,7 @@ public:
   /// @param[in] x X position
   /// @param[in] y Y position
   /// @param[in] z Z position
-  void SetPosition(G4double x, G4double y, G4double z) {
+  inline void SetPosition(G4double x, G4double y, G4double z) {
     fPosX = x;
     fPosY = y;
     fPosZ = z;
@@ -96,7 +97,7 @@ public:
   /// Get hit Z position
   inline G4double GetZ() const { return fPosZ; }
   /// Check if hit is valid
-  inline bool isValidHit() const { return fIsValidHit; }
+  inline G4bool isValidHit() const { return fIsValidHit; }
   /// Get hit energy
   inline G4double GetEdep() const { return fEdepDigi; }
   /// Get hit non-ionizing energy
@@ -122,7 +123,7 @@ private:
   /// Vector of non-ionizing energy deposits (and their global time)
   std::vector<std::pair<G4double, G4double>> fEdepNonIonizing;
   /// Flag indicating if hit is valid (digitised and with non-zero energy)
-  bool fIsValidHit = false;
+  G4bool fIsValidHit = false;
   /// Energy of the digitised hit
   G4double fEdepDigi = -1;
   /// Non-ionizing energy of the digitised hit

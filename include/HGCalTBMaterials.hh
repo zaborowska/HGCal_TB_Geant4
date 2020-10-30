@@ -25,24 +25,17 @@
 //
 #ifndef HGCALTBMATERIALS_HH
 #define HGCALTBMATERIALS_HH
-#include "G4NistManager.hh"
 
-#include "G4Box.hh"
-#include "G4RotationMatrix.hh"
-#include "G4SubtractionSolid.hh"
-#include "G4ThreeVector.hh"
-#include "G4Tubs.hh"
-
-#include "G4Cons.hh"
-#include "G4LogicalVolume.hh"
-#include "G4Orb.hh"
-#include "G4Sphere.hh"
-#include "G4Trd.hh"
-
-#include "G4Colour.hh"
-#include "G4PVPlacement.hh"
 #include "G4SystemOfUnits.hh"
-#include "G4VisAttributes.hh"
+#include <G4Types.hh>
+#include "G4String.hh"
+
+#include <map>
+
+class G4Box;
+class G4LogicalVolume;
+class G4Material;
+class G4SubtractionSolid;
 
 /// Construction of a hexagon solid
 /// @param[in] name Name of the solid
@@ -135,11 +128,11 @@ private:
   /// Box representing AHCAL SiPM
   G4Box *fAHCALSiPMsolid;
   /// Map of volume name to its thickness
-  std::map<std::string, G4double> fThicknessMap;
+  std::map<G4String, G4double> fThicknessMap;
   /// Map of volume name to its logical volume
-  std::map<std::string, G4LogicalVolume *> fLogicalVolumeMap;
+  std::map<G4String, G4LogicalVolume *> fLogicalVolumeMap;
   /// Map of volume name to counter of placed copies
-  std::map<std::string, int> fCopyCounterMap;
+  std::map<G4String, int> fCopyCounterMap;
   /// Materials
   G4Material *fMatVacuum;
   G4Material *fMatAIR;

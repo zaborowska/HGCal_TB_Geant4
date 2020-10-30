@@ -1,5 +1,7 @@
 #include "SiPMHit.hh"
 
+#include <cstdlib>
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 SiPMHit::SiPMHit(G4String aVolumeName, G4int aCopyNumSensor,

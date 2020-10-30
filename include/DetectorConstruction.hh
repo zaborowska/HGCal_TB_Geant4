@@ -26,8 +26,10 @@
 #ifndef DETECTORCONSTRUCTION_HH
 #define DETECTORCONSTRUCTION_HH
 
-#include "G4UImanager.hh"
 #include "G4VUserDetectorConstruction.hh"
+#include "G4Types.hh"
+
+#include <utility>
 #include <vector>
 
 class G4VPhysicalVolume;
@@ -77,7 +79,7 @@ private:
   HGCalTBMaterials *fMaterials = nullptr;
   /// Map of elements to be placed along z axis: name and distance to the
   /// previous element is specified
-  std::vector<std::pair<std::string, G4double>> fElementsMap;
+  std::vector<std::pair<G4String, G4double>> fElementsMap;
   /// Viewpoint for the visualisation
   G4double fVisViewpoint = 0;
   /// Configuration of the detector setup

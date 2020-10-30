@@ -1,5 +1,7 @@
 #include "SiliconPixelSD.hh"
 
+#include "G4String.hh"
+
 SiliconPixelSD::SiliconPixelSD(G4String name)
     : G4VSensitiveDetector("SiliconPixelHitCollection") {
   G4cout << "creating a sensitive detector with name: " << name << G4endl;

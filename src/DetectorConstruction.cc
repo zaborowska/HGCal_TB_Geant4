@@ -7,13 +7,16 @@
 #include "test_configs.hh"
 
 #include "G4Box.hh"
+#include "G4PVPlacement.hh"
 #include "G4GenericMessenger.hh"
 #include "G4LogicalVolume.hh"
 #include "G4ProductionCuts.hh"
 #include "G4RunManager.hh"
 #include "G4SDManager.hh"
+#include "G4UImanager.hh"
 #include "G4SystemOfUnits.hh"
 #include "G4UserLimits.hh"
+#include "G4String.hh"
 
 #ifdef MATSCAN
 #include <fstream>

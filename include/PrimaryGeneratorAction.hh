@@ -26,8 +26,8 @@
 #ifndef PRIMARYGENERATORACTION_HH
 #define PRIMARYGENERATORACTION_HH
 
-#include "G4ParticleGun.hh"
 #include "G4SystemOfUnits.hh"
+#include "G4String.hh"
 #include "G4VUserPrimaryGeneratorAction.hh"
 
 class G4ParticleGun;
@@ -36,9 +36,10 @@ class G4Box;
 class PrimaryGeneratorMessenger;
 
 #ifdef WITHROOT
-#include "TTreeReaderValue.h"
+#include <RtypesCore.h>
 class TFile;
 class TTreeReader;
+template <typename T> class TTreeReaderValue;
 #endif
 
 /**
@@ -93,19 +94,19 @@ public:
     fReadInputFile = aUseInputFiles;
   };
   /// Set the flag indicating that particles should be read from file
-  inline G4bool GetIfUseInputFiles() { return fReadInputFile; };
+  inline G4bool GetIfUseInputFiles() { return fReadInputFile; }
   /// Set the path to the input file
   inline void SetInputFiles(G4String aInputFiles) {
     fPathInputFile = aInputFiles;
   };
   /// Get the path to the input file
-  inline G4String GetInputFiles() const { return fPathInputFile; };
+  inline G4String GetInputFiles() const { return fPathInputFile; }
   /// Set ID of the first event to be read for the simulation
   inline void SetStartFromEvent(G4int aStartFromEvent) {
     fStartFromEvent = aStartFromEvent;
   };
   /// Get ID of the first event to be read for the simulation
-  inline G4int GetStartFromEvent() const { return fStartFromEvent; };
+  inline G4int GetStartFromEvent() const { return fStartFromEvent; }
 #endif
   /// Set sigma of the Gaussian distribution for the momentum spread
   /// @param[in] aMomentumSpread sigma of Gaussian distribution expressed in
@@ -114,7 +115,7 @@ public:
     fMomentumGaussianSpread = aMomentumSpread;
   };
   /// Get sigma of the Gaussian distribution for the momentum spread
-  inline G4double GetMomentumSpread() const { return fMomentumGaussianSpread; };
+  inline G4double GetMomentumSpread() const { return fMomentumGaussianSpread; }
   /// Set type of beam position spread
   /// @param[in] aType Type of beam position spread: "none", "Gaussian" or
   /// "flat". By default "none" is used.
@@ -125,7 +126,7 @@ public:
       fBeamType = eGaussian;
     if (aType == "flat")
       fBeamType = eFlat;
-  };
+  }
   /// Get type of beam position spread
   inline G4String GetBeamSpreadType() const {
     switch (fBeamType) {
@@ -140,28 +141,28 @@ public:
       break;
     }
     return "";
-  };
+  }
   /// Set size of beam position spread along X axis
   /// @param[in] aBeamSpreadX Size of beam position spread. Sigma for Gaussian
   /// distribution or half-width of flat distribution.
   inline void SetBeamSpreadX(G4double aBeamSpreadX) {
     fSigmaBeamX = aBeamSpreadX;
-  };
+  }
   /// Get size of beam position spread along X axis
-  inline G4double GetBeamSpreadX() const { return fSigmaBeamX; };
+  inline G4double GetBeamSpreadX() const { return fSigmaBeamX; }
   /// Set size of beam position spread along Y axis
   /// @param[in] aBeamSpreadY Size of beam position spread. Sigma for Gaussian
   /// distribution or half-width of flat distribution.
   inline void SetBeamSpreadY(G4double aBeamSpreadY) {
     fSigmaBeamY = aBeamSpreadY;
-  };
+  }
   /// Get size of beam position spread along Y axis
-  inline G4double GetBeamSpreadY() const { return fSigmaBeamY; };
+  inline G4double GetBeamSpreadY() const { return fSigmaBeamY; }
   /// Set initial beam position along Z axis
   /// By default edge of world volume is used
-  inline void SetBeamZ0(G4double aBeamZ0) { fBeamZ0 = aBeamZ0; };
+  inline void SetBeamZ0(G4double aBeamZ0) { fBeamZ0 = aBeamZ0; }
   /// Get initial beam position along Z axis
-  inline G4double GetBeamZ0() const { return fBeamZ0; };
+  inline G4double GetBeamZ0() const { return fBeamZ0; }
 
 private:
   /// Pointer to the particle gun

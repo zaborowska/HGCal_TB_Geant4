@@ -26,13 +26,12 @@
 #ifndef RUNACTION_HH
 #define RUNACTION_HH
 
-#include "EventAction.hh"
-#include "G4Accumulable.hh"
-#include "G4GenericMessenger.hh"
 #include "G4UserRunAction.hh"
-#include "g4root.hh"
+#include "G4String.hh"
 
 class G4Run;
+class EventAction;
+class G4GenericMessenger;
 
 /**
  * @brief Run action
@@ -50,8 +49,6 @@ class G4Run;
  *
  *
  */
-
-class EventAction;
 
 class RunAction : public G4UserRunAction {
 public:
