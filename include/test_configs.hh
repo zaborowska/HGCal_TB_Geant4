@@ -28,15 +28,16 @@
 
 #include "G4Cons.hh"
 #include "G4SystemOfUnits.hh"
-#include <vector>
+#include <cmath>
 #include <cstdlib>
 #include <string>
-#include <cmath>
+#include <vector>
 
 /// Define test setup
 /// @param[out] aDzMap List of element names and air gap to be placed in front
 /// of the element
 /// @param[out] aViewpoint Targer point to be set in the visualisation
-void defineTestConfig100(std::vector<std::pair<std::string, G4double> > &aDzMap, G4double &aViewpoint);
+void defineTestConfig100(std::vector<std::pair<std::string, G4double>> &aDzMap,
+                         G4double &aViewpoint);
 
 #endif /* TESTCONFIGS_HH */

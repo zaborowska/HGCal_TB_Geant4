@@ -26,59 +26,54 @@
 #include "FTFPCMS_BERT_EMM.hh"
 #include "CMSEmStandardPhysicsHcal.hh"
 
-#include "G4SystemOfUnits.hh"
 #include "G4DecayPhysics.hh"
 #include "G4EmExtraPhysics.hh"
-#include "G4IonPhysics.hh"
-#include "G4StoppingPhysics.hh"
 #include "G4HadronElasticPhysics.hh"
+#include "G4IonPhysics.hh"
 #include "G4NeutronTrackingCut.hh"
+#include "G4StoppingPhysics.hh"
+#include "G4SystemOfUnits.hh"
 
 #include "G4HadronPhysicsFTFP_BERT.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-FTFPCMS_BERT_EMM::FTFPCMS_BERT_EMM(G4int ver)
-{
+FTFPCMS_BERT_EMM::FTFPCMS_BERT_EMM(G4int ver) {
 
-  defaultCutValue = 0.7*mm;  
+  defaultCutValue = 0.7 * mm;
   SetVerboseLevel(ver);
-  
-  G4cout << "You are using " << "FTFP_BERT_EMM "
-	 << G4endl;
+
+  G4cout << "You are using "
+         << "FTFP_BERT_EMM " << G4endl;
 
   // EM Physics
-  RegisterPhysics( new CMSEmStandardPhysicsHcal(ver));
+  RegisterPhysics(new CMSEmStandardPhysicsHcal(ver));
 
   // Synchroton Radiation & GN Physics
-  RegisterPhysics( new G4EmExtraPhysics(ver));
+  RegisterPhysics(new G4EmExtraPhysics(ver));
 
   // Decays
-  RegisterPhysics( new G4DecayPhysics(ver));
+  RegisterPhysics(new G4DecayPhysics(ver));
 
   // Hadron Elastic scattering
-  RegisterPhysics( new G4HadronElasticPhysics(ver));
+  RegisterPhysics(new G4HadronElasticPhysics(ver));
 
-  RegisterPhysics( new G4HadronPhysicsFTFP_BERT(ver)); 
-  
+  RegisterPhysics(new G4HadronPhysicsFTFP_BERT(ver));
+
   // Stopping Physics
-  RegisterPhysics( new G4StoppingPhysics(ver));
+  RegisterPhysics(new G4StoppingPhysics(ver));
 
   // Ion Physics
-  RegisterPhysics( new G4IonPhysics(ver));
+  RegisterPhysics(new G4IonPhysics(ver));
 
   // Neutron tracking cut
-  RegisterPhysics( new G4NeutronTrackingCut(ver));
+  RegisterPhysics(new G4NeutronTrackingCut(ver));
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-FTFPCMS_BERT_EMM::~FTFPCMS_BERT_EMM()
-{}
+FTFPCMS_BERT_EMM::~FTFPCMS_BERT_EMM() {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void FTFPCMS_BERT_EMM::SetCuts()
-{
-  SetCutsWithDefault();   
-}
+void FTFPCMS_BERT_EMM::SetCuts() { SetCutsWithDefault(); }

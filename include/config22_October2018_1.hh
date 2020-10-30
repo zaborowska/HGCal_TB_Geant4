@@ -59,4 +59,5 @@ void add_FH(uint aFHid, std::vector<std::pair<std::string, G4double>> &aDzMap,
 /// of the element
 /// @param[out] aViewpoint Targer point to be set in the visualisation
 void defineConfig22_October2018_1(
-    std::vector<std::pair<std::string, G4double>> &aDzMap, G4double &aViewpoint);
+    std::vector<std::pair<std::string, G4double>> &aDzMap,
+    G4double &aViewpoint);

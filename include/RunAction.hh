@@ -26,11 +26,11 @@
 #ifndef RUNACTION_HH
 #define RUNACTION_HH
 
-#include "G4UserRunAction.hh"
 #include "EventAction.hh"
 #include "G4Accumulable.hh"
-#include "g4root.hh"
 #include "G4GenericMessenger.hh"
+#include "G4UserRunAction.hh"
+#include "g4root.hh"
 
 class G4Run;
 
@@ -40,36 +40,34 @@ class G4Run;
  * Creates the output file with ntuple.
  * Output name can be changed with UI command "/HGCalTestbeam/output/file
  *  <NAME>"
- * 
+ *
  * If -DMATSCAN=1 flag was used with CMake, it creates another ntuple with the
  * list of materials encountered by particle on its trajectory. It is meant to
  * be used with geantinos and for single-particle runs.
  * Additionaly, depths of materials (in units of radiation length, nuclear
  * interaction length, and metric) are stored in a text file and printed at the
  * end of run.
- * 
+ *
  *
  */
 
 class EventAction;
 
+class RunAction : public G4UserRunAction {
+public:
+  RunAction(EventAction *);
+  virtual ~RunAction();
 
-class RunAction : public G4UserRunAction
-{
-  public:
-    RunAction(EventAction*);
-    virtual ~RunAction();
+  virtual void BeginOfRunAction(const G4Run *);
+  virtual void EndOfRunAction(const G4Run *);
 
-    virtual void BeginOfRunAction(const G4Run*);
-    virtual void EndOfRunAction(const G4Run*);
-
-  private:
-    /// Pointer to the event action to retrieve vectors
-    EventAction* fEventAction;
-    /// Name of the output file
-  	G4String fOutputFileDir;
-    /// Pointer to the command messenger
-  	G4GenericMessenger* fMessenger;
+private:
+  /// Pointer to the event action to retrieve vectors
+  EventAction *fEventAction;
+  /// Name of the output file
+  G4String fOutputFileDir;
+  /// Pointer to the command messenger
+  G4GenericMessenger *fMessenger;
 };
 
 #endif /* RUNACTION_HH */

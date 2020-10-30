@@ -88,8 +88,8 @@ public:
   /// half the thickness for placement, and by another half thickness to return
   /// the position just behind the placed volume
   /// @param[in] aLogicMother Pointer to mother volume for placement
-  void PlaceItemInLogicalVolume(std::string aName, G4double & aZ0,
-                                G4LogicalVolume * aLogicMother);
+  void PlaceItemInLogicalVolume(std::string aName, G4double &aZ0,
+                                G4LogicalVolume *aLogicMother);
   /// Get logical volume of silicon pixel (cell)
   G4LogicalVolume *GetSiPixelLogical() { return this->fSiPixelLogical; }
   /// Get logical volume of SiPM

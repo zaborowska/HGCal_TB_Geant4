@@ -32,27 +32,26 @@ class EventAction;
 
 /**
  * @brief Stepping action
- * 
- * Compiled only if -DMATSCAN=1 flag was used with CMake. 
+ *
+ * Compiled only if -DMATSCAN=1 flag was used with CMake.
  *
  * Registers what materials particle encounter on its trajectory and stores
  * them in an event action. It is meant to * be used with geantinos and for
  * single-particle runs.
- * 
+ *
  */
 
-class SteppingAction : public G4UserSteppingAction
-{
+class SteppingAction : public G4UserSteppingAction {
 public:
-  SteppingAction(EventAction*);
+  SteppingAction(EventAction *);
   virtual ~SteppingAction();
 
   /// Read information of material and the step length
-  virtual void UserSteppingAction(const G4Step* step);
+  virtual void UserSteppingAction(const G4Step *step);
 
 private:
   /// Pointer to the event action
-  EventAction* fEventAction;
+  EventAction *fEventAction;
 };
 
 #endif /* STEPPINGACTION_HH */

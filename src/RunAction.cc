@@ -94,8 +94,7 @@ void RunAction::BeginOfRunAction(const G4Run *) {
     analysisManager->CreateNtupleDColumn("SiPMHits_Edep_keV",
                                          fEventAction->fSiPMhitsEdep);
     analysisManager->CreateNtupleDColumn(
-        "SiPMHits_EdepNonIonizing_keV",
-        fEventAction->fSiPMhitsEdepNonIonising);
+        "SiPMHits_EdepNonIonizing_keV", fEventAction->fSiPMhitsEdepNonIonising);
     analysisManager->CreateNtupleDColumn("SiPMHits_TOA_ns",
                                          fEventAction->fSiPMhitsTOA);
     analysisManager->CreateNtupleIColumn("SiPMHits_type",
@@ -177,8 +176,8 @@ void RunAction::EndOfRunAction(const G4Run *) {
   myfile2 << "TOTAL (w/o air)," << depth << "," << nX0 << "," << nLambda
           << "\n";
   myfile2.close();
-  G4cout << "TOTAL (w/o air):\t" << depth << " mm\t" << nX0 << " X0\t" << nLambda
-         << " lambda" << G4endl;
+  G4cout << "TOTAL (w/o air):\t" << depth << " mm\t" << nX0 << " X0\t"
+         << nLambda << " lambda" << G4endl;
 #endif
 }
 

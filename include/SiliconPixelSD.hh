@@ -26,8 +26,8 @@
 #ifndef SILICONPIXELSD_HH
 #define SILICONPIXELSD_HH
 
-#include "G4VSensitiveDetector.hh"
 #include "G4SDManager.hh"
+#include "G4VSensitiveDetector.hh"
 #include "SiliconPixelHit.hh"
 
 /**
@@ -37,29 +37,29 @@
  * Information is stored in units of:
  * - keV for energy
  * - cm for position
- * 
+ *
  */
 
 class SiliconPixelSD : public G4VSensitiveDetector {
-	public:
-		SiliconPixelSD(G4String name);
-		~SiliconPixelSD();
-		/// Hits are processed and added to the temporary map of hit ID to hit
-		/// pointer. Energy is stored in units of keV, and position in cm.
-		G4bool ProcessHits(G4Step *step, G4TouchableHistory *ROhist);
+public:
+  SiliconPixelSD(G4String name);
+  ~SiliconPixelSD();
+  /// Hits are processed and added to the temporary map of hit ID to hit
+  /// pointer. Energy is stored in units of keV, and position in cm.
+  G4bool ProcessHits(G4Step *step, G4TouchableHistory *ROhist);
 
-		void Initialize(G4HCofThisEvent* HCE);
-		/// Temporary map of hits is stored in hit collection, to be retrieved
-		/// for analysis by the event action
-		void EndOfEvent(G4HCofThisEvent* HCE);
-	private:
-		/// Hit collection stored in the event, filled in at the end of event based
-		/// on temporary hits
-		SiliconPixelHitCollection* fHitCollection;
-		/// ID of hit collection
-		G4int fHCID = -1;
-		/// Temporary map of hits (ID: hit) collected within one event
-		std::map<int, SiliconPixelHit*> fTmpHits;
+  void Initialize(G4HCofThisEvent *HCE);
+  /// Temporary map of hits is stored in hit collection, to be retrieved
+  /// for analysis by the event action
+  void EndOfEvent(G4HCofThisEvent *HCE);
 
-};	
+private:
+  /// Hit collection stored in the event, filled in at the end of event based
+  /// on temporary hits
+  SiliconPixelHitCollection *fHitCollection;
+  /// ID of hit collection
+  G4int fHCID = -1;
+  /// Temporary map of hits (ID: hit) collected within one event
+  std::map<int, SiliconPixelHit *> fTmpHits;
+};
 #endif /* SILICONPIXELSD_HH */

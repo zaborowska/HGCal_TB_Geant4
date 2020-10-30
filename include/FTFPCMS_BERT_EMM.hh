@@ -25,9 +25,9 @@
 //
 #ifndef FTFPCMS_BERT_EMM_HH
 #define FTFPCMS_BERT_EMM_HH
- 
+
 #include "G4VModularPhysicsList.hh"
- 
+
 /**
  * @brief FTFPCMS_BERT_EMM physics list
  *
@@ -35,17 +35,13 @@
  *
  */
 
-class FTFPCMS_BERT_EMM: public G4VModularPhysicsList {
+class FTFPCMS_BERT_EMM : public G4VModularPhysicsList {
 
 public:
-
-  FTFPCMS_BERT_EMM(G4int ver=1);
+  FTFPCMS_BERT_EMM(G4int ver = 1);
   virtual ~FTFPCMS_BERT_EMM();
 
   virtual void SetCuts();
-
 };
 
 #endif /* FTFPCMS_BERT_EMM_HH */
-
-

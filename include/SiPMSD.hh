@@ -26,8 +26,8 @@
 #ifndef SIPMSD_HH
 #define SIPMSD_HH
 
-#include "G4VSensitiveDetector.hh"
 #include "G4SDManager.hh"
+#include "G4VSensitiveDetector.hh"
 #include "SiPMHit.hh"
 
 /**
@@ -37,29 +37,29 @@
  * Information is stored in units of:
  * - keV for energy
  * - cm for position
- * 
+ *
  */
 
 class SiPMSD : public G4VSensitiveDetector {
-	public:
-		SiPMSD(G4String name);
-		~SiPMSD();
-		/// Hits are processed and added to the temporary map of hit ID to hit
-		/// pointer. Energy is stored in units of keV, and position in cm.
-		G4bool ProcessHits(G4Step *step, G4TouchableHistory *ROhist);
+public:
+  SiPMSD(G4String name);
+  ~SiPMSD();
+  /// Hits are processed and added to the temporary map of hit ID to hit
+  /// pointer. Energy is stored in units of keV, and position in cm.
+  G4bool ProcessHits(G4Step *step, G4TouchableHistory *ROhist);
 
-		void Initialize(G4HCofThisEvent* HCE);
-		/// Temporary map of hits is stored in hit collection, to be retrieved
-		/// for analysis by the event action
-		void EndOfEvent(G4HCofThisEvent* HCE);
-	private:
-		/// Hit collection stored in the event, filled in at the end of event based
-		/// on temporary hits
-		SiPMHitCollection* fHitCollection;
-		/// ID of hit collection
-		G4int fHCID = -1;
-		/// Temporary map of hits (ID: hit) collected within one event
-		std::map<int, SiPMHit*> fTmpHits;
+  void Initialize(G4HCofThisEvent *HCE);
+  /// Temporary map of hits is stored in hit collection, to be retrieved
+  /// for analysis by the event action
+  void EndOfEvent(G4HCofThisEvent *HCE);
 
+private:
+  /// Hit collection stored in the event, filled in at the end of event based
+  /// on temporary hits
+  SiPMHitCollection *fHitCollection;
+  /// ID of hit collection
+  G4int fHCID = -1;
+  /// Temporary map of hits (ID: hit) collected within one event
+  std::map<int, SiPMHit *> fTmpHits;
 };
 #endif /* SIPMSD_HH */
