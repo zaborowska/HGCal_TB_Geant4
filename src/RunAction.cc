@@ -7,7 +7,6 @@
 #include "g4root.hh"
 #include <iostream>
 
-
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 RunAction::RunAction(EventAction *eventAction)
@@ -33,15 +32,12 @@ RunAction::~RunAction() { delete G4AnalysisManager::Instance(); }
 
 void RunAction::BeginOfRunAction(const G4Run *) {
   // Create analysis manager
-  // The choice of analysis technology is done via selectin of a namespaces
+  // The choice of analysis technology is done via selection of a namespaces
   auto analysisManager = G4AnalysisManager::Instance();
   G4cout << "Using " << analysisManager->GetType() << G4endl;
 
-// Default settings
-#ifndef WITHROOT
-  // Do not merge if input particles are read from several files
+  // Default settings
   analysisManager->SetNtupleMerging(true);
-#endif
   analysisManager->SetVerboseLevel(1);
   std::cout << "Output file is: " << fOutputFileDir << std::endl;
   analysisManager->SetFileName(fOutputFileDir);

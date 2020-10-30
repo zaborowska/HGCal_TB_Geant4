@@ -18,13 +18,8 @@ ActionInitialization::~ActionInitialization() {}
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void ActionInitialization::BuildForMaster() const {
-#ifndef WITHROOT
-  // No ntuple merging if input is read from file (flag WITHROOT was set by
-  // CMake that found ROOT package and thus allowed to change primary generator
-  // from particle gun to input from ROOT file)
   EventAction *eventAction = new EventAction();
   SetUserAction(new RunAction(eventAction));
-#endif
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

@@ -161,7 +161,6 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent) {
   } else
 #endif
   {
-    G4cout << "Particle generator: particle gun" << G4endl;
     // Beam position: z
     // Use value set by UI command, or set it to edge of the world volume
     if (fBeamZ0 == -999 * m) {
