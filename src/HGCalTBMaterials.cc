@@ -1,17 +1,17 @@
 #include "HGCalTBMaterials.hh"
-#include "G4VisAttributes.hh"
-#include "G4SubtractionSolid.hh"
-#include "G4SystemOfUnits.hh"
-#include "G4PVPlacement.hh"
+#include "G4Box.hh"
 #include "G4Colour.hh"
-#include "G4Tubs.hh"
-#include "G4ThreeVector.hh"
-#include "G4RotationMatrix.hh"
-#include "G4Material.hh"
-#include "G4NistManager.hh"
 #include "G4Element.hh"
 #include "G4LogicalVolume.hh"
-#include "G4Box.hh"
+#include "G4Material.hh"
+#include "G4NistManager.hh"
+#include "G4PVPlacement.hh"
+#include "G4RotationMatrix.hh"
+#include "G4SubtractionSolid.hh"
+#include "G4SystemOfUnits.hh"
+#include "G4ThreeVector.hh"
+#include "G4Tubs.hh"
+#include "G4VisAttributes.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -213,6 +213,7 @@ void HGCalTBMaterials::SetEventDisplayColorScheme() {
   fScintillatorLogical->SetVisAttributes(visAttributes);
   fScintillatorThinLogical->SetVisAttributes(visAttributes);
   fMCPlogical->SetVisAttributes(visAttributes);
+  fCK3logical->SetVisAttributes(visAttributes);
   fDWClogical->SetVisAttributes(visAttributes);
   fDWCgasLogical->SetVisAttributes(visAttributes);
   fDATURAlogical->SetVisAttributes(visAttributes);
@@ -614,6 +615,8 @@ void HGCalTBMaterials::DefineBeamLineElements() {
   new G4PVPlacement(0, G4ThreeVector(0, 0., 0.), fDWCgasLogical, "DWC_gas",
                     fDWClogical, false, 0, true);
 
+  G4VisAttributes *visAttributes = new G4VisAttributes(G4Colour(.0, 0.0, 0.0));
+  visAttributes->SetVisibility(false);
   // WChambWindow
   G4double DWCwindowThickness = 0.025 * mm;
   G4double DWCwindowXY = 2 * 5.5 * cm;
@@ -622,6 +625,7 @@ void HGCalTBMaterials::DefineBeamLineElements() {
                 0.5 * DWCwindowThickness);
   auto DWCwindowLogical =
       new G4LogicalVolume(DWCwindowSolid, fMatKAPTON, "DWC_window");
+  DWCwindowLogical->SetVisAttributes(visAttributes);
   new G4PVPlacement(
       0, G4ThreeVector(0, 0., 27.5 * mm - DWCwindowThickness / 2.),
       DWCwindowLogical, "DWC_window_0", fDWClogical, true, 0, true);
@@ -639,6 +643,7 @@ void HGCalTBMaterials::DefineBeamLineElements() {
   G4Box *DWCal1solid =
       new G4Box("DWC_al1", 0.5 * DWCal1x, 0.5 * DWCal1y, 0.5 * DWCal1thickness);
   auto DWCal1logical = new G4LogicalVolume(DWCal1solid, fMatAl, "DWC_al1");
+  DWCal1logical->SetVisAttributes(visAttributes);
   new G4PVPlacement(0,
                     G4ThreeVector(0.5 * DWCal1y, 0.5 * DWCal1x,
                                   (0.5 * DWCthickness - 0.5 * DWCal1thickness)),
@@ -683,6 +688,7 @@ void HGCalTBMaterials::DefineBeamLineElements() {
   G4Box *DWCal2solid =
       new G4Box("DWC_al2", 0.5 * DWCal2x, 0.5 * DWCal2y, 0.5 * DWCal2thickness);
   auto DWCal2logical = new G4LogicalVolume(DWCal2solid, fMatAl, "DWC_al2");
+  DWCal2logical->SetVisAttributes(visAttributes);
   new G4PVPlacement(0, G4ThreeVector(0.5 * DWCal2y, 0.5 * DWCal2x, 0),
                     DWCal2logical, "DWC_al2_0", fDWClogical, true, 0, true);
   new G4PVPlacement(rotation, G4ThreeVector(-0.5 * DWCal2x, 0.5 * DWCal2y, 0),
@@ -700,6 +706,7 @@ void HGCalTBMaterials::DefineBeamLineElements() {
                                     0.5 * DWCgasVetY, 0.5 * DWCgasVetThickness);
   auto DWCgasVetLogical =
       new G4LogicalVolume(DWCgasVetSolid, fMatPolyethylene, "DWC_gasVet");
+  DWCgasVetLogical->SetVisAttributes(visAttributes);
   new G4PVPlacement(0,
                     G4ThreeVector(0.5 * DWCgasVetY, 0.5 * DWCgasVetX,
                                   0.5 * (DWCgasThickness - DWCgasVetThickness)),

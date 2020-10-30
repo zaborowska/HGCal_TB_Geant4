@@ -78,7 +78,7 @@ void add_FH(G4int aFHid, std::vector<std::pair<G4String, G4double>> &aDzMap,
 void defineConfig22_October2018_1(
     std::vector<std::pair<G4String, G4double>> &aDzMap,
     G4double &aViewpoint) {
-  aViewpoint = 35 * m;
+  aViewpoint = 0.75 * m;
 
   // map means: position this material starting at z, where:
   // z += <second>
