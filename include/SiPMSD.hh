@@ -55,9 +55,11 @@ class SiPMSD : public G4VSensitiveDetector {
 	private:
 		/// Hit collection stored in the event, filled in at the end of event based
 		/// on temporary hits
-		SiPMHitCollection* hitCollection;
+		SiPMHitCollection* fHitCollection;
+		/// ID of hit collection
+		G4int fHCID = -1;
 		/// Temporary map of hits (ID: hit) collected within one event
-		std::map<int, SiPMHit*> tmp_hits;
+		std::map<int, SiPMHit*> fTmpHits;
 
 };
 #endif /* SIPMSD_HH */

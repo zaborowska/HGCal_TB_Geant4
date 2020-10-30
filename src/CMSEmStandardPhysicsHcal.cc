@@ -97,18 +97,24 @@
 
 #include "G4SystemOfUnits.hh"
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
 CMSEmStandardPhysicsHcal::CMSEmStandardPhysicsHcal(G4int ver) :
-  G4VPhysicsConstructor("CMSEmStandard_emm"), verbose(ver) {
+  G4VPhysicsConstructor("CMSEmStandard_emm"), fVerbose(ver) {
   G4EmParameters* param = G4EmParameters::Instance();
   param->SetDefaults();
-  param->SetVerbose(verbose);
+  param->SetVerbose(fVerbose);
   param->SetApplyCuts(true);
   param->SetMscRangeFactor(0.2);
   param->SetMscStepLimitType(fMinimal);
   SetPhysicsType(bElectromagnetic);
 }
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
 CMSEmStandardPhysicsHcal::~CMSEmStandardPhysicsHcal() {}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void CMSEmStandardPhysicsHcal::ConstructParticle() {
   // gamma
@@ -156,9 +162,11 @@ void CMSEmStandardPhysicsHcal::ConstructParticle() {
   G4GenericIon::GenericIonDefinition();
 }
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
 void CMSEmStandardPhysicsHcal::ConstructProcess() {
 
-  if(verbose > 0) {
+  if(fVerbose > 0) {
     G4cout << "### " << GetPhysicsName() << " Construct Processes " << G4endl;
   }
 
@@ -390,3 +398,5 @@ void CMSEmStandardPhysicsHcal::ConstructProcess() {
   G4VAtomDeexcitation* de = new G4UAtomicDeexcitation();
   G4LossTableManager::Instance()->SetAtomDeexcitation(de);
 }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

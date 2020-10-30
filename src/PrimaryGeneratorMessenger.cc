@@ -8,6 +8,8 @@
 #include "G4UIcmdWithADouble.hh"
 #include "G4UIcmdWithADoubleAndUnit.hh"
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
 PrimaryGeneratorMessenger::PrimaryGeneratorMessenger(PrimaryGeneratorAction * aPrimaryGeneratorAction)
 :fPrimaryGenerator(aPrimaryGeneratorAction)
 {
@@ -64,6 +66,8 @@ PrimaryGeneratorMessenger::PrimaryGeneratorMessenger(PrimaryGeneratorAction * aP
   fBeamZ0Cmd->SetUnitCandidates("micron mm cm m km");
 }
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
 PrimaryGeneratorMessenger::~PrimaryGeneratorMessenger()
 {
     delete fDirectory;
@@ -78,6 +82,8 @@ PrimaryGeneratorMessenger::~PrimaryGeneratorMessenger()
     delete fBeamSpreadYCmd;
     delete fBeamZ0Cmd;
 }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void PrimaryGeneratorMessenger::SetNewValue(G4UIcommand *command, G4String newValues)
 {
@@ -116,6 +122,8 @@ void PrimaryGeneratorMessenger::SetNewValue(G4UIcommand *command, G4String newVa
     }
     #endif 
 }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 G4String PrimaryGeneratorMessenger::GetCurrentValue(G4UIcommand *command)
 {

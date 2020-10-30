@@ -55,9 +55,11 @@ class SiliconPixelSD : public G4VSensitiveDetector {
 	private:
 		/// Hit collection stored in the event, filled in at the end of event based
 		/// on temporary hits
-		SiliconPixelHitCollection* hitCollection;
+		SiliconPixelHitCollection* fHitCollection;
+		/// ID of hit collection
+		G4int fHCID = -1;
 		/// Temporary map of hits (ID: hit) collected within one event
-		std::map<int, SiliconPixelHit*> tmp_hits;
+		std::map<int, SiliconPixelHit*> fTmpHits;
 
 };	
 #endif /* SILICONPIXELSD_HH */

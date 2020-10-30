@@ -29,30 +29,30 @@ EventAction::~EventAction()
 
 void EventAction::BeginOfEventAction(const G4Event*)
 {
-	primaries_PDG.clear();
-	primaries_energy.clear();
-	primaries_x.clear();
-	primaries_y.clear();
-	primaries_z.clear();
+	fPrimariesPDG.clear();
+	fPrimariesEnergy.clear();
+	fPrimariesX.clear();
+	fPrimariesY.clear();
+	fPrimariesZ.clear();
 
-	Si_hits_ID.clear();
-	Si_hits_x.clear();
-	Si_hits_y.clear();
-	Si_hits_z.clear();
-	Si_hits_Edep.clear();
-	Si_hits_EdepNonIonising.clear();
-	Si_hits_TOA.clear();
-	Si_hits_TOA_last.clear();
-	Si_hits_type.clear();
+	fSiHitsID.clear();
+	fSiHitsX.clear();
+	fSiHitsY.clear();
+	fSiHitsZ.clear();
+	fSiHitsEdep.clear();
+	fSiHitsEdepNonIonising.clear();
+	fSiHitsTOA.clear();
+	fSiHitsTOAlast.clear();
+	fSiHitsType.clear();
 
-	SiPM_hits_ID.clear();
-	SiPM_hits_x.clear();
-	SiPM_hits_y.clear();
-	SiPM_hits_z.clear();
-	SiPM_hits_Edep.clear();
-	SiPM_hits_EdepNonIonising.clear();
-	SiPM_hits_TOA.clear();
-	SiPM_hits_type.clear();
+	fSiPMhitsID.clear();
+	fSiPMhitsX.clear();
+	fSiPMhitsY.clear();
+	fSiPMhitsZ.clear();
+	fSiPMhitsEdep.clear();
+	fSiPMhitsEdepNonIonising.clear();
+	fSiPMhitsTOA.clear();
+	fSiPMhitsType.clear();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -68,14 +68,14 @@ void EventAction::EndOfEventAction(const G4Event* event)
 	for (G4int iVertex = 0; iVertex < event->GetNumberOfPrimaryVertex(); iVertex++)
 	{
 		auto vertex = event->GetPrimaryVertex(iVertex);
-		primaries_x.push_back(vertex->GetX0() / CLHEP::cm);
-		primaries_y.push_back(vertex->GetY0() / CLHEP::cm);
-		primaries_z.push_back(vertex->GetZ0() / CLHEP::cm);
+		fPrimariesX.push_back(vertex->GetX0() / CLHEP::cm);
+		fPrimariesY.push_back(vertex->GetY0() / CLHEP::cm);
+		fPrimariesZ.push_back(vertex->GetZ0() / CLHEP::cm);
 		for (G4int iParticle = 0; iParticle < vertex->GetNumberOfParticle(); iParticle++)
 		{
 			auto particle = vertex->GetPrimary(iParticle);
-			primaries_PDG.push_back(particle->GetPDGcode());
-			primaries_energy.push_back(particle->GetTotalEnergy() / CLHEP::GeV);
+			fPrimariesPDG.push_back(particle->GetPDGcode());
+			fPrimariesEnergy.push_back(particle->GetTotalEnergy() / CLHEP::GeV);
 		}
 	}
 
@@ -83,68 +83,66 @@ void EventAction::EndOfEventAction(const G4Event* event)
 	auto sdManager = G4SDManager::GetSDMpointer();
 	G4int collId;
 
-
 	//HGCAL EE + FH
 	collId = sdManager->GetCollectionID("SiliconPixelHitCollection");
 	auto hc = hce->GetHC(collId);
 	if ( ! hc ) return;
-	double esum_HGCAL = 0; double cogz_HGCAL = 0; int Nhits_HGCAL = 0;
+	double esumHGCAL = 0; double cogzHGCAL = 0; int NhitsHGCAL = 0;
 	for (unsigned int i = 0; i < hc->GetSize(); ++i) {
 		auto hit = static_cast<SiliconPixelHit*>(hc->GetHit(i));
-		hit->Digitise(hitTimeCut / CLHEP::ns, toaThreshold / CLHEP::keV );
+		hit->Digitise(fHitTimeCut / CLHEP::ns, fToaThreshold / CLHEP::keV );
 
 		if (hit->isValidHit()) {
-			Si_hits_ID.push_back(hit->ID());
-			Si_hits_x.push_back(hit->GetX());
-			Si_hits_y.push_back(hit->GetY());
-			Si_hits_z.push_back(hit->GetZ());
-			Si_hits_Edep.push_back(hit->GetEdep());
-			Si_hits_EdepNonIonising.push_back(hit->GetEdepNonIonizing());
-			Si_hits_TOA.push_back(hit->GetTOA());
-			Si_hits_TOA_last.push_back(hit->GetLastTOA());
-			Si_hits_type.push_back(0);
+			fSiHitsID.push_back(hit->ID());
+			fSiHitsX.push_back(hit->GetX());
+			fSiHitsY.push_back(hit->GetY());
+			fSiHitsZ.push_back(hit->GetZ());
+			fSiHitsEdep.push_back(hit->GetEdep());
+			fSiHitsEdepNonIonising.push_back(hit->GetEdepNonIonizing());
+			fSiHitsTOA.push_back(hit->GetTOA());
+			fSiHitsTOAlast.push_back(hit->GetLastTOA());
+			fSiHitsType.push_back(0);
 
-			Nhits_HGCAL++;
-			esum_HGCAL += hit->GetEdep() * CLHEP::keV / CLHEP::MeV;
-			cogz_HGCAL += hit->GetZ() * hit->GetEdep();
+			NhitsHGCAL++;
+			esumHGCAL += hit->GetEdep() * CLHEP::keV / CLHEP::MeV;
+			cogzHGCAL += hit->GetZ() * hit->GetEdep();
 		}
 	}
-	if (esum_HGCAL > 0) cogz_HGCAL /= esum_HGCAL;
+	if (esumHGCAL > 0) cogzHGCAL /= esumHGCAL;
 
-	analysisManager->FillNtupleDColumn(23, esum_HGCAL / CLHEP::GeV);
-	analysisManager->FillNtupleDColumn(24, cogz_HGCAL);
-	analysisManager->FillNtupleIColumn(25, Nhits_HGCAL);
-
+	analysisManager->FillNtupleDColumn(23, esumHGCAL / CLHEP::GeV);
+	analysisManager->FillNtupleDColumn(24, cogzHGCAL);
+	analysisManager->FillNtupleIColumn(25, NhitsHGCAL);
 
 	//AHCAL 
 	collId = sdManager->GetCollectionID("SiPMHitCollection");
 	hc = hce->GetHC(collId);
 	if ( ! hc ) return;
-	double esum_AHCAL = 0; double cogz_AHCAL = 0; int Nhits_AHCAL = 0;
+	double esumAHCAL = 0; double cogzAHCAL = 0; int NhitsAHCAL = 0;
 	for (unsigned int i = 0; i < hc->GetSize(); ++i) {
 		auto hit = static_cast<SiPMHit*>(hc->GetHit(i));
 		hit->Digitise(-1, 0 );
 
 		if (hit->isValidHit()) {
-			SiPM_hits_ID.push_back(hit->ID());
-			SiPM_hits_x.push_back(hit->GetX());
-			SiPM_hits_y.push_back(hit->GetY());
-			SiPM_hits_z.push_back(hit->GetZ());
-			SiPM_hits_Edep.push_back(hit->GetEdep());
-			SiPM_hits_EdepNonIonising.push_back(hit->GetEdepNonIonizing());
-			SiPM_hits_TOA.push_back(hit->GetTOA());
-			SiPM_hits_type.push_back(1);
+			fSiPMhitsID.push_back(hit->ID());
+			fSiPMhitsX.push_back(hit->GetX());
+			fSiPMhitsY.push_back(hit->GetY());
+			fSiPMhitsZ.push_back(hit->GetZ());
+			fSiPMhitsEdep.push_back(hit->GetEdep());
+			fSiPMhitsEdepNonIonising.push_back(hit->GetEdepNonIonizing());
+			fSiPMhitsTOA.push_back(hit->GetTOA());
+			fSiPMhitsType.push_back(1);
 
-			Nhits_AHCAL++;
-			esum_AHCAL += hit->GetEdep() * CLHEP::keV / CLHEP::MeV;
-			cogz_AHCAL += hit->GetZ() * hit->GetEdep();
+			NhitsAHCAL++;
+			esumAHCAL += hit->GetEdep() * CLHEP::keV / CLHEP::MeV;
+			cogzAHCAL += hit->GetZ() * hit->GetEdep();
 		}
 	}
-	if (esum_AHCAL > 0) cogz_AHCAL /= esum_AHCAL;
+	if (esumAHCAL > 0) cogzAHCAL /= esumAHCAL;
 
-	analysisManager->FillNtupleDColumn(26, esum_AHCAL / CLHEP::GeV);
-	analysisManager->FillNtupleDColumn(27, cogz_AHCAL);
-	analysisManager->FillNtupleIColumn(28, Nhits_AHCAL);
+	analysisManager->FillNtupleDColumn(26, esumAHCAL / CLHEP::GeV);
+	analysisManager->FillNtupleDColumn(27, cogzAHCAL);
+	analysisManager->FillNtupleIColumn(28, NhitsAHCAL);
 
 	analysisManager->AddNtupleRow();
 	#ifdef MATSCAN
@@ -152,6 +150,7 @@ void EventAction::EndOfEventAction(const G4Event* event)
 	#endif
 }
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void EventAction::DefineCommands() {
 
@@ -163,7 +162,7 @@ void EventAction::DefineCommands() {
 
 	// time cut command
 	auto& timeCutCmd
-	    = fMessenger->DeclarePropertyWithUnit("timeCut", "ns", hitTimeCut,
+	    = fMessenger->DeclarePropertyWithUnit("timeCut", "ns", fHitTimeCut,
 	            "Size of time window for hit digitalisation");
 	timeCutCmd.SetParameterName("timeCut", true);
 	timeCutCmd.SetRange("timeCut>=-1");
@@ -171,7 +170,7 @@ void EventAction::DefineCommands() {
 
 	// toa threshold command
 	auto& toaThresholdCmd
-	    = fMessenger->DeclarePropertyWithUnit("toaThreshold", "keV", toaThreshold,
+	    = fMessenger->DeclarePropertyWithUnit("toaThreshold", "keV", fToaThreshold,
 	            "Threshold for TOA activation");
 	toaThresholdCmd.SetParameterName("toaThreshold", true);
 	toaThresholdCmd.SetRange("toaThreshold>=0");
@@ -183,17 +182,17 @@ void EventAction::DefineCommands() {
 
 #ifdef MATSCAN
 void EventAction::AddStep(G4double aStepLength, G4Material* aMaterial) {
-	material_depth.push_back(aStepLength);
-	material_nX0.push_back(aStepLength / aMaterial->GetRadlen());
-	material_nLambda.push_back(aStepLength / aMaterial->GetNuclearInterLength());
+	fMaterialDepth.push_back(aStepLength);
+	fMaterialNX0.push_back(aStepLength / aMaterial->GetRadlen());
+	fMaterialNLambda.push_back(aStepLength / aMaterial->GetNuclearInterLength());
 	G4int matId;
-	auto matFind = material_names_map.find(aMaterial->GetName());
-	if(matFind != material_names_map.end()) {
+	auto matFind = fMaterialNamesMap.find(aMaterial->GetName());
+	if(matFind != fMaterialNamesMap.end()) {
 		matId = matFind->second;
 	} else {
-		matId = material_names_map.size();
-		material_names_map.insert({aMaterial->GetName(), matId});
+		matId = fMaterialNamesMap.size();
+		fMaterialNamesMap.insert({aMaterial->GetName(), matId});
 	}
-	material_name.push_back(matId);
+	fMaterialName.push_back(matId);
 }
 #endif

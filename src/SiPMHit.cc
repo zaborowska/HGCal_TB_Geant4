@@ -1,61 +1,50 @@
 #include "SiPMHit.hh"
 
-//#define DEBUG
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-SiPMHit::SiPMHit(G4String aVol_name, G4int aCopy_no_sensor, G4int aCopy_no_cell) {
-	this->vol_name = aVol_name;
-	this->copy_no_cell = aCopy_no_cell;
-	this->copy_no_sensor = aCopy_no_sensor;
-
-	this->pos_x = this->pos_y = this->pos_z = -1;
-
-
-	this->eDep_digi = -1;
-	this->edep_nonIonizing_digi = -1;
-	this->timeOfArrival_digi = -1;
-	this->_isValidHit = false;
-
+SiPMHit::SiPMHit(G4String aVolumeName, G4int aCopyNumSensor, G4int aCopyNumCell) {
+	fVolumeName = aVolumeName;
+	fCopyNumCell = aCopyNumCell;
+	fCopyNumSensor = aCopyNumSensor;
 }
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void SiPMHit::Digitise(const G4double timeWindow, const G4double toaThreshold) {
+void SiPMHit::Digitise(const G4double aTimeWindow, const G4double aToaThreshold) {
 	
 	//process energy deposits
-	if (eDep.size() == 0) {
-		_isValidHit = false;
+	if (fEdep.size() == 0) {
+		fIsValidHit = false;
 		return;
 	}
 
-	std::sort(eDep.begin(), eDep.end(), [](const std::pair<G4double, G4double>& left, const std::pair<G4double, G4double>& right) {
+	std::sort(fEdep.begin(), fEdep.end(), [](const std::pair<G4double, G4double>& left, const std::pair<G4double, G4double>& right) {
 		return left.second < right.second;		//second = time
 	});
 
-	G4double firstHitTime = eDep[0].second;
-	eDep_digi = 0;
-	for (size_t i=0; i<eDep.size(); i++) {
-		if (timeWindow<0 || eDep[i].second < firstHitTime+timeWindow) eDep_digi += eDep[i].first; 
+	G4double firstHitTime = fEdep[0].second;
+	fEdepDigi = 0;
+	for (size_t i=0; i<fEdep.size(); i++) {
+		if (aTimeWindow<0 || fEdep[i].second < firstHitTime+aTimeWindow) fEdepDigi += fEdep[i].first; 
 #ifdef DEBUG		
-		else std::cout<<"Rejecting hit ("<<eDep[i].first<<" keV)  at time "<<eDep[i].second<< "(start: "<<firstHitTime<<")"<<std::endl;
+		else std::cout<<"Rejecting hit ("<<fEdep[i].first<<" keV)  at time "<<fEdep[i].second<< "(start: "<<firstHitTime<<")"<<std::endl;
 #endif		
-		if ((timeOfArrival_digi == -1)&&(eDep_digi>toaThreshold)) timeOfArrival_digi = eDep[i].second;
+		if ((fTimeOfArrival == -1)&&(fEdepDigi>aToaThreshold)) fTimeOfArrival = fEdep[i].second;
 	}
-	_isValidHit = (eDep_digi > 0);
-#ifdef DEBUG		
-	std::cout<<timeOfArrival_digi<<"  vs  energy: "<<eDep_digi<<std::endl;
-#endif		
+	fIsValidHit = (fEdepDigi > 0);
 
 
 	//non ionizing part, does not contribute to TOAs
-	if (edep_nonIonizing.size() == 0) return;
+	if (fEdepNonIonizing.size() == 0) return;
 		
 		
-	std::sort(edep_nonIonizing.begin(), edep_nonIonizing.end(), [](const std::pair<G4double, G4double>& left, const std::pair<G4double, G4double>& right) {
+	std::sort(fEdepNonIonizing.begin(), fEdepNonIonizing.end(), [](const std::pair<G4double, G4double>& left, const std::pair<G4double, G4double>& right) {
 		return left.second < right.second;		//second = time
 	});
 
-	edep_nonIonizing_digi = 0;
-	for (size_t i=0; i<eDep.size(); i++) {
-		if (timeWindow==-1 || edep_nonIonizing[i].second < firstHitTime+timeWindow) edep_nonIonizing_digi += edep_nonIonizing[i].first;
+	fEdepNonIonizingDigi = 0;
+	for (size_t i=0; i<fEdep.size(); i++) {
+		if (aTimeWindow==-1 || fEdepNonIonizing[i].second < firstHitTime+aTimeWindow) fEdepNonIonizingDigi += fEdepNonIonizing[i].first;
 	}
 
 }

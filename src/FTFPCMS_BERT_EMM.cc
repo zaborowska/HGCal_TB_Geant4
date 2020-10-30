@@ -36,6 +36,8 @@
 
 #include "G4HadronPhysicsFTFP_BERT.hh"
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
 FTFPCMS_BERT_EMM::FTFPCMS_BERT_EMM(G4int ver)
 {
 
@@ -69,8 +71,12 @@ FTFPCMS_BERT_EMM::FTFPCMS_BERT_EMM(G4int ver)
   RegisterPhysics( new G4NeutronTrackingCut(ver));
 }
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
 FTFPCMS_BERT_EMM::~FTFPCMS_BERT_EMM()
 {}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void FTFPCMS_BERT_EMM::SetCuts()
 {

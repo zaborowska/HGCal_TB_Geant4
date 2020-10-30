@@ -34,9 +34,9 @@
 #include <cmath>
 
 /// Define test setup
-/// @param[out] dz_map List of element names and air gap to be placed in front
+/// @param[out] aDzMap List of element names and air gap to be placed in front
 /// of the element
-/// @param[out] viewpoint Targer point to be set in the visualisation
-void defineTestConfig100(std::vector<std::pair<std::string, G4double> > &dz_map, G4double &viewpoint);
+/// @param[out] aViewpoint Targer point to be set in the visualisation
+void defineTestConfig100(std::vector<std::pair<std::string, G4double> > &aDzMap, G4double &aViewpoint);
 
 #endif /* TESTCONFIGS_HH */

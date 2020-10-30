@@ -1,5 +1,6 @@
 #include "HGCalTBMaterials.hh"
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 G4SubtractionSolid* HexagonSolid(G4String aName, G4double aCellThickness, G4double aCellSideLength) {
   G4double fullCcellX = (2.) * aCellSideLength;
@@ -35,12 +36,16 @@ G4SubtractionSolid* HexagonSolid(G4String aName, G4double aCellThickness, G4doub
 
 }
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
 G4LogicalVolume* HexagonLogical(G4String aName, G4double aCellThickness, G4double aCellSideLength, G4Material* aMaterial) {
   return new G4LogicalVolume(HexagonSolid(aName, aCellThickness, aCellSideLength),          //its solid
                              aMaterial,           //its aMaterial
                              aName);            //its aName
 
 }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void HGCalTBMaterials::DefineMaterials() {
   /***** Definition of all available materials *****/
@@ -141,6 +146,8 @@ void HGCalTBMaterials::DefineMaterials() {
 
 }
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
 void HGCalTBMaterials::SetEventDisplayColorScheme() {
   G4VisAttributes *visAttributes;
 
@@ -192,6 +199,8 @@ void HGCalTBMaterials::SetEventDisplayColorScheme() {
   fAlChipLogical->SetVisAttributes(visAttributes);
 }
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
 HGCalTBMaterials::HGCalTBMaterials() {
   DefineMaterials();
   DefineSiWaferAndCells();
@@ -204,6 +213,8 @@ HGCalTBMaterials::HGCalTBMaterials() {
   DefineBeamLineElements();
   DefineHERDCalorimeter();
   }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void HGCalTBMaterials::DefineSiWaferAndCells() {
   /***** Definition of silicon (wafer) sensors *****/
@@ -233,6 +244,8 @@ void HGCalTBMaterials::DefineSiWaferAndCells() {
   fThicknessMap["Si_wafer"] = fSiWaferThickness;
   fLogicalVolumeMap["Si_wafer"] = fSiWaferLogical;
 }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void HGCalTBMaterials::DefineHGCalBaseplates() {
   /***** Definition of all baseplates *****/
@@ -290,6 +303,7 @@ void HGCalTBMaterials::DefineHGCalBaseplates() {
   fLogicalVolumeMap["Kapton_layer"] = fKaptonLayerLogical;
 }
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void HGCalTBMaterials::DefineHGCalCases() {
   G4double AlCaseThickness = 2.1 * mm;
@@ -318,6 +332,8 @@ void HGCalTBMaterials::DefineHGCalCases() {
   fThicknessMap["Steel_case_thick"] = SteelCaseThickThickness;
   fLogicalVolumeMap["Steel_case_thick"] = fSteelCaseThickLogical;
 }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void HGCalTBMaterials::DefineHGCalEEAbsorbers() {
   //defintion of absorber plates in the EE part
@@ -366,6 +382,8 @@ void HGCalTBMaterials::DefineHGCalEEAbsorbers() {
   fLogicalVolumeMap["W_4mm_absorber_EE_DESY2018"] = fW4mmAbsorberEEDESY2018Logical;
 }
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
 void HGCalTBMaterials::DefineHGCalFHAbsorbers() {
   //defintion of absorber plates in the FH part
   G4double CuAbsorberFHthickness = 6 * mm;
@@ -382,6 +400,8 @@ void HGCalTBMaterials::DefineHGCalFHAbsorbers() {
   fThicknessMap["Fe_absorber_FH"] = FeAbsorberFHthickness;
   fLogicalVolumeMap["Fe_absorber_FH"] = fFeAbsorberFHlogical;
 }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void HGCalTBMaterials::DefineAHCALSiPM() {
   G4double AHCALSiPMthickness = 5.4 * mm;
@@ -402,6 +422,8 @@ void HGCalTBMaterials::DefineAHCALSiPM() {
   for (float _dx = -11.5; _dx <= 11.5; _dx = _dx + 1.) for (float _dy = -11.5; _dy <= 11.5; _dy = _dy + 1.)
       new G4PVPlacement(0, G4ThreeVector(_dx * fAHCALSiPMxy, _dy * fAHCALSiPMxy, 0), fAHCALSiPMlogical, "AHCAL_SiPM", fAHCALSiPM2x2HUBlogical, false, copy_counter++, true);
 }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void HGCalTBMaterials::DefineAHCALAbsorbers() {
   G4double AlAbsorberAHCALthickness = 1 * mm;
@@ -426,6 +448,8 @@ void HGCalTBMaterials::DefineAHCALAbsorbers() {
   fThicknessMap["Fe_absorber_AHCAL"] = FeAbsorberAHCALthickness;
   fLogicalVolumeMap["Fe_absorber_AHCAL"] = fFeAbsorberAHCALlogical;
 }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void HGCalTBMaterials::DefineBeamLineElements() {
   /***** Definition of beam line elements *****/
@@ -553,6 +577,7 @@ void HGCalTBMaterials::DefineBeamLineElements() {
 
 }
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void HGCalTBMaterials::DefineHERDCalorimeter(){ 
 
@@ -576,6 +601,7 @@ void HGCalTBMaterials::DefineHERDCalorimeter(){
   }
 }
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void HGCalTBMaterials::PlaceItemInLogicalVolume(std::string aName, G4double &aZ0, G4LogicalVolume* aLogicMother) {
   if (aName.find("_DAISY") != std::string::npos) {
@@ -617,3 +643,5 @@ void HGCalTBMaterials::PlaceItemInLogicalVolume(std::string aName, G4double &aZ0
     aZ0 += fThicknessMap[aName];
   }
 }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

@@ -26,6 +26,8 @@
 #ifndef PRIMARYGENERATORMMESSENGER_HH
 #define PRIMARYGENERATORMMESSENGER_HH
 
+#include "G4UImessenger.hh"
+
 class G4UIdirectory;
 class G4UIcmdWithABool;
 class G4UIcmdWithAnInteger;
@@ -34,8 +36,6 @@ class G4UIcmdWithADouble;
 class G4UIcmdWithADoubleAndUnit;
 class PrimaryGeneratorAction;
 
-#include "G4UImessenger.hh"
-#include "globals.hh"
 
 /**
  * @brief Primary generator messenger

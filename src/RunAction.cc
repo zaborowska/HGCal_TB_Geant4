@@ -51,61 +51,55 @@ void RunAction::BeginOfRunAction(const G4Run *) {
   std::cout << "Output file is: " << fOutputFileDir << std::endl;
   analysisManager->SetFileName(fOutputFileDir);
 
-  // Book histograms, ntuple
-  //
-
-  // Creating ntuple
-  //
-
   if (fEventAction) {
     analysisManager->CreateNtuple("hits", "hits");
     analysisManager->CreateNtupleIColumn("event"); // column Id = 0
     analysisManager->CreateNtupleIColumn(
-        "pdgID", fEventAction->primaries_PDG); // column Id = 1
+        "pdgID", fEventAction->fPrimariesPDG); // column Id = 1
     analysisManager->CreateNtupleDColumn(
-        "beamEnergy", fEventAction->primaries_energy); // column Id = 2
+        "beamEnergy", fEventAction->fPrimariesEnergy); // column Id = 2
     analysisManager->CreateNtupleDColumn(
-        "beamX_cm", fEventAction->primaries_x); // column Id = 3
+        "beamX_cm", fEventAction->fPrimariesX); // column Id = 3
     analysisManager->CreateNtupleDColumn(
-        "beamY_cm", fEventAction->primaries_y); // column Id = 4
+        "beamY_cm", fEventAction->fPrimariesY); // column Id = 4
     analysisManager->CreateNtupleDColumn(
-        "beamZ_cm", fEventAction->primaries_z); // column Id = 5
+        "beamZ_cm", fEventAction->fPrimariesZ); // column Id = 5
     analysisManager->CreateNtupleIColumn("siliconHits_ID",
-                                         fEventAction->Si_hits_ID);
+                                         fEventAction->fSiHitsID);
     analysisManager->CreateNtupleDColumn("siliconHits_x_cm",
-                                         fEventAction->Si_hits_x);
+                                         fEventAction->fSiHitsX);
     analysisManager->CreateNtupleDColumn("siliconHits_y_cm",
-                                         fEventAction->Si_hits_y);
+                                         fEventAction->fSiHitsY);
     analysisManager->CreateNtupleDColumn("siliconHits_z_cm",
-                                         fEventAction->Si_hits_z);
+                                         fEventAction->fSiHitsZ);
     analysisManager->CreateNtupleDColumn("siliconHits_Edep_keV",
-                                         fEventAction->Si_hits_Edep);
+                                         fEventAction->fSiHitsEdep);
     analysisManager->CreateNtupleDColumn("siliconHits_EdepNonIonizing_keV",
-                                         fEventAction->Si_hits_EdepNonIonising);
+                                         fEventAction->fSiHitsEdepNonIonising);
     analysisManager->CreateNtupleDColumn("siliconHits_TOA_ns",
-                                         fEventAction->Si_hits_TOA);
+                                         fEventAction->fSiHitsTOA);
     analysisManager->CreateNtupleDColumn("siliconHits_TOA_last_ns",
-                                         fEventAction->Si_hits_TOA_last);
+                                         fEventAction->fSiHitsTOA);
     analysisManager->CreateNtupleIColumn("siliconHits_type",
-                                         fEventAction->Si_hits_type);
+                                         fEventAction->fSiHitsType);
 
     analysisManager->CreateNtupleIColumn("SiPMHits_ID",
-                                         fEventAction->SiPM_hits_ID);
+                                         fEventAction->fSiPMhitsID);
     analysisManager->CreateNtupleDColumn("SiPMHits_x_cm",
-                                         fEventAction->SiPM_hits_x);
+                                         fEventAction->fSiPMhitsX);
     analysisManager->CreateNtupleDColumn("SiPMHits_y_cm",
-                                         fEventAction->SiPM_hits_y);
+                                         fEventAction->fSiPMhitsY);
     analysisManager->CreateNtupleDColumn("SiPMHits_z_cm",
-                                         fEventAction->SiPM_hits_z);
+                                         fEventAction->fSiPMhitsZ);
     analysisManager->CreateNtupleDColumn("SiPMHits_Edep_keV",
-                                         fEventAction->SiPM_hits_Edep);
+                                         fEventAction->fSiPMhitsEdep);
     analysisManager->CreateNtupleDColumn(
         "SiPMHits_EdepNonIonizing_keV",
-        fEventAction->SiPM_hits_EdepNonIonising);
+        fEventAction->fSiPMhitsEdepNonIonising);
     analysisManager->CreateNtupleDColumn("SiPMHits_TOA_ns",
-                                         fEventAction->SiPM_hits_TOA);
+                                         fEventAction->fSiPMhitsTOA);
     analysisManager->CreateNtupleIColumn("SiPMHits_type",
-                                         fEventAction->SiPM_hits_type);
+                                         fEventAction->fSiPMhitsType);
 
     analysisManager->CreateNtupleDColumn(
         "signalSum_HGCAL_MeV");                            // column Id = 23
@@ -121,18 +115,17 @@ void RunAction::BeginOfRunAction(const G4Run *) {
 #ifdef MATSCAN
     analysisManager->CreateNtuple("materials", "material");
     analysisManager->CreateNtupleDColumn(
-        1, "nX0", fEventAction->material_nX0); // column Id = 0
+        1, "nX0", fEventAction->fMaterialNX0); // column Id = 0
     analysisManager->CreateNtupleDColumn(
-        1, "nLambda", fEventAction->material_nLambda); // column Id = 1
+        1, "nLambda", fEventAction->fMaterialNLambda); // column Id = 1
     analysisManager->CreateNtupleDColumn(
-        1, "depth", fEventAction->material_depth); // column Id = 2
+        1, "depth", fEventAction->fMaterialDepth); // column Id = 2
     analysisManager->CreateNtupleIColumn(
-        1, "name", fEventAction->material_name); // column Id = 3
+        1, "name", fEventAction->fMaterialName); // column Id = 3
     analysisManager->FinishNtuple(1);
 #endif
   }
 
-  // Open the output file
   analysisManager->OpenFile();
 }
 

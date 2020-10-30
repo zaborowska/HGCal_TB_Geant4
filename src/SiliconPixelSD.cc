@@ -5,54 +5,55 @@ SiliconPixelSD::SiliconPixelSD(G4String name) : G4VSensitiveDetector("SiliconPix
 	collectionName.insert("SiliconPixelHitCollection");
 }
 
-		
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 SiliconPixelSD::~SiliconPixelSD()
 {}
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
 void SiliconPixelSD::Initialize(G4HCofThisEvent* HCE){
-	hitCollection = new SiliconPixelHitCollection(GetName(), collectionName[0]);
+	fHitCollection = new SiliconPixelHitCollection(GetName(), collectionName[0]);
 
-	static G4int HCID = -1;
-	if (HCID<0) HCID = GetCollectionID(0);
-	HCE->AddHitsCollection(HCID, hitCollection);
+	if (fHCID<0) fHCID = GetCollectionID(0);
+	HCE->AddHitsCollection(fHCID, fHitCollection);
 
-	tmp_hits.clear();
+	fTmpHits.clear();
 
 }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
 void SiliconPixelSD::EndOfEvent(G4HCofThisEvent*){
-	for (std::map<int, SiliconPixelHit*>::iterator it = tmp_hits.begin(); it!= tmp_hits.end(); it++) hitCollection->insert(it->second);
+	for (std::map<int, SiliconPixelHit*>::iterator it = fTmpHits.begin(); it!= fTmpHits.end(); it++) fHitCollection->insert(it->second);
 }
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 G4bool SiliconPixelSD::ProcessHits(G4Step *step, G4TouchableHistory *) {
 	G4TouchableHandle touchable = step->GetPreStepPoint()->GetTouchableHandle();
-	
 
-	G4int copy_no_cell = touchable->GetVolume(0)->GetCopyNo();
-	G4int copy_no_sensor = touchable->GetVolume(1)->GetCopyNo();
-	int tmp_ID = 1000*copy_no_sensor+copy_no_cell;
-	if (tmp_hits.find(tmp_ID) == tmp_hits.end()) {		//make new hit
+	G4int copyNumCell = touchable->GetVolume(0)->GetCopyNo();
+	G4int copyNumSensor = touchable->GetVolume(1)->GetCopyNo();
+	int tmp_ID = 1000*copyNumSensor+copyNumCell;
+	if (fTmpHits.find(tmp_ID) == fTmpHits.end()) {		//make new hit
 		G4String vol_name = touchable->GetVolume(0)->GetName();
-		tmp_hits[tmp_ID] = new SiliconPixelHit(vol_name, copy_no_sensor, copy_no_cell);
-		G4double hit_x = (touchable->GetVolume(1)->GetTranslation().x()+touchable->GetVolume(0)->GetTranslation().x())/CLHEP::cm;
-		G4double hit_y = (touchable->GetVolume(1)->GetTranslation().y()+touchable->GetVolume(0)->GetTranslation().y())/CLHEP::cm;
-		G4double hit_z = touchable->GetVolume(1)->GetTranslation().z()/CLHEP::cm;
-		tmp_hits[tmp_ID]->SetPosition(hit_x, hit_y, hit_z);		//in cm
+		fTmpHits[tmp_ID] = new SiliconPixelHit(vol_name, copyNumSensor, copyNumCell);
+		G4double hitX = (touchable->GetVolume(1)->GetTranslation().x()+touchable->GetVolume(0)->GetTranslation().x())/CLHEP::cm;
+		G4double hitY = (touchable->GetVolume(1)->GetTranslation().y()+touchable->GetVolume(0)->GetTranslation().y())/CLHEP::cm;
+		G4double hitZ = touchable->GetVolume(1)->GetTranslation().z()/CLHEP::cm;
+		fTmpHits[tmp_ID]->SetPosition(hitX, hitY, hitZ);		//in cm
 	}
 
-	
 	G4double edep = step->GetTotalEnergyDeposit()/CLHEP::keV;		//in keV
-	G4double edep_nonIonizing = step->GetNonIonizingEnergyDeposit()/CLHEP::keV;
+	G4double edepNonIonizing = step->GetNonIonizingEnergyDeposit()/CLHEP::keV;
 
 	G4double timedep = step->GetPostStepPoint()->GetGlobalTime()/CLHEP::ns;
 
-	tmp_hits[tmp_ID]->AddEdep(edep, timedep);
-	tmp_hits[tmp_ID]->AddEdepNonIonizing(edep_nonIonizing, timedep);
+	fTmpHits[tmp_ID]->AddEdep(edep, timedep);
+	fTmpHits[tmp_ID]->AddEdepNonIonizing(edepNonIonizing, timedep);
 
 	return true;
 }
 
-
-
-
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

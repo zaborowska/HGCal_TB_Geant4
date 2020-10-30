@@ -8,64 +8,61 @@
 #include "G4VVisManager.hh"
 #include "HGCalTBMaterials.hh"
 
-SiliconPixelHit::SiliconPixelHit(G4String aVol_name, G4int aCopy_no_sensor, G4int aCopy_no_cell) {
-	vol_name = aVol_name;
-	copy_no_cell = aCopy_no_cell;
-	copy_no_sensor = aCopy_no_sensor;
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+SiliconPixelHit::SiliconPixelHit(G4String aVolunmeName, G4int aCopyNumSensor, G4int aCopyNumCell) {
+	fVolumeName = aVolunmeName;
+	fCopyNumCell = aCopyNumCell;
+	fCopyNumSensor = aCopyNumSensor;
 }
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void SiliconPixelHit::Digitise(const G4double timeWindow, const G4double toaThreshold) {
+void SiliconPixelHit::Digitise(const G4double aTimeWindow, const G4double aToaThreshold) {
 	
 	//process energy deposits
-	if (eDep.size() == 0) {
-		_isValidHit = false;
+	if (fEdep.size() == 0) {
+		fIsValidHit = false;
 		return;
 	}
 
-	std::sort(eDep.begin(), eDep.end(), [](const std::pair<G4double, G4double>& left, const std::pair<G4double, G4double>& right) {
+	std::sort(fEdep.begin(), fEdep.end(), [](const std::pair<G4double, G4double>& left, const std::pair<G4double, G4double>& right) {
 		return left.second < right.second;		//second = time
 	});
 
-	G4double firstHitTime = eDep[0].second;
-	eDep_digi = 0;
-	for (size_t i=0; i<eDep.size(); i++) {
-		if (timeWindow<0 || eDep[i].second < firstHitTime+timeWindow) eDep_digi += eDep[i].first; 
-#ifdef DEBUG		
-		else std::cout<<"Rejecting hit ("<<eDep[i].first<<" keV)  at time "<<eDep[i].second<< "(start: "<<firstHitTime<<")"<<std::endl;
-#endif		
-		if (eDep_digi>toaThreshold) {
-			if (timeOfArrival_digi == -1) timeOfArrival_digi = eDep[i].second;
-			timeOfArrival_last_digi = eDep[i].second;
+	G4double firstHitTime = fEdep[0].second;
+	fEdepDigi = 0;
+	for (size_t i=0; i<fEdep.size(); i++) {
+		if (aTimeWindow<0 || fEdep[i].second < firstHitTime+aTimeWindow) fEdepDigi += fEdep[i].first; 
+		if (fEdepDigi>aToaThreshold) {
+			if (fTimeOfArrival == -1) fTimeOfArrival = fEdep[i].second;
+			fTimeOfArrivalLast = fEdep[i].second;
 		}
 	}
-	_isValidHit = (eDep_digi > 0);
-#ifdef DEBUG		
-	std::cout<<timeOfArrival_digi<<" to "<<timeOfArrival_last_digi<<"  vs  energy: "<<eDep_digi<<std::endl;
-#endif		
-
+	fIsValidHit = (fEdepDigi > 0);
 
 	//non ionizing part, does not contribute to TOAs
-	if (edep_nonIonizing.size() == 0) return;
-		
-		
-	std::sort(edep_nonIonizing.begin(), edep_nonIonizing.end(), [](const std::pair<G4double, G4double>& left, const std::pair<G4double, G4double>& right) {
+	if (fEdepNonIonizing.size() == 0) return;
+
+	std::sort(fEdepNonIonizing.begin(), fEdepNonIonizing.end(), [](const std::pair<G4double, G4double>& left, const std::pair<G4double, G4double>& right) {
 		return left.second < right.second;		//second = time
 	});
 
-	edep_nonIonizing_digi = 0;
-	for (size_t i=0; i<eDep.size(); i++) {
-		if (timeWindow==-1 || edep_nonIonizing[i].second < firstHitTime+timeWindow) edep_nonIonizing_digi += edep_nonIonizing[i].first;
+	fEdepNonIonizingDigi = 0;
+	for (size_t i=0; i<fEdep.size(); i++) {
+		if (aTimeWindow==-1 || fEdepNonIonizing[i].second < firstHitTime+aTimeWindow) fEdepNonIonizingDigi += fEdepNonIonizing[i].first;
 	}
 
 }
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
 void SiliconPixelHit::Draw() {
   G4VVisManager* pVVisManager = G4VVisManager::GetConcreteInstance();
-  if(! (eDep_digi > 0) ) return;
+  if(! (fEdepDigi > 0) ) return;
   if (pVVisManager) {
   if (! pVVisManager->FilterHit(*this)) return;
-    G4Transform3D trans(G4RotationMatrix(),G4ThreeVector(pos_x*cm,pos_y*cm,pos_z*cm));
+    G4Transform3D trans(G4RotationMatrix(),G4ThreeVector(fPosX*cm,fPosY*cm,fPosZ*cm));
     G4VisAttributes attribs;
     auto solid = HexagonSolid("dummy", 0.3*mm, 0.6496345*cm);
     G4Colour colour(1, 0, 0);
@@ -74,3 +71,5 @@ void SiliconPixelHit::Draw() {
     pVVisManager->Draw(*solid,attribs,trans);
   }
 }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

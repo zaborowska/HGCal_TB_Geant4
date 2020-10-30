@@ -57,12 +57,12 @@ private:
   /// maximal step size in silicon
   void DefineCommands();
   /// Set detector setup configuration based on ID
-  /// @param[in] val ID of detector configuration
-  void SelectConfiguration(G4int val);
+  /// @param[in] aValue ID of detector configuration
+  void SelectConfiguration(G4int aValue);
   /// Set maximal size of step within silicon sensor
   /// Can be changed by the UI command /HGCalTestbeam/setup/stepSilicon
-  /// @param[in] val Max step size
-  void SetStepSizeSilicon(G4double val);
+  /// @param[in] aValue Max step size
+  void SetStepSizeSilicon(G4double aValue);
   /// Helper method placing the logical volumes from map of elements
   /// If CMake flag MATSCAN was used, a debug text file with all the elements,
   /// their thicknesses, and materials is created
@@ -74,7 +74,7 @@ private:
   G4GenericMessenger *fMessenger = nullptr;
   /// Pointer to the class that defines materials and logical volumes of all
   /// possible elements, to be placed according to the configuration setup
-  HGCalTBMaterials *materials = nullptr;
+  HGCalTBMaterials *fMaterials = nullptr;
   /// Map of elements to be placed along z axis: name and distance to the
   /// previous element is specified
   std::vector<std::pair<std::string, G4double>> fElementsMap;

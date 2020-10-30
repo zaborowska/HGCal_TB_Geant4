@@ -45,7 +45,7 @@ public:
   virtual void ConstructProcess();
 
 private:
-  G4int verbose;
+  G4int fVerbose = 0;
 };
 
 #endif /* CMSEMSTANDARDPHYSICSHCAL_HH */

@@ -41,8 +41,10 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
   fParticleGun->SetParticlePosition(G4ThreeVector(0.,0.,0.));
 
   fMessenger = new PrimaryGeneratorMessenger(this);
-  if (readInputFile) OpenInput();
+  if (fReadInputFile) OpenInput();
 }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void PrimaryGeneratorAction::OpenInput() {
   // first check if job is run in either single-threaded mode, or with 1 thread
@@ -56,18 +58,18 @@ void PrimaryGeneratorAction::OpenInput() {
     G4Exception("PrimaryGeneratorAction::GeneratePrimaries()", "NoMT", FatalErrorInArgument, msg);
   }
   #endif
-  fInputFile = new TFile(pathInputFile, "READ");
+  fInputFile = new TFile(fPathInputFile, "READ");
   if (fInputFile == nullptr || fInputFile->IsZombie())
   {
     G4ExceptionDescription msg;
-    msg << "Input file '" << pathInputFile << "' cannot be opened.\n";
+    msg << "Input file '" << fPathInputFile << "' cannot be opened.\n";
     G4Exception("PrimaryGeneratorAction::GeneratePrimaries()", "WrongInputName", FatalErrorInArgument, msg);
   }
   auto fileDirectory = dynamic_cast<TDirectory *>(fInputFile->Get("VirtualDetector"));
   if (fileDirectory == nullptr)
   {
     G4ExceptionDescription msg;
-    msg << "Input file '" << pathInputFile << "' does not contain 'VirtualDetector' directory.\n";
+    msg << "Input file '" << fPathInputFile << "' does not contain 'VirtualDetector' directory.\n";
     G4Exception("PrimaryGeneratorAction::GeneratePrimaries()", "WrongInputDirectory", FatalErrorInArgument, msg);
   }
   fHgcalReader = new TTreeReader("HGCAL", fileDirectory);
@@ -98,7 +100,7 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent)
 {
 #ifdef WITHROOT
-  if (readInputFile)
+  if (fReadInputFile)
   {
     // get primary particles from input file
     if (fInputFile == nullptr)
@@ -165,8 +167,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent)
     G4cout << "Particle generator: particle gun" << G4endl;
     // Beam position: z
     // Use value set by UI command, or set it to edge of the world volume
-    G4double z0 = beamZ0;
-    if (beamZ0 == -999 * m)
+    if (fBeamZ0 == -999 * m)
     {
       G4double worldDZ = 0;
       if (!fEnvelopeBox)
@@ -178,7 +179,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent)
       if (fEnvelopeBox)
       {
         worldDZ = fEnvelopeBox->GetZHalfLength();
-        z0 = -worldDZ;
+        fBeamZ0 = -worldDZ;
       }
       else
       {
@@ -190,24 +191,24 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent)
       }
     }
     // Beam position: x,y
-    switch (beamType)
+    switch (fBeamType)
     {
     case eNone:
     default:
-      fParticleGun->SetParticlePosition(G4ThreeVector(0, 0, z0));
+      fParticleGun->SetParticlePosition(G4ThreeVector(0, 0, fBeamZ0));
       break;
     case eGaussian:
-      fParticleGun->SetParticlePosition(G4ThreeVector(G4RandGauss::shoot(0., sigmaBeamX), G4RandGauss::shoot(0., sigmaBeamY), z0));
+      fParticleGun->SetParticlePosition(G4ThreeVector(G4RandGauss::shoot(0., fSigmaBeamX), G4RandGauss::shoot(0., fSigmaBeamY), fBeamZ0));
       break;
     case eFlat:
-      fParticleGun->SetParticlePosition(G4ThreeVector(G4RandFlat::shoot(-sigmaBeamX, sigmaBeamX), G4RandFlat::shoot(-sigmaBeamY, sigmaBeamY), z0));
+      fParticleGun->SetParticlePosition(G4ThreeVector(G4RandFlat::shoot(-fSigmaBeamX, fSigmaBeamX), G4RandFlat::shoot(-fSigmaBeamY, fSigmaBeamY), fBeamZ0));
       break;
     }
     // Particle momentum
-    if (momentumGaussianSpread > 0)
+    if (fMomentumGaussianSpread > 0)
     {
       double energy = fParticleGun->GetParticleEnergy();
-      energy += G4RandGauss::shoot(0., momentumGaussianSpread) * energy;
+      energy += G4RandGauss::shoot(0., fMomentumGaussianSpread) * energy;
       fParticleGun->SetParticleEnergy(energy);
     }
     fParticleGun->GeneratePrimaryVertex(anEvent);

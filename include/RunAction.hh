@@ -29,7 +29,6 @@
 #include "G4UserRunAction.hh"
 #include "EventAction.hh"
 #include "G4Accumulable.hh"
-#include "globals.hh"
 #include "g4root.hh"
 #include "G4GenericMessenger.hh"
 

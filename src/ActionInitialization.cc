@@ -1,8 +1,8 @@
-
 #include "ActionInitialization.hh"
 #include "EventAction.hh"
 #include "PrimaryGeneratorAction.hh"
 #include "RunAction.hh"
+
 #ifdef MATSCAN
 #include "SteppingAction.hh"
 #endif

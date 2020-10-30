@@ -21,7 +21,8 @@
 // * any work based  on the software)  you  agree  to acknowledge its *
 // * use  in  resulting  scientific  publications,  and indicate your *
 // * acceptance of all terms of the Geant4 Software license.          *
-// ***********************
+// ********************************************************************
+//
 #ifndef EVENTACTION_HH
 #define EVENTACTION_HH
 
@@ -29,6 +30,7 @@
 #include "G4UserEventAction.hh"
 #include "globals.hh"
 #include <vector>
+
 #ifdef MATSCAN
 class G4Material;
 #endif
@@ -49,63 +51,63 @@ public:
   virtual void EndOfEventAction(const G4Event *event);
 
   /// Vector of primary particles in an event: PDG type
-  std::vector<G4int> primaries_PDG;
+  std::vector<G4int> fPrimariesPDG;
   /// Vector of primary particles in an event: particle energy (in GeV)
-  std::vector<G4double> primaries_energy;
+  std::vector<G4double> fPrimariesEnergy;
   /// Vector of primary particles in an event: vertex position x (in cm)
-  std::vector<G4double> primaries_x;
+  std::vector<G4double> fPrimariesX;
   /// Vector of primary particles in an event: vertex position y (in cm)
-  std::vector<G4double> primaries_y;
+  std::vector<G4double> fPrimariesY;
   /// Vector of primary particles in an event: vertex position z (in cm)
-  std::vector<G4double> primaries_z;
+  std::vector<G4double> fPrimariesZ;
 
   /// Vector of hits in silicon sensors: hit ID
-  std::vector<G4int> Si_hits_ID;
+  std::vector<G4int> fSiHitsID;
   /// Vector of hits in silicon sensors: hit position x (in cm)
-  std::vector<G4double> Si_hits_x;
+  std::vector<G4double> fSiHitsX;
   /// Vector of hits in silicon sensors: hit position y (in cm)
-  std::vector<G4double> Si_hits_y;
+  std::vector<G4double> fSiHitsY;
   /// Vector of hits in silicon sensors: hit position z (in cm)
-  std::vector<G4double> Si_hits_z;
+  std::vector<G4double> fSiHitsZ;
   /// Vector of hits in silicon sensors: hit energy (in keV)
-  std::vector<G4double> Si_hits_Edep;
+  std::vector<G4double> fSiHitsEdep;
   /// Vector of hits in silicon sensors: hit non-ionizing energy (in keV)
-  std::vector<G4double> Si_hits_EdepNonIonising;
+  std::vector<G4double> fSiHitsEdepNonIonising;
   /// Vector of hits in silicon sensors: hit time of arrival (in ns)
   /// calculated as global time of energy deposit which added to hit energy
   /// exceeds the toa threshold (by default threshold is 0, so it is the first
   /// deposit)
-  std::vector<G4double> Si_hits_TOA;
+  std::vector<G4double> fSiHitsTOA;
   /// Vector of hits in silicon sensors: hit time of last arrival (in ns)
   /// calculated as global time of energy deposit which is the last deposit
   /// that fits within the digitisation time window (by default window is
   /// undefined, so it is the last deposit)
-  std::vector<G4double> Si_hits_TOA_last;
+  std::vector<G4double> fSiHitsTOAlast;
   /// Vector of hits in silicon sensors: hit type
   /// Simulation defines only hits of type 0 (hexagonal cells, no calibration or
   /// edge cell is constructed)
-  std::vector<G4int> Si_hits_type;
+  std::vector<G4int> fSiHitsType;
 
   /// Vector of hits in SiPM: hit ID
-  std::vector<G4int> SiPM_hits_ID;
+  std::vector<G4int> fSiPMhitsID;
   /// Vector of hits in SiPM: hit position x (in cm)
-  std::vector<G4double> SiPM_hits_x;
+  std::vector<G4double> fSiPMhitsX;
   /// Vector of hits in SiPM: hit position y (in cm)
-  std::vector<G4double> SiPM_hits_y;
+  std::vector<G4double> fSiPMhitsY;
   /// Vector of hits in SiPM: hit position z (in cm)
-  std::vector<G4double> SiPM_hits_z;
+  std::vector<G4double> fSiPMhitsZ;
   /// Vector of hits in SiPM: hit energy (in keV)
-  std::vector<G4double> SiPM_hits_Edep;
+  std::vector<G4double> fSiPMhitsEdep;
   /// Vector of hits in SiPM: hit non-ionizing energy (in keV)
-  std::vector<G4double> SiPM_hits_EdepNonIonising;
+  std::vector<G4double> fSiPMhitsEdepNonIonising;
   /// Vector of hits in SiPM: hit time of last arrival (in ns)
   /// calculated as global time of energy deposit which is the last deposit
   /// that fits within the digitisation time window (by default window is
   /// undefined, so it is the last deposit)
-  std::vector<G4double> SiPM_hits_TOA;
+  std::vector<G4double> fSiPMhitsTOA;
   /// Vector of hits in silicon sensors: hit type
   /// Simulation defines only hits of type 1
-  std::vector<G4int> SiPM_hits_type;
+  std::vector<G4int> fSiPMhitsType;
 
 #ifdef MATSCAN
   /// Add information of the step material for the material scan study
@@ -114,17 +116,17 @@ public:
   void AddStep(G4double aStepLength, G4Material *aMaterial);
   /// Vector of encountered materials: thickness/depth expressed in units of
   /// radiation length
-  std::vector<G4double> material_nX0;
+  std::vector<G4double> fMaterialNX0;
   /// Vector of encountered materials: thickness/depth expressed in units of
   /// nuclear interaction length
-  std::vector<G4double> material_nLambda;
+  std::vector<G4double> fMaterialNLambda;
   /// Vector of encountered materials: thickness/depth expressed in mm
-  std::vector<G4double> material_depth;
+  std::vector<G4double> fMaterialDepth;
   /// Vector of encountered materials: name encoded as integer
-  std::vector<G4int> material_name;
+  std::vector<G4int> fMaterialName;
   /// Map of material names to integer key value which can be stored in an
   /// ntuple. Map is stored at the end of run in a text file to allow decoding
-  std::map<G4String, G4int> material_names_map;
+  std::map<G4String, G4int> fMaterialNamesMap;
 #endif
 
 private:
@@ -138,12 +140,12 @@ private:
   /// By default undefined window indicates the last created deposit will set up
   /// the time
   /// Can be changed by the UI command /HGCalTestbeam/hits/timeCut
-  G4double hitTimeCut = -1;
+  G4double fHitTimeCut = -1;
   /// Time of arrival threshold (in keV)
   /// Default value of 0 indicates the first created deposit will set up the
   /// time, independent on the amount of deposited energy
   /// Can be changed by the UI command /HGCalTestbeam/hits/toaThreshold
-  G4double toaThreshold = 0;
+  G4double fToaThreshold = 0;
 };
 
 #endif /* EVENTACTION_HH */

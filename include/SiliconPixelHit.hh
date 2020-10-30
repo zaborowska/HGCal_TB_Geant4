@@ -50,86 +50,86 @@ class SiliconPixelHit : public G4VHit {
 	public:
 	///	Constructor
 	/// @param[in] aName Name of the pixel volume
-	/// @param[in] aCopyNoSensor ID of the sensor
-	/// @param[in] aCopyNoCell ID of the cell
-		SiliconPixelHit(G4String aName, G4int aCopyNoSensor, G4int aCopyNoCell);
+	/// @param[in] aCopyNumSensor ID of the sensor
+	/// @param[in] aCopyNumCell ID of the cell
+		SiliconPixelHit(G4String aName, G4int aCopyNumSensor, G4int aCopyNumCell);
 		~SiliconPixelHit() {};
 		/// Draw pixels
     void Draw();
 	/// Get hit ID calculated as 1000 * sensorID + cellID
-		G4int ID() {return 1000*copy_no_sensor+copy_no_cell;}
+		G4int ID() {return 1000*fCopyNumSensor+fCopyNumCell;}
 		/// Add non-zero energy deposit to vector of deposits
 		/// @param[in] aEnergy Deposited energy
 		/// @param[in] aTime Time of deposit
 		inline void AddEdep(const G4double aEnergy, const G4double aTime) 
-		{if (aEnergy>0) eDep.push_back(std::make_pair(aEnergy, aTime)); }
+		{if (aEnergy>0) fEdep.push_back(std::make_pair(aEnergy, aTime)); }
 		/// Add non-zero non-ionizing energy deposit to vector of deposits
 		/// @param[in] aEnergy Deposited energy
 		/// @param[in] aTime Time of deposit
-		inline void AddEdepNonIonizing(const G4double aEnergy, const G4double aTime) {if (aEnergy>0) edep_nonIonizing.push_back(std::make_pair(aEnergy, aTime)); }
+		inline void AddEdepNonIonizing(const G4double aEnergy, const G4double aTime) {if (aEnergy>0) fEdepNonIonizing.push_back(std::make_pair(aEnergy, aTime)); }
 		/// Digitise hit
 		/// Calculate time of hit as global time of energy deposit which added
 		/// to hit energy exceeds the energy threshold. Take into account only
-		/// deposits with global time within the timeWindow.
-		/// @param[in] timeWindow Maximal global time for deposit, caounted from
+		/// deposits with global time within the time window.
+		/// @param[in] aTimeWindow Maximal global time for deposit, caounted from
 		/// the time of the first deposit
-		/// @param[in] toaThreshold Energy threshold, first deposit that adds to
+		/// @param[in] aToaThreshold Energy threshold, first deposit that adds to
 		/// the hit energy and exceeds the threshold is counted as time of
 		/// arrival.
-		void Digitise(const G4double timeWindow, const G4double toaThreshold);
+		void Digitise(const G4double aTimeWindow, const G4double aToaThreshold);
 		/// Set hit position
 		/// @param[in] x X position
 		/// @param[in] y Y position
 		/// @param[in] z Z position
 		inline void SetPosition(G4double x, G4double y, G4double z) {
-			pos_x = x;
-			pos_y = y;
-			pos_z = z;
+			fPosX = x;
+			fPosY = y;
+			fPosZ = z;
 		}
 		/// Get hit X position
-		inline G4double GetX() const {return pos_x;}
+		inline G4double GetX() const {return fPosX;}
 		/// Get hit Y position
-		inline G4double GetY() const {return pos_y;}
+		inline G4double GetY() const {return fPosY;}
 		/// Get hit Z position
-		inline G4double GetZ() const {return pos_z;}
+		inline G4double GetZ() const {return fPosZ;}
 		/// Check if hit is valid
-		inline bool isValidHit() const {return _isValidHit;}
+		inline bool isValidHit() const {return fIsValidHit;}
 		/// Get hit energy
-		inline G4double GetEdep() const {return eDep_digi;}
+		inline G4double GetEdep() const {return fEdepDigi;}
 		/// Get hit non-ionizing energy
-		inline G4double GetEdepNonIonizing() const {return edep_nonIonizing_digi;}
+		inline G4double GetEdepNonIonizing() const {return fEdepNonIonizingDigi;}
 		/// Get time of arrival
-		inline G4double GetTOA() const {return timeOfArrival_digi;}
+		inline G4double GetTOA() const {return fTimeOfArrival;}
 		/// Get time of arrival from the last energy deposit
-		inline G4double GetLastTOA() const {return timeOfArrival_last_digi;}
+		inline G4double GetLastTOA() const {return fTimeOfArrivalLast;}
 
 	private:
 	///	Name of the logical volume
-		G4String vol_name = "";
+		G4String fVolumeName = "";
 		/// ID of the sensor
-		G4int copy_no_cell = -1;
+		G4int fCopyNumCell = -1;
 		/// ID of the cell 
-		G4int copy_no_sensor = -1;
+		G4int fCopyNumSensor = -1;
 		/// Position along x axis
-		G4double pos_x = -1;
+		G4double fPosX = -1;
 		/// Position along y axis
-		G4double pos_y = -1;
+		G4double fPosY = -1;
 		/// Position along z axis
-		G4double pos_z = -1;
+		G4double fPosZ = -1;
 		/// Vector of energy deposits (and their global time)
-		std::vector<std::pair<G4double, G4double> > eDep;
+		std::vector<std::pair<G4double, G4double> > fEdep;
 		/// Vector of non-ionizing energy deposits (and their global time)
-		std::vector<std::pair<G4double, G4double> > edep_nonIonizing;
+		std::vector<std::pair<G4double, G4double> > fEdepNonIonizing;
 		/// Flag indicating if hit is valid (digitised and with non-zero energy)
-		bool _isValidHit = false;
+		bool fIsValidHit = false;
 		/// Energy of the digitised hit
-		G4double eDep_digi = -1;
+		G4double fEdepDigi = -1;
 		/// Non-ionizing energy of the digitised hit
-		G4double edep_nonIonizing_digi = -1;
+		G4double fEdepNonIonizingDigi = -1;
 		/// Time of arrival of the digitised hit
-		G4double timeOfArrival_digi = -1;
+		G4double fTimeOfArrival = -1;
 		/// Last time of arrival of the digitised hit
-		G4double timeOfArrival_last_digi = -1;
+		G4double fTimeOfArrivalLast = -1;
 };
 
 typedef G4THitsCollection<SiliconPixelHit> SiliconPixelHitCollection;

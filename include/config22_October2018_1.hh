@@ -32,31 +32,31 @@
 
 /// Add module of silicon sensor with absorbers, readout, and support, for the
 /// electromagnetic calorimeter (EE).
-/// @param[in] EEid ID of module in the setup (not all modules are identical)
-/// @param[out] dz_map List of element names and air gap to be placed in front
+/// @param[in] aEEid ID of module in the setup (not all modules are identical)
+/// @param[out] aDzMap List of element names and air gap to be placed in front
 /// of the element
-/// @param[in] airBefore How much air should be added before the current module
+/// @param[in] aAirBefore How much air should be added before the current module
 /// (before the first iron)
-/// @param[in] airMid How much air should be added in the middle (before the
+/// @param[in] aAirMid How much air should be added in the middle (before the
 /// first PCB)
-void add_EE(uint EEid, std::vector<std::pair<std::string, G4double>> &dz_map,
-            double airBefore, double airMid);
+void add_EE(uint aEEid, std::vector<std::pair<std::string, G4double>> &aDzMap,
+            double aAirBefore, double aAirMid);
 
 /// Add module of scintillator sensor with absorbers, readout, and support, for
 /// the hadronic calorimeter (FH).
-/// @param[in] FHid ID of module in the setup (not all modules are identical)
-/// @param[out] dz_map List of element names and air gap to be placed in front
+/// @param[in] aFHid ID of module in the setup (not all modules are identical)
+/// @param[out] aDzMap List of element names and air gap to be placed in front
 /// of the element
-/// @param[in] airBefore How much air should be added before the current module
+/// @param[in] aAirBefore How much air should be added before the current module
 /// (before the first iron)
-/// @param[in] airMid How much air should be added in the middle (before the
+/// @param[in] aAirMid How much air should be added in the middle (before the
 /// first PCB)
-void add_FH(uint FHid, std::vector<std::pair<std::string, G4double>> &dz_map,
-            double airBefore, double airMid);
+void add_FH(uint aFHid, std::vector<std::pair<std::string, G4double>> &aDzMap,
+            double aAirBefore, double aAirMid);
 
 /// Define detector setup for test beam run in October 2018
-/// @param[out] dz_map List of element names and air gap to be placed in front
+/// @param[out] aDzMap List of element names and air gap to be placed in front
 /// of the element
-/// @param[out] viewpoint Targer point to be set in the visualisation
+/// @param[out] aViewpoint Targer point to be set in the visualisation
 void defineConfig22_October2018_1(
-    std::vector<std::pair<std::string, G4double>> &dz_map, G4double &viewpoint);
+    std::vector<std::pair<std::string, G4double>> &aDzMap, G4double &aViewpoint);
