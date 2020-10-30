@@ -17,8 +17,7 @@ void SiPMSD::Initialize(G4HCofThisEvent *HCE) {
   fTmpHits.clear();
 }
 void SiPMSD::EndOfEvent(G4HCofThisEvent *) {
-  for (std::map<int, SiPMHit *>::iterator it = fTmpHits.begin();
-       it != fTmpHits.end(); it++)
+  for (auto it = fTmpHits.begin(); it != fTmpHits.end(); ++it)
     fHitCollection->insert(it->second);
 }
 

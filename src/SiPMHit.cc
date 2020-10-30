@@ -5,11 +5,9 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 SiPMHit::SiPMHit(G4String aVolumeName, G4int aCopyNumSensor,
-                 G4int aCopyNumCell) {
-  fVolumeName = aVolumeName;
-  fCopyNumCell = aCopyNumCell;
-  fCopyNumSensor = aCopyNumSensor;
-}
+                 G4int aCopyNumCell)
+    : fVolumeName(aVolumeName), fCopyNumCell(aCopyNumCell),
+      fCopyNumSensor(aCopyNumSensor) {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

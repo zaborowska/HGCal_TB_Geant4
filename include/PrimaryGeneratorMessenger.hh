@@ -73,7 +73,7 @@ class PrimaryGeneratorAction;
 
 class PrimaryGeneratorMessenger : public G4UImessenger {
 public:
-  PrimaryGeneratorMessenger(PrimaryGeneratorAction *aPrimaryGeneratorAction);
+  explicit PrimaryGeneratorMessenger(PrimaryGeneratorAction *aPrimaryGeneratorAction);
   ~PrimaryGeneratorMessenger();
 
 public:

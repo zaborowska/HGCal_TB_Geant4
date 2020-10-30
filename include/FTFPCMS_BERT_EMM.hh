@@ -38,7 +38,7 @@
 class FTFPCMS_BERT_EMM : public G4VModularPhysicsList {
 
 public:
-  FTFPCMS_BERT_EMM(G4int ver = 1);
+  explicit FTFPCMS_BERT_EMM(G4int ver = 1);
   virtual ~FTFPCMS_BERT_EMM();
 
   virtual void SetCuts();

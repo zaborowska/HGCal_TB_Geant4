@@ -45,7 +45,7 @@
 
 class SiPMSD : public G4VSensitiveDetector {
 public:
-  SiPMSD(G4String name);
+  explicit SiPMSD(G4String name);
   ~SiPMSD();
   /// Hits are processed and added to the temporary map of hit ID to hit
   /// pointer. Energy is stored in units of keV, and position in cm.
@@ -59,7 +59,7 @@ public:
 private:
   /// Hit collection stored in the event, filled in at the end of event based
   /// on temporary hits
-  SiPMHitCollection *fHitCollection;
+  SiPMHitCollection *fHitCollection = nullptr;
   /// ID of hit collection
   G4int fHCID = -1;
   /// Temporary map of hits (ID: hit) collected within one event

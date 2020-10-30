@@ -27,8 +27,7 @@ void SiliconPixelSD::Initialize(G4HCofThisEvent *HCE) {
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void SiliconPixelSD::EndOfEvent(G4HCofThisEvent *) {
-  for (std::map<int, SiliconPixelHit *>::iterator it = fTmpHits.begin();
-       it != fTmpHits.end(); it++)
+  for (auto it = fTmpHits.begin(); it != fTmpHits.end(); ++it)
     fHitCollection->insert(it->second);
 }
 

@@ -44,7 +44,7 @@
 
 class SiliconPixelSD : public G4VSensitiveDetector {
 public:
-  SiliconPixelSD(G4String name);
+  explicit SiliconPixelSD(G4String name);
   ~SiliconPixelSD();
   /// Hits are processed and added to the temporary map of hit ID to hit
   /// pointer. Energy is stored in units of keV, and position in cm.
@@ -58,7 +58,7 @@ public:
 private:
   /// Hit collection stored in the event, filled in at the end of event based
   /// on temporary hits
-  SiliconPixelHitCollection *fHitCollection;
+  SiliconPixelHitCollection *fHitCollection = nullptr;
   /// ID of hit collection
   G4int fHCID = -1;
   /// Temporary map of hits (ID: hit) collected within one event

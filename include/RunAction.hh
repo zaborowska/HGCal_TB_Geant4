@@ -52,7 +52,7 @@ class G4GenericMessenger;
 
 class RunAction : public G4UserRunAction {
 public:
-  RunAction(EventAction *);
+  explicit RunAction(EventAction *);
   virtual ~RunAction();
 
   virtual void BeginOfRunAction(const G4Run *);

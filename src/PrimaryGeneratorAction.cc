@@ -45,8 +45,6 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 
 void PrimaryGeneratorAction::OpenInput() {
 // first check if job is run in either single-threaded mode, or with 1 thread
-// TODO modify below to read one file per thread
-// TODO figure out how to change analysis output path (maybe as post sim step?)
 #ifdef G4MULTITHREADED
   if (G4MTRunManager::GetMasterRunManager()->GetNumberOfThreads() > 1) {
     G4ExceptionDescription msg;
@@ -55,6 +53,10 @@ void PrimaryGeneratorAction::OpenInput() {
                 FatalErrorInArgument, msg);
   }
 #endif
+  if (fInputFile != nullptr) {
+    delete fInputFile;
+    fInputFile = nullptr;
+  }
   fInputFile = new TFile(fPathInputFile, "READ");
   if (fInputFile == nullptr || fInputFile->IsZombie()) {
     G4ExceptionDescription msg;

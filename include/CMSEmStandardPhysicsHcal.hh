@@ -38,7 +38,7 @@
 class CMSEmStandardPhysicsHcal : public G4VPhysicsConstructor {
 
 public:
-  CMSEmStandardPhysicsHcal(G4int ver);
+  explicit CMSEmStandardPhysicsHcal(G4int ver);
   virtual ~CMSEmStandardPhysicsHcal();
 
   virtual void ConstructParticle();
