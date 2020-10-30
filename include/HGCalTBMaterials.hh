@@ -87,6 +87,14 @@ public:
   G4LogicalVolume *GetSiPixelLogical() { return this->fSiPixelLogical; }
   /// Get logical volume of SiPM
   G4LogicalVolume *GetAHCALSiPMlogical() { return this->fAHCALSiPMlogical; }
+  /// Get any logical volume by name
+  inline const G4LogicalVolume *GetLogicalVolume(G4String aName) {
+    return fLogicalVolumeMap[aName];
+  };
+  /// Get thickness of logical volume by name
+  inline G4double GetThickness(std::string aName) {
+    return fThicknessMap[aName];
+  };
 
 private:
   /// Define materisals used in HGCal test-beam

@@ -133,7 +133,7 @@ void RunAction::EndOfRunAction(const G4Run *) {
 #ifdef MATSCAN
   std::ofstream myfile;
   myfile.open("materal2enumMap.txt");
-  for (const auto &item : fEventAction->material_names_map) {
+  for (const auto &item : fEventAction->fMaterialNamesMap) {
     myfile << item.first << "," << item.second << "\n";
   }
   myfile.close();
@@ -143,19 +143,19 @@ void RunAction::EndOfRunAction(const G4Run *) {
   std::map<std::string, std::array<double, 3>>
       matScan; // matName -> (depth, nX0, nLambda)
   double depth = 0, nX0 = 0, nLambda = 0;
-  for (const auto &item : fEventAction->material_names_map) {
+  for (const auto &item : fEventAction->fMaterialNamesMap) {
     matScan[item.first] = {0., 0., 0.};
   }
-  for (size_t iter = 0; iter < fEventAction->material_name.size(); iter++) {
+  for (size_t iter = 0; iter < fEventAction->fMaterialName.size(); iter++) {
     std::string matName = "";
-    for (const auto &item : fEventAction->material_names_map)
-      if (item.second == fEventAction->material_name[iter])
+    for (const auto &item : fEventAction->fMaterialNamesMap)
+      if (item.second == fEventAction->fMaterialName[iter])
         matName = item.first;
     // if (matName.find("G4_AIR") != std::string::npos) continue;
-    fEventAction->material_names_map[fEventAction->material_name[iter]];
-    matScan[matName][0] += fEventAction->material_depth[iter];
-    matScan[matName][1] += fEventAction->material_nX0[iter];
-    matScan[matName][2] += fEventAction->material_nLambda[iter];
+    fEventAction->fMaterialNamesMap[fEventAction->fMaterialName[iter]];
+    matScan[matName][0] += fEventAction->fMaterialDepth[iter];
+    matScan[matName][1] += fEventAction->fMaterialNX0[iter];
+    matScan[matName][2] += fEventAction->fMaterialNLambda[iter];
   }
   for (const auto &item : matScan) {
     myfile2 << item.first << "," << item.second[0] << "," << item.second[1]
