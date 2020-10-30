@@ -78,6 +78,22 @@ foreach(_script ${HGCAL_SCRIPTS})
     )
 endforeach()
 
+if (MATSCAN)
+  configure_file(
+    ${PROJECT_SOURCE_DIR}/matscan.mac
+    ${PROJECT_BINARY_DIR}/matscan.mac
+    COPYONLY
+    )
+endif()
+
+if (ROOT_FOUND)
+  configure_file(
+    ${PROJECT_SOURCE_DIR}/readFromFile.mac
+    ${PROJECT_BINARY_DIR}/readFromFile.mac
+    COPYONLY
+    )
+endif()
+
 #----------------------------------------------------------------------------
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
 #

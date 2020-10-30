@@ -1,31 +1,32 @@
-# when running in interactive mode without visualization
+# Macro file for sample run of the HGCal testbeam simulation
 #
-# Set some default verbose
+
+# Set verbosity levels
 #/control/verbose 2
 #/control/saveHistory
 #/run/verbose 2
-#
-# Change the default number of threads (in multi-threaded mode)
-/run/numberOfThreads 4
-#
+#/tracking/verbose 2
+
 # Initialize kernel
 /run/initialize
 
-/Simulation/setup/configuration 22
+# Choose geometry setup
+/HGCalTestbeam/setup/configuration 22
 
-# /Simulation/generator/sigmaBeamX 1.5 cm
-# /Simulation/generator/sigmaBeamY 1.5 cm
-# /Simulation/setup/stepSilicon 20
+# Electrons
+/gun/energy 50 GeV
+/gun/particle e-
 
+# Smeared beam position and momentum
+# 5% Gaussian spread of momentum
+/HGCalTestbeam/generator/momentumSpread 0.05
+# Gaussian spread of transverse beam position (sigma 1.5 cm)
+/HGCalTestbeam/generator/beamSpread Gaussian # none flat
+/HGCalTestbeam/generator/beamSpreadX 1.5 cm
+/HGCalTestbeam/generator/beamSpreadY 1.5 cm
+/HGCalTestbeam/generator/beamZ0 -1 m
+# Choose max step in silicon pixel (in um)
+/HGCalTestbeam/setup/stepSilicon 20
 
-#muons
-/gun/energy 200 GeV
-/gun/particle mu+
-/Simulation/output/file config22_muP_200GeV_1k.root
-/run/beamOn 1000
-
-#electrons
-/gun/energy 300 GeV
-/gun/particle e+
-#/Simulation/output/file config22_e+_300GeV_100.root
-/run/beamOn 100
+/HGCalTestbeam/output/file config22_eM_smeared_50GeV_50events.root
+/run/beamOn 50

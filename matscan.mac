@@ -1,0 +1,19 @@
+# Macro file for sample run of the HGCal testbeam simulation
+#
+
+# Set verbosity levels
+#/control/verbose 2
+#/control/saveHistory
+#/run/verbose 2
+#/tracking/verbose 2
+
+# Initialize kernel
+/run/initialize
+
+# Choose geometry setup
+/HGCalTestbeam/setup/configuration 22
+
+# Geantino
+/gun/particle geantino
+/HGCalTestbeam/output/file config22_geantino.root
+/run/beamOn 1
