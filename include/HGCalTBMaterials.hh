@@ -205,7 +205,6 @@ private:
   G4LogicalVolume *fMCPlogical;
   G4LogicalVolume *fDWClogical;
   G4LogicalVolume *fDWCgasLogical;
-  G4LogicalVolume *fDATURAlogical;
   G4LogicalVolume *fCK3logical;
 };
 #endif /* HGCALTBMATERIALS_HH */

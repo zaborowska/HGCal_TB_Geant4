@@ -196,7 +196,6 @@ void HGCalTBMaterials::SetEventDisplayColorScheme() {
   fCK3logical->SetVisAttributes(visAttributes);
   fDWClogical->SetVisAttributes(visAttributes);
   fDWCgasLogical->SetVisAttributes(visAttributes);
-  fDATURAlogical->SetVisAttributes(visAttributes);
   fAlChipLogical->SetVisAttributes(visAttributes);
 }
 
@@ -736,21 +735,6 @@ void HGCalTBMaterials::DefineBeamLineElements() {
       G4ThreeVector(0.5 * DWCgasVetX, -0.5 * DWCgasVetY,
                     -0.5 * (DWCgasThickness - DWCgasVetThickness)),
       DWCgasVetLogical, "DWC_gasVet_11", fDWCgasLogical, true, 11, true);
-
-  // DESY DATURA beam telescope
-  G4double DATURAthickness = 15 * mm;
-  G4double DATURAxy = 10 * cm;
-  G4double DATURAwindowX = 2 * cm;
-  G4double DATURAwindowY = 1 * cm;
-  G4Box *DATURAfullSolid = new G4Box("DATURA_full", 0.5 * DATURAxy,
-                                     0.5 * DATURAxy, 0.5 * DATURAthickness);
-  G4Box *DATURAcutSolid = new G4Box("DATURA_cut", 0.5 * DATURAwindowX,
-                                    0.5 * DATURAwindowY, 0.5 * DATURAthickness);
-  G4SubtractionSolid *DATURAsolid = new G4SubtractionSolid(
-      "DATURA", DATURAfullSolid, DATURAcutSolid, 0, G4ThreeVector(0, 0, 0.));
-  fDATURAlogical = new G4LogicalVolume(DATURAsolid, fMatAl, "DATURA");
-  fThicknessMap["DATURA"] = DATURAthickness;
-  fLogicalVolumeMap["DATURA"] = fDATURAlogical;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
