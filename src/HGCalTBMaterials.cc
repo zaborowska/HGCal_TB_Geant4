@@ -131,26 +131,6 @@ void HGCalTBMaterials::DefineMaterials() {
   fMatSteel->AddMaterial(fMatCr, 0.19);
   fMatSteel->AddMaterial(fMatNi, 0.1);
 
-  // LYSO implementation from here:
-  // https://github.com/cacunas/ParG4_cluster/blob/master/LYSO/src/LYSOGeometry.cc
-  G4Element *Oxigen = nist->FindOrBuildElement("O");
-  G4Element *Lutetium = nist->FindOrBuildElement("Lu");
-  G4Element *Yttrium = nist->FindOrBuildElement("Y");
-  // Lutetium Oxide Lu2O3
-  G4Material *LutetiumOxide =
-      new G4Material("LutetiumOxide", 9.41 * g / cm3, 2);
-  LutetiumOxide->AddElement(Lutetium, 2);
-  LutetiumOxide->AddElement(Oxigen, 3);
-  // Yttrium Oxide Y2O3
-  G4Material *YttriumOxide = new G4Material("YttriumOxide", 5.01 * g / cm3, 2);
-  YttriumOxide->AddElement(Yttrium, 2);
-  YttriumOxide->AddElement(Oxigen, 3);
-  // Build LYSO aMaterial
-  fMatLYSO = new G4Material("LYSO", 7.1 * g / cm3, 3);
-  fMatLYSO->AddMaterial(LutetiumOxide, 81 * perCent);
-  fMatLYSO->AddMaterial(fMatQuartz, 14 * perCent);
-  fMatLYSO->AddMaterial(YttriumOxide, 5 * perCent);
-
   // Scintillator aMaterial
   fMatScintillator = new G4Material("Scintillator", 1.032 * g / cm3, 2);
   fMatScintillator->AddMaterial(fMatC, 0.91512109);
@@ -217,8 +197,6 @@ void HGCalTBMaterials::SetEventDisplayColorScheme() {
   fDWClogical->SetVisAttributes(visAttributes);
   fDWCgasLogical->SetVisAttributes(visAttributes);
   fDATURAlogical->SetVisAttributes(visAttributes);
-  fHERDcalorimeterLogical->SetVisAttributes(visAttributes);
-  fHERDcalorimeterSlabLogical->SetVisAttributes(visAttributes);
   fAlChipLogical->SetVisAttributes(visAttributes);
 }
 
@@ -234,7 +212,6 @@ HGCalTBMaterials::HGCalTBMaterials() {
   DefineAHCALSiPM();
   DefineAHCALAbsorbers();
   DefineBeamLineElements();
-  DefineHERDCalorimeter();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -774,40 +751,6 @@ void HGCalTBMaterials::DefineBeamLineElements() {
   fDATURAlogical = new G4LogicalVolume(DATURAsolid, fMatAl, "DATURA");
   fThicknessMap["DATURA"] = DATURAthickness;
   fLogicalVolumeMap["DATURA"] = fDATURAlogical;
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-void HGCalTBMaterials::DefineHERDCalorimeter() {
-
-  G4double HERDcalorimeterThickness = 3 * cm;
-  G4double HERDcalorimeterXY = 3 * cm;
-  G4Box *HERDcalorimeterSolid =
-      new G4Box("HERD_calorimeter", 0.5 * HERDcalorimeterXY,
-                0.5 * HERDcalorimeterXY, 0.5 * HERDcalorimeterThickness);
-  fHERDcalorimeterLogical =
-      new G4LogicalVolume(HERDcalorimeterSolid, fMatLYSO, "HERD_calorimeter");
-  fThicknessMap["HERD_calorimeter"] = HERDcalorimeterThickness;
-  fLogicalVolumeMap["HERD_calorimeter"] = fHERDcalorimeterLogical;
-
-  G4double HERDcalorimeterSlabXY = 21 * HERDcalorimeterXY + 0.01 * mm;
-  G4double HERDcalorimeterSlabThickness =
-      HERDcalorimeterThickness + 0.0001 * mm;
-  G4Box *HERDcalorimeterSlabSolid = new G4Box(
-      "HERD_calorimeter_slab", 0.5 * HERDcalorimeterSlabXY,
-      0.5 * HERDcalorimeterSlabXY, 0.5 * HERDcalorimeterSlabThickness);
-  fHERDcalorimeterSlabLogical = new G4LogicalVolume(
-      HERDcalorimeterSlabSolid, fMatAIR, "HERD_calorimeter_slab");
-  fThicknessMap["HERD_calorimeter_slab"] = HERDcalorimeterSlabThickness;
-  fLogicalVolumeMap["HERD_calorimeter_slab"] = fHERDcalorimeterSlabLogical;
-  int copy_counter = 0;
-  for (float _dx = -10.0; _dx <= 10.0; _dx = _dx + 1.)
-    for (float _dy = -10.0; _dy <= 10.0; _dy = _dy + 1.) {
-      new G4PVPlacement(
-          0, G4ThreeVector(_dx * HERDcalorimeterXY, _dy * HERDcalorimeterXY, 0),
-          fHERDcalorimeterLogical, "HERD_calorimeter_slab",
-          fHERDcalorimeterSlabLogical, false, copy_counter++, true);
-    }
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

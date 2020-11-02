@@ -116,9 +116,6 @@ private:
   void DefineAHCALAbsorbers();
   /// Define logical volumes for beamline elements (MCP, scintillators, DWC)
   void DefineBeamLineElements();
-  /// Define logical volumes for HERD calorimeter
-  /// http://herd.ihep.ac.cn, 07 December 2018
-  void DefineHERDCalorimeter();
   /// Length of the beam line
   G4double fBeamLineLength = 90 * m;
   /// Transverse dimension of the beam line
@@ -159,7 +156,6 @@ private:
   G4Material *fMatQuartz;
   G4Material *fMatPolystyrene;
   G4Material *fMatCuW;
-  G4Material *fMatLYSO;
   G4Material *fMatC;
   G4Material *fMatH;
   G4Material *fMatO;
@@ -210,8 +206,6 @@ private:
   G4LogicalVolume *fDWClogical;
   G4LogicalVolume *fDWCgasLogical;
   G4LogicalVolume *fDATURAlogical;
-  G4LogicalVolume *fHERDcalorimeterLogical;
-  G4LogicalVolume *fHERDcalorimeterSlabLogical;
   G4LogicalVolume *fCK3logical;
 };
 #endif /* HGCALTBMATERIALS_HH */
